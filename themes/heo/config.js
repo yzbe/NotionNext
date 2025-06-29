@@ -1,8 +1,8 @@
 const CONFIG = {
-  HEO_HOME_POST_TWO_COLS: true, // 首页博客两列显示，若为false则只显示一列
+  HEO_HOME_POST_TWO_COLS: false, // 首页博客两列显示，若为false则只显示一列
   HEO_LOADING_COVER: true, // 页面加载的遮罩动画
 
-  HEO_HOME_BANNER_ENABLE: true,
+  HEO_HOME_BANNER_ENABLE: false,
 
   HEO_SITE_CREATE_TIME: '2024-07-21', // 建站日期，用于计算网站运行的第几天
 
@@ -21,7 +21,7 @@ const CONFIG = {
   HEO_HERO_TITLE_1: '业精于勤',
   HEO_HERO_TITLE_2: '荒于嬉',
   HEO_HERO_TITLE_3: 'yuanzibin.com',
-  HEO_HERO_TITLE_4: '新版上线',
+  //HEO_HERO_TITLE_4: '新版上线',
   //HEO_HERO_TITLE_5: 'NotionNext4.0 轻松定制主题',
   HEO_HERO_TITLE_LINK: 'yuanzibin.com',
   // 英雄区遮罩文字
