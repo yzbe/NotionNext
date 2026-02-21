@@ -106,8 +106,7 @@ const LayoutBase = props => {
 
         <>{headerSlot}</>
 
-        {/* 顶部黑线装饰 */}
-       /* <div className='h-0.5 w-full bg-gray-700 dark:bg-gray-600 hidden lg:block' /> */
+      
 
         {/* 主区 */}
         <main
