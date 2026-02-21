@@ -1,5 +1,5 @@
 const CONFIG = {
-  NEXT_HOME_BANNER: true, // 首页是否显示大图及标语 [true,false]
+  NEXT_HOME_BANNER: false, // 首页是否显示大图及标语 [true,false]
   NEXT_HOME_BANNER_STRINGS: [
     'Hi，我是一个程序员',
     'Hi，我是一个打工人',
