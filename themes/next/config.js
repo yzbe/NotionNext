@@ -33,11 +33,11 @@ const CONFIG = {
 
   NEXT_WIDGET_TO_TOP: true, // 是否显示回顶
   NEXT_WIDGET_TO_BOTTOM: true, // 显示回底
-  NEXT_WIDGET_DARK_MODE: true, // 显示日间/夜间模式切换
+  NEXT_WIDGET_DARK_MODE: false, // 显示日间/夜间模式切换
   NEXT_WIDGET_TOC: true, // 移动端显示悬浮目录
 
   NEXT_ARTICLE_RELATE_POSTS: false, // 相关文章推荐
-  NEXT_ARTICLE_COPYRIGHT: true, // 文章版权声明
+  NEXT_ARTICLE_COPYRIGHT: false, // 文章版权声明
   NEXT_ARTICLE_NOT_BY_AI: false, // 显示非AI写作
   NEXT_ARTICLE_INFO: true // 显示文章信息
 }
