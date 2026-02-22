@@ -80,13 +80,13 @@ export default function ArticleDetail(props) {
                     </SmartLink>
 
                     {/* 更新日期：仅当存在且不等于发布日期时显示 */}
-                    {post?.lastEditedDay && post?.lastEditedDay !== post?.publishDay && (
+                    {/* {post?.lastEditedDay && post?.lastEditedDay !== post?.publishDay && (
                       <span className='mr-2'>
                         {' | '}
                         <i className='far fa-calendar-check mr-2' />
                         {post.lastEditedDay}
                       </span>
-                    )}
+                    )} */}
 
                     {/* 阅读量统计 (Busuanzi) */}
                     <div className='hidden busuanzi_container_page_pv font-light mr-2'>
