@@ -1,4 +1,4 @@
-/**
+// 当status状态值与此相同时为发布，可以为中文/**
  * 读取Notion相关的配置
  * 如果需要在Notion中添加自定义字段，可以修改此文件
  * 此文件内容可以通过环境变量覆盖，但是不支持用NOTION_CONFIG覆盖
@@ -29,7 +29,7 @@ module.exports = {
     slug: process.env.NEXT_PUBLIC_NOTION_PROPERTY_SLUG || 'slug',
     category: process.env.NEXT_PUBLIC_NOTION_PROPERTY_CATEGORY || 'category',
     date: process.env.NEXT_PUBLIC_NOTION_PROPERTY_DATE || 'date',
-    last_edited_time: process.env.NEXT_PUBLIC_NOTION_PROPERTY_LAST_EDITED_TIME || 'LastEditedTime',
+    last_edited_time: process.env.NEXT_PUBLIC_NOTION_PROPERTY_LAST_EDITED_TIME || 'LastEditedTime', // 自定义更新时间
     tags: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TAGS || 'tags',
     icon: process.env.NEXT_PUBLIC_NOTION_PROPERTY_ICON || 'icon',
     ext: process.env.NEXT_PUBLIC_NOTION_PROPERTY_EXT || 'ext' // 扩展字段，存放json-string，用于复杂业务
