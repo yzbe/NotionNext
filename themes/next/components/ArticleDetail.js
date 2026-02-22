@@ -92,11 +92,15 @@ export default function ArticleDetail(props) {
                       <i className='mr-1 fas fa-eye' />
                       <span className='mr-2 busuanzi_value_page_pv' />
                     </div>
+                      {/* 将 WordCount 移动到这里，这样它就只会在非 Page 页面显示 */}
+                      <WordCount wordCount={post.wordCount} readTime={post.readTime} />
                   </>
                 )}
               </div>
 
+               {/*  WordCount 移动到这里，这样它就只会所以页面显示 
               <WordCount wordCount={post.wordCount} readTime={post.readTime} />
+              */}
             </section>
           </header>
         )}
