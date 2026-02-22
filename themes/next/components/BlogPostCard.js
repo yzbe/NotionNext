@@ -94,7 +94,7 @@ const BlogPostCard = ({ post, index, showSummary }) => {
           {(!showPreview || showSummary) && !post.results && (
             <p
               {...aosProps}
-              className='mt-1 mb-0 w-2/3 text-gray-700 dark:text-gray-300 text-sm font-light leading-6 line-clamp-2'>
+              className='mt-1 mb-0 w-3/4 text-gray-700 dark:text-gray-300 text-sm font-light leading-6 line-clamp-2'>
               {post.summary}
             </p>
           )}
