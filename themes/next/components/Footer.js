@@ -9,7 +9,7 @@ const Footer = ({ title }) => {
     parseInt(since) < currentYear ? since + '-' + currentYear : currentYear
 
   return (
-    <footer className='relative z-10 dark:bg-gray-800 flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-3 bg-white dark:text-gray-400'>
+    <footer className='relative z-10 dark:bg-gray-800 flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-2 bg-white dark:text-gray-400'>
       {/* 使用 flex 布局让所有元素在一行水平居中，gap-x-4 控制元素间的间距 */}
       <div className='flex flex-wrap justify-center items-center gap-x-6'>
     
