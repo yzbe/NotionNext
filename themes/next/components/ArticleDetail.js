@@ -17,14 +17,16 @@ import TagItem from './TagItem'
 import WordCount from '@/components/WordCount'
 
 /**
- * 文章详情页组件
+ *
+ * @param {*} param0
+ * @returns
  */
 export default function ArticleDetail(props) {
   const { post, recommendPosts, prev, next } = props
   const url = siteConfig('LINK') + useRouter().asPath
   const { locale } = useGlobal()
   const showArticleInfo = siteConfig('NEXT_ARTICLE_INFO', null, CONFIG)
-  
+  // 动画样式  首屏卡片不用，后面翻出来的加动画
   const aosProps = {
     'data-aos': 'fade-down',
     'data-aos-duration': '400',
@@ -37,14 +39,13 @@ export default function ArticleDetail(props) {
       <div
         itemScope
         itemType='https://schema.org/Movie'
-        className='overflow-y-hidden py-10 px-4 lg:pt-24 md:px-24 dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
-        
+        className='overflow-y-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
         {showArticleInfo && (
           <header {...aosProps}>
-            {/* 1. 文章头图 */}
+            {/* 头图 */}
             {siteConfig('NEXT_POST_HEADER_IMAGE_VISIBLE', null, CONFIG) &&
               post?.type &&
-              post?.type !== 'Page' &&
+              !post?.type !== 'Page' &&
               post?.pageCover && (
                 <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
                   <LazyImage
@@ -55,49 +56,48 @@ export default function ArticleDetail(props) {
                 </div>
               )}
 
-            {/* 2. 文章标题 */}
-            <div className='text-center font-bold text-3xl text-black dark:text-white font-serif pt-6'>
+            {/* title */}
+            <div className=' text-center font-bold text-3xl text-black dark:text-white font-serif pt-6'>
               {siteConfig('POST_TITLE_ICON') && (
                 <NotionIcon icon={post.pageIcon} />
               )}
               {post.title}
             </div>
 
-              {/* 3. 文章元数据 (发布日期 & 更新日期) */}
-              <section className='mt-2 text-gray-500 dark:text-gray-400 font-light leading-7 text-sm'>
-                <div className='flex flex-wrap justify-center'>
-                  {post?.type !== 'Page' && (
-                    <>
-                      {/* 发布日期 */}
-                      <SmartLink
-                        href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
-                        passHref
-                        legacyBehavior>
-                        <div className='pl-1 mr-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 border-b dark:border-gray-500 border-dashed'>
-                          <i className='far fa-calendar mr-1' />
-                          {post?.publishDay}
-                        </div>
-                      </SmartLink>
-              
-                      {/* 更新日期：读取自定义映射 custom_update_date */}
-                      {post?.custom_update_date && post?.custom_update_date !== post?.publishDay && (
-                        <span className='mr-2'>
-                          {' | '}
-                          <i className='far fa-calendar-check mr-2' />
-                          {post.custom_update_date}
-                        </span>
-                      )}
-                    </>
-                  )}
-                </div>
+            {/* meta */}
+            <section className='mt-2 text-gray-500 dark:text-gray-400 font-light leading-7 text-sm'>
+              <div className='flex flex-wrap justify-center'>
+                {post?.type !== 'Page' && (
+                  <>
+                    <SmartLink
+                      href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
+                      passHref
+                      legacyBehavior>
+                      <div className='pl-1 mr-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 border-b dark:border-gray-500 border-dashed'>
+                        <i className='far fa-calendar mr-1' />{' '}
+                        {post?.publishDay}
+                      </div>
+                    </SmartLink>
+                    <span className='mr-2'>
+                      {' '}
+                      | <i className='far fa-calendar-check mr-2' />
+                      {post.lastEditedDay}{' '}
+                    </span>
 
-               {/* 字数统计组件 */}
+                    <div className='hidden busuanzi_container_page_pv font-light mr-2'>
+                      <i className='mr-1 fas fa-eye' />
+                      <span className='mr-2 busuanzi_value_page_pv' />
+                    </div>
+                  </>
+                )}
+              </div>
+
               <WordCount wordCount={post.wordCount} readTime={post.readTime} />
             </section>
           </header>
         )}
 
-        {/* 4. Notion 内容主体 */}
+        {/* Notion内容主体 */}
         <article id='article-wrapper' className='mx-auto'>
           <WWAds className='w-full' orientation='horizontal' />
           {post && <NotionPage post={post} />}
@@ -106,7 +106,7 @@ export default function ArticleDetail(props) {
 
         {showArticleInfo && (
           <>
-            {/* 分享工具栏 */}
+            {/* 分享 */}
             <ShareBar post={post} />
 
             {/* 版权声明 */}
@@ -122,37 +122,42 @@ export default function ArticleDetail(props) {
               />
             )}
 
-            {/* 分类与标签 */}
             <section className='flex justify-between'>
+              {/* 分类 */}
               {post.category && (
-                <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
-                  <SmartLink href={`/category/${post.category}`} legacyBehavior>
-                    <a>
-                      <i className='mr-1 far fa-folder-open' />
-                      {post.category}
-                    </a>
-                  </SmartLink>
-                </div>
+                <>
+                  <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
+                    <SmartLink href={`/category/${post.category}`} legacyBehavior>
+                      <a>
+                        <i className='mr-1 far fa-folder-open' />{' '}
+                        {post.category}
+                      </a>
+                    </SmartLink>
+                  </div>
+                </>
               )}
 
-              {post?.type === 'Post' && post.tagItems && (
-                <div className='flex items-center flex-nowrap leading-8 p-1 py-4 overflow-x-auto'>
-                  <div className='hidden md:block dark:text-gray-300 whitespace-nowrap'>
-                    {locale.COMMON.TAGS}:&nbsp;
-                  </div>
-                  {post.tagItems.map(tag => (
-                    <TagItem key={tag.name} tag={tag} />
-                  ))}
-                </div>
+              {/* 标签列表 */}
+              {post?.type === 'Post' && (
+                <>
+                  {post.tagItems && (
+                    <div className='flex items-center flex-nowrap leading-8 p-1 py-4 overflow-x-auto'>
+                      <div className='hidden md:block dark:text-gray-300 whitespace-nowrap'>
+                        {locale.COMMON.TAGS}:&nbsp;
+                      </div>
+                      {post.tagItems.map(tag => (
+                        <TagItem key={tag.name} tag={tag} />
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
             </section>
-            
-            {/* 相邻文章导航 */}
             {post?.type === 'Post' && <BlogAround prev={prev} next={next} />}
           </>
         )}
 
-        {/* 5. 评论区 */}
+        {/* 评论互动 */}
         <div className='duration-200 w-full dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
           <Comment frontMatter={post} />
         </div>
