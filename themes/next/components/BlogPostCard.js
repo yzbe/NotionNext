@@ -12,24 +12,31 @@ import TagItemMini from './TagItemMini'
 
 const BlogPostCard = ({ post, index, showSummary }) => {
   const { locale } = useGlobal()
-  const showPreview = siteConfig('NEXT_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
-  
-  const aosProps = index > 2
-    ? {
-        'data-aos': 'fade-down',
-        'data-aos-duration': '400',
-        'data-aos-once': 'true',
-        'data-aos-anchor-placement': 'top-bottom'
-      }
-    : {}
+  const showPreview =
+    siteConfig('NEXT_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
+  // 动画样式 首屏卡片不用，后面翻出来的加动画
+  const aosProps =
+    index > 2
+      ? {
+          'data-aos': 'fade-down',
+          'data-aos-duration': '400',
+          'data-aos-once': 'true',
+          'data-aos-anchor-placement': 'top-bottom'
+        }
+      : {}
 
   return (
     <Card className='w-full'>
-      <div key={post.id} className='flex flex-col-reverse justify-between duration-300'>
-        {/* 【修改 1】减小外层 padding，从 lg:p-8 改为 lg:p-5，并删除多余间距 */}
-        <div className='lg:p-5 p-4 flex flex-col w-full justify-center min-h-[150px]'>
+      <div
+        key={post.id}
+        className='flex flex-col-reverse justify-between duration-300'>
+        {/* 【布局优化】
+            1. lg:py-2: 将大屏幕下的上下内边距从 32px 压缩至 8px
+            2. justify-center: 确保在极窄高度下内容垂直居中
+         */}
+        <div className='lg:py-2 lg:px-8 py-2 px-4 flex flex-col w-full justify-center'>
           
-          {/* 【修改 2】缩小标题字号，从 text-3xl 改为 text-xl (约 0.7-0.8倍) */}
+          {/* 【标题优化】text-xl 缩小字号，leading-tight 紧凑行高 */}
           <SmartLink
             {...aosProps}
             href={post?.href}
@@ -41,10 +48,10 @@ const BlogPostCard = ({ post, index, showSummary }) => {
             <span className='menu-link'>{post.title}</span>
           </SmartLink>
 
-          {/* Meta 信息行 */}
+          {/* 【Meta信息】mt-1 缩小与标题的间距 */}
           <div
             {...aosProps}
-            className={`flex mt-2 items-center ${showPreview ? 'justify-center' : 'justify-start'} flex-wrap dark:text-gray-500 text-gray-500`}>
+            className={`flex mt-1 items-center ${showPreview ? 'justify-center' : 'justify-start'} flex-wrap dark:text-gray-500 text-gray-500 `}>
             <div>
               {post.category && (
                 <>
@@ -78,18 +85,23 @@ const BlogPostCard = ({ post, index, showSummary }) => {
             </div>
           </div>
 
-          {/* 【修改 3】摘要限制 2 行，并删除 mb-12 (这是导致底部空白巨大的元凶) */}
+          {/* 【摘要优化】
+              1. mt-1: 缩小上方间距
+              2. mb-0: 彻底删除原本巨大的底部空白 (原本是 mb-12)
+              3. w-2/3: 限制宽度为卡片的 2/3
+              4. line-clamp-2: 限制最多显示2行
+          */}
           {(!showPreview || showSummary) && !post.results && (
             <p
               {...aosProps}
-              className='mt-3 text-gray-700 dark:text-gray-300 text-sm font-light leading-6 line-clamp-2'>
+              className='mt-1 mb-0 w-2/3 text-gray-700 dark:text-gray-300 text-sm font-light leading-6 line-clamp-2'>
               {post.summary}
             </p>
           )}
 
-          {/* 搜索结果保留 */}
+          {/* 搜索结果同步调整宽度为 2/3 */}
           {post.results && (
-            <p className='line-clamp-2 mt-3 text-gray-700 dark:text-gray-300 text-sm font-light leading-6'>
+            <p className='line-clamp-2 mt-1 mb-0 w-2/3 text-gray-700 dark:text-gray-300 text-sm font-light leading-6'>
               {post.results.map((r, index) => (
                 <span key={index}>{r}</span>
               ))}
@@ -102,11 +114,10 @@ const BlogPostCard = ({ post, index, showSummary }) => {
             </div>
           )}
 
-          {/* 【修改 4】彻底删除原有的“文章详情”按钮和虚线分割线区域 */}
-          {/* 这里原本的代码已移除，以实现紧凑布局 */}
+          {/* 【注】原有的“文章详情”按钮和虚线区域已彻底移除，以实现极致压缩效果 */}
         </div>
 
-        {/* 封面图保留逻辑 */}
+        {/* 封面图逻辑保留 */}
         {siteConfig('NEXT_POST_LIST_COVER', null, CONFIG) &&
           post?.pageCoverThumbnail && (
             <SmartLink href={post?.href} passHref legacyBehavior>
