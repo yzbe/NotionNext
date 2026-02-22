@@ -63,41 +63,35 @@ export default function ArticleDetail(props) {
               {post.title}
             </div>
 
-            {/* 3. 文章元数据 (发布日期 & 更新日期) */}
-            <section className='mt-2 text-gray-500 dark:text-gray-400 font-light leading-7 text-sm'>
-              <div className='flex flex-wrap justify-center'>
-                {post?.type !== 'Page' && (
-                  <>
-                    {/* 发布日期 */}
-                    <SmartLink
-                      href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
-                      passHref
-                      legacyBehavior>
-                      <div className='pl-1 mr-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 border-b dark:border-gray-500 border-dashed'>
-                        <i className='far fa-calendar mr-1' />
-                        {post?.publishDay}
-                      </div>
-                    </SmartLink>
+              {/* 3. 文章元数据 (发布日期 & 更新日期) */}
+              <section className='mt-2 text-gray-500 dark:text-gray-400 font-light leading-7 text-sm'>
+                <div className='flex flex-wrap justify-center'>
+                  {post?.type !== 'Page' && (
+                    <>
+                      {/* 发布日期 */}
+                      <SmartLink
+                        href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
+                        passHref
+                        legacyBehavior>
+                        <div className='pl-1 mr-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 border-b dark:border-gray-500 border-dashed'>
+                          <i className='far fa-calendar mr-1' />
+                          {post?.publishDay}
+                        </div>
+                      </SmartLink>
+              
+                      {/* 更新日期：读取自定义映射 custom_update_date */}
+                      {post?.custom_update_date && post?.custom_update_date !== post?.publishDay && (
+                        <span className='mr-2'>
+                          {' | '}
+                          <i className='far fa-calendar-check mr-2' />
+                          {post.custom_update_date}
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
 
-                    {/* 更新日期：仅当存在且不等于发布日期时显示 */}
-                    {/* {post?.lastEditedDay && post?.lastEditedDay !== post?.publishDay && (
-                      <span className='mr-2'>
-                        {' | '}
-                        <i className='far fa-calendar-check mr-2' />
-                        {post.lastEditedDay}
-                      </span>
-                    )} */}
-
-                    {/* 阅读量统计 (Busuanzi) */}
-                    <div className='hidden busuanzi_container_page_pv font-light mr-2'>
-                      <i className='mr-1 fas fa-eye' />
-                      <span className='mr-2 busuanzi_value_page_pv' />
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* 字数统计组件 */}
+               {/* 字数统计组件 */}
               <WordCount wordCount={post.wordCount} readTime={post.readTime} />
             </section>
           </header>
