@@ -299,64 +299,59 @@ img {
   0% {background-position: right}
 }
 
-/* --- 彻底粉碎 Notion 内部嵌套边框，实现极致单线表格 --- */
+/* --- 彻底解决：表格底部多余线条与间距过大问题 --- */
 
-/* 1. 表格整体：强制合并边框，消除间隙 */
+/* 1. 表格整体：移除外边框，防止与内部单元格产生双线条 */
 .notion-simple-table, 
 .notion-table {
-    border-collapse: collapse !important;
+    border-collapse: collapse !important; /* 核心：合并边框 */
     border-spacing: 0 !important;
     width: 100% !important;
-    margin: 1.5rem 0 !important;
-    border: 1px solid #d1d5db !important; /* 浅色模式外边框 */
-    table-layout: auto !important;
-}
-
-/* 2. 【核心修复】粉碎内部嵌套 div 的所有边框和阴影 */
-/* 这一步专门解决你截图中夜间模式出现的“白色小方块” */
-.notion-simple-table td,
-.notion-simple-table-cell,
-.notion-simple-table td div,
-.notion-simple-table-cell div,
-.notion-simple-table span {
-    border: none !important;            /* 彻底关掉所有内部嵌套的边框 */
-    box-shadow: none !important;        /* 彻底关掉所有内部嵌套的阴影 */
-    background: transparent !important; /* 彻底关掉所有内部背景 */
-    outline: none !important;
-}
-
-/* 3. 在唯一的 td 层级重新绘制单线格线 */
-.notion-simple-table td,
-.notion-simple-table-cell {
-    border: 1px solid #d1d5db !important; /* 浅色模式网格线 */
-    padding: 8px 12px !important;        /* 紧凑间距控制 */
-    color: #374151 !important;
-}
-
-/* 4. 【夜间模式修复】强制覆盖蓝白色边框，统一为深灰色单线 */
-.dark .notion-simple-table {
-    border: 1px solid #4b5563 !important; /* 夜间模式最外层边框 */
-}
-
-.dark .notion-simple-table td,
-.dark .notion-simple-table-cell {
-    border: 1px solid #4b5563 !important; /* 夜间模式网格线：强制统一颜色 */
-    color: #d1d5db !important;           /* 文字颜色 */
-}
-
-/* 再次强调：强力抹除夜间模式下内部 div 的边框线 */
-.dark .notion-simple-table td div {
-    border: none !important;
+    margin: 1rem 0 !important;
+    border: none !important;              /* 关键：移除 table 自身边框，完全依靠单元格边框组成外框 */
     box-shadow: none !important;
 }
 
-/* 5. 增强表头风格：让表格更像“正常表格” */
-.notion-simple-table tr:first-child {
-    background-color: rgba(0, 0, 0, 0.04) !important;
+/* 2. 内部结构：彻底抹除所有嵌套 div 的边框、阴影和高度限制 */
+.notion-simple-table td,
+.notion-simple-table-cell,
+.notion-table-cell,
+.notion-simple-table td div,
+.notion-simple-table-cell div {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    min-height: unset !important;         /* 解决高度被内部容器强制撑开的问题 */
 }
 
+/* 3. 在 td 层级重新绘制单线格线，并极大缩小间距 */
+.notion-simple-table td,
+.notion-simple-table-cell {
+    border: 1px solid #d1d5db !important; /* 浅色模式格线 */
+    padding: 4px 10px !important;        /* 【关键修复】：将 10px 减小为 4px，极致压缩上下间隙 */
+    color: #374151 !important;
+    vertical-align: middle !important;    /* 确保文字垂直居中 */
+}
+
+/* 4. 夜间模式适配：统一使用深灰色单线 */
+.dark .notion-simple-table td,
+.dark .notion-simple-table-cell {
+    border: 1px solid #4b5563 !important; /* 夜间模式格线：不使用过亮的白色 */
+    color: #e5e7eb !important;
+}
+
+/* 强力抹除夜间模式下任何可能残留的内部框线 */
+.dark .notion-simple-table td div {
+    border: none !important;
+    background: transparent !important;
+}
+
+/* 5. 模拟标准表格：给第一行增加淡淡的底色 */
+.notion-simple-table tr:first-child {
+    background-color: rgba(0, 0, 0, 0.03) !important;
+}
 .dark .notion-simple-table tr:first-child {
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 .notion-simple-table tr:first-child td {
