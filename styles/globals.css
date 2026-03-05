@@ -299,56 +299,64 @@ img {
   0% {background-position: right}
 }
 
-/* --- 源码级修复：经典公文包表格风格 --- */
+/* --- 表格渲染为标准单线网格表格风格 --- */
 
-/* 1. 强制表格边框加深，取消 Notion 的极简透明感 */
-.notion-simple-table {
-    border: 1.5px solid #a1a1aa !important; /* 外边框使用加深灰色 */
-    border-collapse: collapse !important;
+/* 1. 基础容器：强制单线合并 */
+.notion-simple-table, 
+.notion-table {
+    border-collapse: collapse !important; /* 核心：合并双重边框 */
+    border-spacing: 0 !important;
     width: 100% !important;
     margin: 1.5rem 0 !important;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: #ffffff; /* 浅色模式下背景纯白 */
+    border: 1px solid #d1d5db !important; /* 外边框线 */
+    table-layout: auto !important;
 }
 
-/* 2. 单元格格线：像 Excel 一样横竖分明 */
+/* 2. 单元格：统一单线边框 */
 .notion-simple-table td,
-.notion-simple-table-cell {
-    border: 1px solid #d4d4d8 !important; /* 单元格格线 */
-    padding: 10px 14px !important; /* 增加留白，看起来更舒服 */
-    color: #27272a !important; /* 字体颜色加深 */
-    line-height: 1.5;
+.notion-simple-table-cell,
+.notion-table-cell {
+    border: 1px solid #d1d5db !important; /* 内部网格线 */
+    padding: 12px 16px !important;       /* 适当的内边距 */
+    color: #374151 !important;           /* 字体颜色 */
+    background-color: transparent !important;
 }
 
-/* 3. 【重点】夜间模式强制加深对照 */
-.dark .notion-simple-table {
-    border: 1.5px solid #52525b !important;
-    background-color: #18181b; /* 夜间模式表格背景深色 */
+/* 3. 表头增强：模拟标准文档风格 */
+.notion-simple-table tr:first-child,
+.notion-table-row:first-child {
+    background-color: #f8fafc !important; /* 浅灰色表头背景 */
+}
+
+.notion-simple-table tr:first-child td,
+.notion-table-row:first-child .notion-table-cell {
+    font-weight: 600 !important;         /* 表头加粗 */
+    color: #111827 !important;           /* 表头文字加深 */
+}
+
+/* 4. 夜间模式适配：确保线框清晰不刺眼 */
+.dark .notion-simple-table,
+.dark .notion-table {
+    border: 1px solid #374151 !important;
+    background-color: #111827 !important;
 }
 
 .dark .notion-simple-table td,
-.dark .notion-simple-table-cell {
-    border: 1px solid #3f3f46 !important; /* 夜间模式格线强制亮起 */
-    color: #e4e4e7 !important; /* 文字白色 */
+.dark .notion-simple-table-cell,
+.dark .notion-table-cell {
+    border: 1px solid #374151 !important; /* 夜间模式深灰色网格 */
+    color: #d1d5db !important;
 }
 
-/* 4. 强制表头背景色：模仿正常表格风格 */
-.notion-simple-table tr:first-child td {
-    background-color: #f4f4f5 !important; /* 浅色表头：浅灰色 */
-    font-weight: bold !important;
-    border-bottom: 2px solid #a1a1aa !important; /* 表头下方横线加粗 */
+.dark .notion-simple-table tr:first-child,
+.dark .notion-table-row:first-child {
+    background-color: #1f2937 !important; /* 夜间表头深色底 */
 }
 
-.dark .notion-simple-table tr:first-child td {
-    background-color: #27272a !important; /* 夜间表头：深黑色 */
-    border-bottom: 2px solid #52525b !important;
-}
-
-/* 5. 隔行变色（Zebra Striping）：方便阅读 */
+/* 5. 斑马纹：增加阅读清晰度 */
 .notion-simple-table tr:nth-child(even) {
     background-color: #fafafa;
 }
 .dark .notion-simple-table tr:nth-child(even) {
-    background-color: #202023;
+    background-color: #161b22;
 }
