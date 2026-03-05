@@ -299,21 +299,45 @@ img {
   0% {background-position: right}
 }
 
-/* --- 源码级修复：加深表格框线 --- */
-/* 浅色模式 */
-.notion-table, 
-.notion-table-cell {
-    border: 1px solid #cbd5e1 !important; /* 使用 gray-300 */
+/* --- 源码级修复：极致清晰表格 (全兼容版) --- */
+
+/* 1. 通过 CSS 变量统一控制边框颜色，这会修改所有 Notion 元素的默认边框 */
+:root {
+    --notion-border-color: #d1d5db !important; /* 浅色模式：明显的灰色 (gray-300) */
 }
 
-/* 深色(夜间)模式 */
-.dark .notion-table, 
-.dark .notion-table-cell {
-    border: 1px solid #4b5563 !important; /* 使用 gray-600 */
+.dark {
+    --notion-border-color: #4b5563 !important; /* 深色模式：更亮的边框线 (gray-600) */
 }
 
-/* 优化布局 */
-.notion-table {
+/* 2. 针对“简单表格”和“数据库表格”的强制样式 */
+.notion-simple-table,
+.notion-simple-table-cell,
+.notion-table,
+.notion-table-cell,
+.notion-collection-table,
+.notion-collection-table-header-cell,
+.notion-collection-table-cell {
+    border: 1px solid var(--notion-border-color) !important;
+}
+
+/* 3. 特别优化：防止双重边框并确保夜间模式对比度 */
+.notion-simple-table {
     border-collapse: collapse !important;
     width: 100% !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* 夜间模式下增加表格的区分度 */
+.dark .notion-simple-table-cell {
+    border-color: #6b7280 !important; /* 进一步加亮分界线 (gray-500) */
+}
+
+/* 4. 给表头增加淡淡的背景，方便区分（可选） */
+.notion-simple-table tr:first-child td {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    font-weight: bold !important;
+}
+.dark .notion-simple-table tr:first-child td {
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }
