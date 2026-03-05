@@ -298,3 +298,22 @@ img {
   @keyframes l1 {
   0% {background-position: right}
 }
+
+/* --- 源码级修复：加深表格框线 --- */
+/* 浅色模式 */
+.notion-table, 
+.notion-table-cell {
+    border: 1px solid #cbd5e1 !important; /* 使用 gray-300 */
+}
+
+/* 深色(夜间)模式 */
+.dark .notion-table, 
+.dark .notion-table-cell {
+    border: 1px solid #4b5563 !important; /* 使用 gray-600 */
+}
+
+/* 优化布局 */
+.notion-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
