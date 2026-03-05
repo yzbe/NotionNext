@@ -299,64 +299,74 @@ img {
   0% {background-position: right}
 }
 
-/* --- 表格渲染为标准单线网格表格风格 --- */
+/* --- 彻底解决 Notion 表格双重线与模糊问题 --- */
 
-/* 1. 基础容器：强制单线合并 */
+/* 1. 基础重置：强制合并所有可能的边框 */
 .notion-simple-table, 
-.notion-table {
-    border-collapse: collapse !important; /* 核心：合并双重边框 */
+.notion-table,
+.notion-collection-table {
+    border-collapse: collapse !important; /* 合并相邻边框 */
     border-spacing: 0 !important;
     width: 100% !important;
     margin: 1.5rem 0 !important;
-    border: 1px solid #d1d5db !important; /* 外边框线 */
+    border: 1px solid #d1d5db !important; /* 浅色模式外边框 */
     table-layout: auto !important;
 }
 
-/* 2. 单元格：统一单线边框 */
+/* 2. 核心：穿透内部嵌套，消除“盒中盒”效果 */
+/* 先把 td 内部所有自动生成的 div 边框彻底抹除 */
+.notion-simple-table td,
+.notion-simple-table-cell,
+.notion-table-cell,
+.notion-simple-table td > div,
+.notion-simple-table-cell > div {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* 3. 重新在单元格（td）层级应用标准网格线 */
 .notion-simple-table td,
 .notion-simple-table-cell,
 .notion-table-cell {
-    border: 1px solid #d1d5db !important; /* 内部网格线 */
-    padding: 12px 16px !important;       /* 适当的内边距 */
-    color: #374151 !important;           /* 字体颜色 */
+    border: 1px solid #d1d5db !important; /* 统一的单线灰色线 */
+    padding: 12px 16px !important;
+    color: #374151 !important;
     background-color: transparent !important;
 }
 
-/* 3. 表头增强：模拟标准文档风格 */
-.notion-simple-table tr:first-child,
-.notion-table-row:first-child {
-    background-color: #f8fafc !important; /* 浅灰色表头背景 */
-}
-
-.notion-simple-table tr:first-child td,
-.notion-table-row:first-child .notion-table-cell {
-    font-weight: 600 !important;         /* 表头加粗 */
-    color: #111827 !important;           /* 表头文字加深 */
-}
-
-/* 4. 夜间模式适配：确保线框清晰不刺眼 */
+/* 4. 夜间模式适配：显著增强对比度 */
 .dark .notion-simple-table,
 .dark .notion-table {
-    border: 1px solid #374151 !important;
+    border: 1px solid #4b5563 !important; /* 较亮的银灰色边框 */
     background-color: #111827 !important;
 }
 
 .dark .notion-simple-table td,
 .dark .notion-simple-table-cell,
 .dark .notion-table-cell {
-    border: 1px solid #374151 !important; /* 夜间模式深灰色网格 */
-    color: #d1d5db !important;
+    border: 1px solid #4b5563 !important; /* 夜间模式格线 */
+    color: #e5e7eb !important;
+}
+
+/* 5. 模拟正常表格：给首行（表头）增加底色区分 */
+.notion-simple-table tr:first-child,
+.notion-table-row:first-child {
+    background-color: #f8fafc !important; /* 浅色表头底色 */
 }
 
 .dark .notion-simple-table tr:first-child,
 .dark .notion-table-row:first-child {
-    background-color: #1f2937 !important; /* 夜间表头深色底 */
+    background-color: #1f2937 !important; /* 夜间表头底色 */
 }
 
-/* 5. 斑马纹：增加阅读清晰度 */
+.notion-simple-table tr:first-child td {
+    font-weight: 600 !important;
+}
+
+/* 6. 斑马纹优化（可选）：让表格更易读 */
 .notion-simple-table tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: rgba(0, 0, 0, 0.01);
 }
 .dark .notion-simple-table tr:nth-child(even) {
-    background-color: #161b22;
+    background-color: rgba(255, 255, 255, 0.02);
 }
