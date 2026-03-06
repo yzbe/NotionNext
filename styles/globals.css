@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 引入 Notion 公式 (KaTeX) 基础样式 */
-@import 'katex/dist/katex.min.css';
-
-/* 修正公式块在夜间模式下的颜色 */
-.dark .katex {
-    color: #e5e7eb !important;
-}
-
-/* 解决公式块可能产生的横向溢出问题 */
-.notion-equation {
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    padding: 1rem 0;
-}
-
 html {
   overflow-x: hidden;
 }
