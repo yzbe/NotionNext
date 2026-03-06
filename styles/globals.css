@@ -357,35 +357,3 @@ img {
 .notion-simple-table tr:first-child td {
     font-weight: 600 !important;
 }
-
-/* --- 行内公式居中方案 --- */
-
-/* 1. 核心居中逻辑：
-   当一个段落里只有一个行内公式时，强制该段落内容居中，并模拟块级间距 */
-.notion-text:has(> .notion-equation-inline:only-child) {
-    text-align: center !important;
-    padding: 1.2rem 0 !important;
-    display: flex;
-    justify-content: center;
-}
-
-/* 2. 增强视觉效果：
-   让居中的行内公式稍微变大一点，更有“公式块”的气场 */
-.notion-text:has(> .notion-equation-inline:only-child) .notion-equation-inline {
-    font-size: 1.15em;
-}
-
-/*
-/* 3. 兼容性清理：
-   确保图片不受影响，仅隐藏那些确定是垃圾数据的占位符 */
-.notion-equation img {
-    display: none !important;
-}
-
-/* 4. 修复之前可能误伤的图片显示 */
-img {
-    display: block; /* 恢复图片默认显示 */
-    max-width: 100%;
-    height: auto;
-}
- */
