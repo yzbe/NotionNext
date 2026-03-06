@@ -375,6 +375,7 @@ img {
     font-size: 1.15em;
 }
 
+/*
 /* 3. 兼容性清理：
    确保图片不受影响，仅隐藏那些确定是垃圾数据的占位符 */
 .notion-equation img {
@@ -387,3 +388,4 @@ img {
     max-width: 100%;
     height: auto;
 }
+ */
