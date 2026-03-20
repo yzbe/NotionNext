@@ -16,17 +16,18 @@ const Logo = props => {
           'flex flex-col justify-center items-center cursor-pointer bg-[#1F2937] dark:bg-[#1F2937] w-full space-y-3 font-bold ' +
           className
         }>
-        
-               {/* 移动端专属的圆形头像：增加了容器和边框样式 */}
-        <div className='block lg:hidden'>
-            <div className="p-[1.5px] rounded-full bg-white/10 border border-white/10 shadow-inner">
-                <LazyImage 
-                  src={avatar} 
-                  className='h-9 w-9 rounded-full object-cover shadow-sm' 
-                  alt={siteConfig('TITLE')} 
-                />
-            </div>
-        </div>
+            
+                  {/* 移动端专属的圆形头像：进一步精简尺寸与光圈 */}
+          <div className='block lg:hidden'>
+              {/* p-[1px] 使用了自定义像素值，让光圈贴得更紧；bg 和 border 的透明度也调低了一点，更隐形 */}
+              <div className="p-[1.5px] rounded-full bg-white/5 border border-white/10">
+                  <LazyImage 
+                    src={avatar} 
+                    className='h-8 w-8 rounded-full object-cover' 
+                    alt={siteConfig('TITLE')} 
+                  />
+              </div>
+          </div>
 
         {/* 桌面端专属的文字 Logo 和描述 */}
         <div className='hidden lg:block'>
