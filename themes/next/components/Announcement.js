@@ -15,8 +15,8 @@ const Announcement = ({ post, className }) => {
             </div>
         </div>
         
-        {/* ⭐️ 修改点：去掉了 lg:block，让桌面端也保持 flex 居中。同时加入 lg:min-h-[200px] 控制桌面端高度 */}
-        {post && (<div id="announcement-content" className="flex flex-col justify-center items-center py-1 lg:min-h-[200px]">
+        {/* 修改点：去掉了 lg:block，让桌面端也保持 flex 居中。同时加入 lg:min-h-[200px] 控制桌面端高度 */}
+        {post && (<div id="announcement-content" className="flex flex-col justify-center items-center py-1 lg:min-h-[100px]">
             <style dangerouslySetInnerHTML={{
                 __html: `
                 /* 依然保持只在小屏幕下（最大宽度 1023px）压缩高度的逻辑 */
