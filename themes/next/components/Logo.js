@@ -1,12 +1,13 @@
 import { siteConfig } from '@/lib/config'
 import SmartLink from '@/components/SmartLink'
-import LazyImage from '@/components/LazyImage' // 引入 NotionNext 自带的图片懒加载组件
+import LazyImage from '@/components/LazyImage'
 
 const Logo = props => {
-  const { className } = props
+  //  从 props 中提取 siteInfo
+  const { className, siteInfo } = props 
   
-  // 获取配置中的头像地址，默认 fallback 到一个相对路径
-  const authorImage = siteConfig('AUTHOR_IMAGE') || '/avatar.svg' 
+  // 优先使用 Notion 数据库设置的 Icon，如果没有再退回到配置文件里的头像
+  const avatar = siteInfo?.icon || siteConfig('AUTHOR_IMAGE') || '/avatar.svg'
 
   return (
     <SmartLink href='/' passHref legacyBehavior>
@@ -16,17 +17,16 @@ const Logo = props => {
           className
         }>
         
-        {/* 新增：移动端专属的圆形头像，点击跳转主页（包含在 SmartLink 内部） */}
+        {/* 移动端专属的圆形头像：现在自动读取 Notion 的图标了！ */}
         <div className='block lg:hidden'>
-            {/* 使用 h-10 w-10 控制头像大小，rounded-full 切成正圆形 */}
             <LazyImage 
-              src={authorImage} 
+              src={avatar} 
               className='h-10 w-10 rounded-full object-cover shadow-sm' 
-              alt={siteConfig('AUTHOR')} 
+              alt={siteConfig('TITLE')} 
             />
         </div>
 
-        {/* 原有的文字 Logo 和描述，现在全部加上 hidden lg:block，只在电脑端显示 */}
+        {/* 桌面端专属的文字 Logo 和描述 */}
         <div className='hidden lg:block'>
             <div
             data-aos='fade-down'
