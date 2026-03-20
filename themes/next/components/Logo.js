@@ -16,11 +16,10 @@ const Logo = props => {
           data-aos-once='true'
           data-aos-anchor-placement='top-bottom'
           className='font-serif text-xl text-white logo'>
-          {/* 去掉了这里多余的空格符，让居中更绝对 */}
           {siteConfig('TITLE')}
         </div>
         
-        {/* 修改点：加入条件判断，只有当 DESCRIPTION 存在时才渲染这块 div */}
+        {/* 加入了 hidden lg:block */}
         {siteConfig('DESCRIPTION') && (
           <div
             data-aos='fade-down'
@@ -28,7 +27,7 @@ const Logo = props => {
             data-aos-delay='300'
             data-aos-once='true'
             data-aos-anchor-placement='top-bottom'
-            className='text-sm text-gray-500 dark:text-gray-300 font-light text-center'>
+            className='hidden lg:block text-sm text-gray-500 dark:text-gray-300 font-light text-center'>
             {siteConfig('DESCRIPTION')}
           </div>
         )}
