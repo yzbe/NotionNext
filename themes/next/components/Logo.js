@@ -19,7 +19,7 @@ const Logo = props => {
         
                {/* 移动端专属的圆形头像：增加了容器和边框样式 */}
         <div className='block lg:hidden'>
-            <div className="p-0.5 rounded-full bg-white/10 border border-white/10 shadow-inner">
+            <div className="p-0.6 rounded-full bg-white/10 border border-white/10 shadow-inner">
                 <LazyImage 
                   src={avatar} 
                   className='h-9 w-9 rounded-full object-cover shadow-sm' 
