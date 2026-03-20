@@ -135,7 +135,8 @@ const TopNav = (props) => {
                         </div>
                     </div>
 
-                    <div className='flex'>
+                    {/* <div className='flex'> */}  {/* 原logo文字位置 */}
+                     <div className='absolute left-1/2 -translate-x-1/2 flex'> {/* 现logo文字位置 添加 absolute left-1/2 -translate-x-1/2 让 Logo 绝对居中 */}
                         <Logo {...props} />
                     </div>
 
