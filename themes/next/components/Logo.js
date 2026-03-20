@@ -7,7 +7,8 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          'flex flex-col justify-center items-center cursor-pointer bg-black dark:bg-gray-800 space-y-3 font-bold ' +
+          // 在这里删除了 bg-black 和 dark:bg-gray-800，加入了 bg-transparent
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent space-y-3 font-bold ' +
           className
         }>
         <div
