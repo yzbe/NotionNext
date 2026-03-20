@@ -17,13 +17,15 @@ const Logo = props => {
           className
         }>
         
-        {/* 移动端专属的圆形头像：现在自动读取 Notion 的图标了！ */}
+               {/* 移动端专属的圆形头像：增加了容器和边框样式 */}
         <div className='block lg:hidden'>
-            <LazyImage 
-              src={avatar} 
-              className='h-10 w-10 rounded-full object-cover shadow-sm' 
-              alt={siteConfig('TITLE')} 
-            />
+            <div className="p-0.5 rounded-full bg-white/10 border border-white/20 shadow-inner">
+                <LazyImage 
+                  src={avatar} 
+                  className='h-9 w-9 rounded-full object-cover shadow-sm' 
+                  alt={siteConfig('TITLE')} 
+                />
+            </div>
         </div>
 
         {/* 桌面端专属的文字 Logo 和描述 */}
