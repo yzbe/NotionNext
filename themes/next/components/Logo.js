@@ -8,7 +8,7 @@ const Logo = props => {
       <div
         className={
           //'flex flex-col justify-center items-center cursor-pointer bg-black dark:bg-gray-800 space-y-3 font-bold ' + //原顶部
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent space-y-3 font-bold ' + //新顶部260320
+          'flex flex-col justify-center items-center cursor-pointer bg-[#1F2937] dark:bg-[#1F2937] w-full space-y-3 font-bold ' + //新顶部260320
           className
         }>
         <div
