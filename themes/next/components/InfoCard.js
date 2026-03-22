@@ -13,9 +13,14 @@ const InfoCard = (props) => {
         <div className='text-2xl font-sans font-medium dark:text-white pt-6 pb-2 hover:scale-105 transform duration-200'>
   {siteConfig('AUTHOR')}
 </div>
-        <div className='font-light dark:text-white py-2 hover:scale-105 transform duration-200 text-center'>{siteConfig('BIO')}</div>
-        <SocialButton/>
-    </div>
+        <div className='font-light dark:text-white py-2 hover:scale-105 transform duration-200 text-center'>
+  {siteConfig('BIO')?.split(/\\n|\n/).map((line, index) => (
+    <span key={index}>
+      {line}
+      <br />
+    </span>
+  ))}
+</div>
   </>
 }
 
