@@ -14,7 +14,7 @@ const InfoCard = (props) => {
         </div>
 
         {/* 名字部分：使用了方案 A 的微调版 */}
-        <div className='text-2xl font-sans font-medium dark:text-white pt-6 pb-2 hover:scale-105 transform duration-200'>
+        <div className='text-2xl font-sans font-medium dark:text-white pt-4 pb-2 hover:scale-105 transform duration-200'>
           {siteConfig('AUTHOR')}
         </div>
 
@@ -29,7 +29,7 @@ const InfoCard = (props) => {
           ))}
         </div>
 
-        {/* 社交按钮部分：补回来了 */}
+        {/* 社交按钮 */}
         <SocialButton />
     </div>
   </>
