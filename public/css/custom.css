@@ -6,3 +6,27 @@
 .fa-info:before {
     content: "\f05a";
 }
+
+/* =========================================
+   NotionNext 加深表格框线 (适配日间/夜间模式)
+   ========================================= */
+
+/* 日间模式：加深表格及其单元格的边框 */
+.notion-simple-table,
+.notion-simple-table th,
+.notion-simple-table td,
+.notion-collection-table,
+.notion-collection-table th,
+.notion-collection-table td {
+    border: 1px solid #9ca3af !important; /* 日间模式边框颜色（中灰色） */
+}
+
+/* 夜间模式：加深表格及其单元格的边框 */
+.dark .notion-simple-table,
+.dark .notion-simple-table th,
+.dark .notion-simple-table td,
+.dark .notion-collection-table,
+.dark .notion-collection-table th,
+.dark .notion-collection-table td {
+    border: 1px solid #6b7280 !important; /* 夜间模式边框颜色（偏亮的灰色，确保能看清） */
+}
