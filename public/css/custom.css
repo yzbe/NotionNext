@@ -8,7 +8,7 @@
 }
 
 /* =========================================
-   NotionNext 简单表格终极修复：强制标准网格渲染
+   NotionNext 简单表格框线显示
    原理：破解 display: block 导致的合并失效，并干掉外围包裹器
    ========================================= */
 
@@ -59,7 +59,7 @@
 /* 1. 针对简单表格 (Simple Table) */
 .notion-simple-table th,
 .notion-simple-table td {
-    padding: 6px 12px !important; /* 核心逻辑：第一个值(6px)控制上下留白，第二个值(12px)控制左右留白 */
+    padding: 4px 8px !important; /* 核心逻辑：第一个值(4px)控制上下留白，第二个值(12px)控制左右留白 */
     line-height: 1.5 !important;  /* 固定行高，防止多行文本过于松散 */
 }
 
@@ -67,5 +67,5 @@
 .notion-table-cell,
 .notion-table-view-header-cell-inner,
 .notion-table-cell-text {
-    padding: 6px 12px !important; 
+    padding: 4px 8px !important; 
 }
