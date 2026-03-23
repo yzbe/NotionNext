@@ -6,27 +6,39 @@
 .fa-info:before {
     content: "\f05a";
 }
-
 /* =========================================
-   NotionNext 加深表格框线 (适配日间/夜间模式)
+   NotionNext 增强表格框线可见度 (结合变量覆盖与精确类名)
+   适用于 Simple Table 和 Database Collection Table
    ========================================= */
 
-/* 日间模式：加深表格及其单元格的边框 */
-.notion-simple-table,
-.notion-simple-table th,
-.notion-simple-table td,
-.notion-collection-table,
-.notion-collection-table th,
-.notion-collection-table td {
-    border: 1px solid #9ca3af !important; /* 日间模式边框颜色（中灰色） */
+/* 1. 针对简单表格 (Simple Table) 加深 */
+.dark .notion-simple-table {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+.dark .notion-simple-table th,
+.dark .notion-simple-table td {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-/* 夜间模式：加深表格及其单元格的边框 */
-.dark .notion-simple-table,
-.dark .notion-simple-table th,
-.dark .notion-simple-table td,
-.dark .notion-collection-table,
-.dark .notion-collection-table th,
-.dark .notion-collection-table td {
-    border: 1px solid #6b7280 !important; /* 夜间模式边框颜色（偏亮的灰色，确保能看清） */
+/* 2. 针对数据库表格 (Collection Table) 加深精细结构 */
+/* 强制提高表头上下边框对比度 */
+.dark .notion-table-header-inner {
+    border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
+/* 强制提高行分隔线对比度 */
+.dark .notion-table-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+/* 强制提高列分隔线对比度 */
+.dark .notion-table-view-header-cell-inner,
+.dark .notion-table-cell {
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 日间模式如果也觉得浅，可以取消下面这段的注释进行加深 */
+/*
+.notion-simple-table, .notion-simple-table th, .notion-simple-table td {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+}
+*/
