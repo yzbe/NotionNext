@@ -8,68 +8,34 @@
 }
 
 /* =========================================
-   NotionNext 表格框线优化
-   修复：彻底去除顶部双线，精准控制日/夜间对比度
+   NotionNext 表格框线与排版优化 (终极完美版)
+   原理：不破坏原生物理结构，直接替换系统底层颜色变量
    ========================================= */
 
-/* ================= 1. 简单表格 (Simple Table) 终极单线拼合法 ================= */
-
-/* 第一步：清空所有默认边框、阴影，强制去除单元格间隙 */
+/* 1. 替换日间模式的表格“画笔颜色” */
 .notion-simple-table,
-.notion-simple-table tr,
+.notion-collection {
+    --fg-color-0: #d1d5db !important; /* 强制将底层颜色0替换为清晰的中灰 */
+    --fg-color-1: #d1d5db !important; /* 强制将底层颜色1替换为清晰的中灰 */
+}
+
+/* 2. 替换夜间模式的表格“画笔颜色” */
+.dark .notion-simple-table,
+.dark .notion-collection {
+    --fg-color-0: rgba(255, 255, 255, 0.2) !important; /* 替换为半透明白 */
+    --fg-color-1: rgba(255, 255, 255, 0.2) !important; /* 替换为半透明白 */
+}
+
+/* 3. 减小表格上下留白，使排版更紧凑 (保留你之前的配置) */
 .notion-simple-table th,
 .notion-simple-table td {
-    border: none !important;
-    box-shadow: none !important;
-    border-collapse: separate !important; /* 放弃 collapse */
-    border-spacing: 0 !important; /* 强制单元格之间零距离 */
+    padding: 6px 12px !important;
+    line-height: 1.5 !important;
 }
-
-/* 第二步：日间模式（精确分配边框） */
-/* 表格整体包揽【上】和【左】边框 */
-.notion-simple-table {
-    border-top: 1px solid #d1d5db !important;
-    border-left: 1px solid #d1d5db !important;
-}
-/* 内部单元格包揽【下】和【右】边框 */
-.notion-simple-table th,
-.notion-simple-table td {
-    border-bottom: 1px solid #d1d5db !important;
-    border-right: 1px solid #d1d5db !important;
-}
-
-/* 第三步：夜间模式（精确分配边框，使用半透明白） */
-.dark .notion-simple-table {
-    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-.dark .notion-simple-table th,
-.dark .notion-simple-table td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-/* ================= 2. 数据库表格 (Collection Table) ================= */
-/* 数据库表格是用 div 拼出来的，所以只能加单边(下边和右边) */
-
-/* 日间模式 */
-.notion-table-header-inner,
-.notion-table-row {
-    border-bottom: 1px solid #d1d5db !important;
-}
+.notion-table-cell,
 .notion-table-view-header-cell-inner,
-.notion-table-cell {
-    border-right: 1px solid #d1d5db !important;
-}
-
-/* 夜间模式 */
-.dark .notion-table-header-inner,
-.dark .notion-table-row {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-.dark .notion-table-view-header-cell-inner,
-.dark .notion-table-cell {
-    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+.notion-table-cell-text {
+    padding: 6px 12px !important;
 }
 
 /* =========================================
