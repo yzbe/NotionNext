@@ -15,16 +15,15 @@ import { useRouter } from 'next/router'
 
 let windowTop = 0
 
-/**
- * 顶部导航
- * @param {*} param0
- * @returns
- */
 const TopNav = (props) => {
   const { tags, currentTag, categories, currentCategory } = props
   const { locale } = useGlobal()
   const searchDrawer = useRef()
   const collapseRef = useRef(null)
+  
+  // ⭐️ 1. 新增：创建一个 ref 探头，用来定位整个导航菜单的物理范围
+  const topNavRef = useRef(null) 
+  
   const router = useRouter()
 
   const scrollTrigger = useCallback(throttle(() => {
@@ -40,7 +39,6 @@ const TopNav = (props) => {
     }
   }, 200), [])
 
-  // 监听滚动
   useEffect(() => {
     if (siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse') {
       scrollTrigger()
@@ -53,7 +51,6 @@ const TopNav = (props) => {
 
   const [isOpen, changeShow] = useState(false)
 
-  // 监听滚动
   useEffect(() => {
     router.events.on('routeChangeComplete', menuCollapseHide)
     return () => {
@@ -61,9 +58,6 @@ const TopNav = (props) => {
     }
   }, [])
 
-  /**
-   * 点击切换页面后关闭这点菜单
-   */
   const menuCollapseHide = () => {
     changeShow(false)
   }
@@ -71,6 +65,27 @@ const TopNav = (props) => {
   const toggleMenuOpen = () => {
     changeShow(!isOpen)
   }
+
+  // ⭐️ 2. 核心逻辑：全局监听点击和触摸
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // 如果菜单是开着的，且你点击/触摸的元素不在 TopNav 内部，就关掉它！
+      if (isOpen && topNavRef.current && !topNavRef.current.contains(event.target)) {
+        changeShow(false)
+      }
+    }
+
+    // 只有当菜单打开时，才开始监听整个文档的动作，节能高效
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('touchstart', handleClickOutside) // 手机端手指一摸就触发
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [isOpen])
 
   const { searchModal } = useNextGlobal()
   const showSearchModal = () => {
@@ -81,7 +96,6 @@ const TopNav = (props) => {
     }
   }
 
-  //   搜索栏
   const searchDrawerSlot = <>
         {categories && (
             <section className='mt-8'>
@@ -91,9 +105,7 @@ const TopNav = (props) => {
                         href={'/category'}
                         passHref
                         className='mb-3 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white hover:underline cursor-pointer'>
-
                         {locale.COMMON.MORE} <i className='fas fa-angle-double-right' />
-
                     </SmartLink>
                 </div>
                 <CategoryGroup currentCategory={currentCategory} categories={categories} />
@@ -108,9 +120,7 @@ const TopNav = (props) => {
                         href={'/tag'}
                         passHref
                         className='text-gray-500 hover:text-black  dark:hover:text-white hover:underline cursor-pointer'>
-
                         {locale.COMMON.MORE} <i className='fas fa-angle-double-right' />
-
                     </SmartLink>
                 </div>
                 <div className='p-2'>
@@ -121,26 +131,10 @@ const TopNav = (props) => {
     </>
 
   return (
-        <div id='top-nav' className='block lg:hidden'>
+        // ⭐️ 3. 将探头 ref 挂在最外层的 div 上
+        <div id='top-nav' className='block lg:hidden' ref={topNavRef}>
             <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
-            {/* ⭐️ 核心新增：全屏背景遮罩层 */}
-            {isOpen && (
-              <div 
-                id='topnav-background-mask'
-                // 1. 点击背景直接关闭
-                onClick={() => changeShow(false)}
-                // 2. 手机端触摸/滑动背景直接关闭，并防止滑动穿透到底层网页
-                onTouchMove={(e) => {
-                  e.preventDefault()
-                  changeShow(false)
-                }}
-                // z-10 确保它在导航栏 (z-20) 之下，但在网页正文之上。加入黑底半透明效果
-                className='fixed inset-0 z-10 bg-black/40 backdrop-blur-sm transition-opacity cursor-pointer'
-              />
-            )}
-
-            {/* 导航栏主体 (原本的代码，未做修改，z-20 确保它在遮罩上方) */}
             <div id='sticky-nav' className={`${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed' : 'relative'} lg:relative w-full top-0 z-20 transform duration-500`}>
                 <div className='w-full flex justify-between items-center p-4 bg-[#1F2937] dark:bg-[#1F2937] text-white relative'> 
                     {/* 左侧LOGO 标题 */}
@@ -166,7 +160,6 @@ const TopNav = (props) => {
                     <MenuList onHeightChange={(param) => collapseRef.current?.updateCollapseHeight(param)} {...props} from='top' />
                 </Collapse>
             </div>
-
         </div>)
 }
 
