@@ -1,21 +1,19 @@
 import SideBar from './SideBar'
 import { useRouter } from 'next/router'
-import { useEffect, useImperativeHandle } from 'react'
+import { useEffect, useImperativeHandle, useRef } from 'react'
 
 /**
- * 侧边栏抽屉面板，可以从侧面拉出
+ * NEXT 主题：侧边栏抽屉面板
  */
-const SideBarDrawer = ({ post, cRef, tags, slot, categories, currentCategory }) => {
+const SideBarDrawer = ({ post, currentCategory, currentTag, cRef, categories, tags, slot }) => {
+  // 1. 设置引用，用来精确定位侧边栏主体
+  const drawerRef = useRef(null)
+
   useImperativeHandle(cRef, () => {
     return {
       handleSwitchSideDrawerVisible: () => switchSideDrawerVisible(true)
     }
   })
-
-  useEffect(() => {
-    const sideBarWrapperElement = document.getElementById('sidebar-wrapper')
-    sideBarWrapperElement?.classList?.remove('hidden')
-  }, [])
 
   const router = useRouter()
   useEffect(() => {
@@ -28,44 +26,68 @@ const SideBarDrawer = ({ post, cRef, tags, slot, categories, currentCategory }) 
     }
   }, [router.events])
 
-  // 恢复原版兼容性最高的替换逻辑
+  // 2. NEXT 主题专属的抽屉开关逻辑
   const switchSideDrawerVisible = (showStatus) => {
     const sideBarDrawer = window.document.getElementById('sidebar-drawer')
     const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
 
     if (showStatus) {
-      sideBarDrawer?.classList.replace('-ml-80', 'ml-0')
-      sideBarDrawerBackground?.classList.replace('hidden', 'block')
+      sideBarDrawer?.classList.remove('-translate-x-full', 'translate-x-full')
+      sideBarDrawer?.classList.add('translate-x-0')
+      sideBarDrawerBackground?.classList.remove('hidden')
+      sideBarDrawerBackground?.classList.add('block')
     } else {
-      sideBarDrawer?.classList.replace('ml-0', '-ml-80')
-      sideBarDrawerBackground?.classList.replace('block', 'hidden')
+      sideBarDrawer?.classList.remove('translate-x-0')
+      // 兼容可能存在的左右滑出设定
+      sideBarDrawer?.classList.add('-translate-x-full') 
+      sideBarDrawerBackground?.classList.remove('block')
+      sideBarDrawerBackground?.classList.add('hidden')
     }
   }
 
+  // 3. 全局监听：不管谁挡住了事件，只要点/滑在外面就关掉
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
+      if (
+        sideBarDrawerBackground?.classList.contains('block') &&
+        drawerRef.current &&
+        !drawerRef.current.contains(event.target)
+      ) {
+        switchSideDrawerVisible(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [])
+
   return (
-    <div id='sidebar-wrapper' className='hidden'>
-      
-      {/* 侧边栏主体：保持层级最高 */}
-      <div id='sidebar-drawer' className='-ml-80 w-80 bg-white dark:bg-gray-900 flex flex-col duration-300 fixed h-full left-0 overflow-y-scroll scroll-hidden top-0 z-50'>
-        <SideBar tags={tags} post={post} slot={slot} categories={categories} currentCategory={currentCategory} />
+    <div id='sidebar-wrapper'>
+      {/* 侧边栏主体（白底菜单部分） */}
+      <div 
+        ref={drawerRef}
+        id='sidebar-drawer' 
+        className='-translate-x-full transition-transform duration-300 fixed h-full left-0 w-72 max-w-full bg-white dark:bg-gray-900 flex flex-col overflow-y-scroll scroll-hidden top-0 z-50 shadow-2xl'
+      >
+        <SideBar tags={tags} post={post} slot={slot} categories={categories} currentCategory={currentCategory} currentTag={currentTag} />
       </div>
-      
-      {/* ⭐️ 核心修改点：全屏背景蒙版 */}
+
+      {/* ⭐️ 背景蒙版：支持点击、滑动关闭 */}
       <div 
         id='sidebar-drawer-background' 
-        // 1. 鼠标点击触发关闭
-        onClick={() => switchSideDrawerVisible(false)} 
-        // 2. 手机端：手指刚刚碰到屏幕就触发关闭（比 onClick 响应更快）
-        onTouchStart={() => switchSideDrawerVisible(false)}
-        // 3. 手机端：手指在区域内滑动触发关闭
-        onTouchMove={(e) => {
-            e.preventDefault(); // 防止穿透滑动后面的网页内容
-            switchSideDrawerVisible(false)
+        onClick={() => switchSideDrawerVisible(false)}
+        onTouchMove={(e) => { 
+            e.preventDefault(); // 阻止滑动穿透到底部网页
+            switchSideDrawerVisible(false); 
         }}
-        // 使用 inset-0 强制铺满全屏，确保能捕捉到所有空白区域的动作
-        className='hidden fixed inset-0 z-40 bg-black/40 dark:bg-black/60 cursor-pointer pointer-events-auto transition-opacity duration-300' 
+        className='hidden fixed inset-0 z-40 bg-black/40 dark:bg-black/60 glassmorphism cursor-pointer pointer-events-auto' 
       />
-
     </div>
   )
 }
