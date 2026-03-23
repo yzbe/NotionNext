@@ -124,10 +124,25 @@ const TopNav = (props) => {
         <div id='top-nav' className='block lg:hidden'>
             <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
-            {/* 导航栏 */}
+            {/* ⭐️ 核心新增：全屏背景遮罩层 */}
+            {isOpen && (
+              <div 
+                id='topnav-background-mask'
+                // 1. 点击背景直接关闭
+                onClick={() => changeShow(false)}
+                // 2. 手机端触摸/滑动背景直接关闭，并防止滑动穿透到底层网页
+                onTouchMove={(e) => {
+                  e.preventDefault()
+                  changeShow(false)
+                }}
+                // z-10 确保它在导航栏 (z-20) 之下，但在网页正文之上。加入黑底半透明效果
+                className='fixed inset-0 z-10 bg-black/40 backdrop-blur-sm transition-opacity cursor-pointer'
+              />
+            )}
+
+            {/* 导航栏主体 (原本的代码，未做修改，z-20 确保它在遮罩上方) */}
             <div id='sticky-nav' className={`${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed' : 'relative'} lg:relative w-full top-0 z-20 transform duration-500`}>
-                {/* <div className='w-full flex justify-between items-center p-4 bg-black dark:bg-gray-800 text-white'> */}   {/* 原桌面端logo背景颜色 */}
-                  <div className='w-full flex justify-between items-center p-4 bg-[#1F2937] dark:bg-[#1F2937] text-white relative'>  {/* 现桌面端logo背景颜色260320 */}
+                <div className='w-full flex justify-between items-center p-4 bg-[#1F2937] dark:bg-[#1F2937] text-white relative'> 
                     {/* 左侧LOGO 标题 */}
                     <div className='flex flex-none flex-grow-0'>
                         <div onClick={toggleMenuOpen} className='w-8 cursor-pointer'>
@@ -135,8 +150,7 @@ const TopNav = (props) => {
                         </div>
                     </div>
 
-                    {/* <div className='flex'> */}  {/* 原logo文字位置 */}
-                     <div className='absolute left-1/2 -translate-x-1/2 flex'> {/* 现logo文字位置 添加 absolute left-1/2 -translate-x-1/2 让 Logo 绝对居中 */}
+                     <div className='absolute left-1/2 -translate-x-1/2 flex'>
                         <Logo {...props} />
                     </div>
 
