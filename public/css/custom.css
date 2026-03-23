@@ -8,44 +8,48 @@
 }
 
 /* =========================================
-   NotionNext 简单表格 (Simple Table) 终极暴力重置版
-   原理：彻底抹除所有内置样式，强制按标准 HTML 表格渲染
+   NotionNext 简单表格终极修复：强制标准网格渲染
+   原理：破解 display: block 导致的合并失效，并干掉外围包裹器
    ========================================= */
 
-/* 1. 扒掉所有 Notion 默认的边框、阴影、圆角，防止任何干扰 */
-.notion-simple-table,
-.notion-simple-table thead,
-.notion-simple-table tbody,
-.notion-simple-table tr,
-.notion-simple-table th,
-.notion-simple-table td {
+/* 1. 斩草除根：干掉最外层包裹器的多余游离线条和内边距 */
+.notion-simple-table-wrapper,
+.notion-table-view {
     border: none !important;
     box-shadow: none !important;
-    border-radius: 0 !important; /* 修复由于隐藏圆角导致的边框不闭合/未对齐 */
+    padding: 0 !important;
 }
 
-/* 2. 强制使用标准的表格边框合并模式 */
+/* 2. 拨乱反正：强制恢复标准表格属性，让“边框合并”重新生效 */
 .notion-simple-table {
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    /* 关键：给整个表格最外围也加上边框，彻底解决外圈不闭合的问题 */
+    display: table !important;            /* 绝对关键：打破 block 模式 */
+    border-collapse: collapse !important; /* 现在合并 100% 会生效了 */
+    width: 100% !important;
     border: 1px solid #9ca3af !important; 
+    box-shadow: none !important;
+    margin: 0 !important;
 }
 
-/* 3. 日间模式：内部单元格边框 (使用更深、更清晰的灰色) */
+/* 3. 剥离行边框，防止任何残留干扰 */
+.notion-simple-table tr,
+.notion-simple-table thead,
+.notion-simple-table tbody {
+    border: none !important;
+}
+
+/* 4. 给单元格画线，并控制紧凑留白 */
 .notion-simple-table th,
 .notion-simple-table td {
-    border: 1px solid #9ca3af !important; 
-    padding: 8px 12px !important; /* 控制留白，保持紧凑排版 */
+    border: 1px solid #9ca3af !important;
+    padding: 8px 12px !important;
+    box-sizing: border-box !important;
 }
 
-/* 4. 夜间模式：统一使用半透明白色 */
-.dark .notion-simple-table {
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
+/* 5. 夜间模式适配（半透明白） */
+.dark .notion-simple-table,
 .dark .notion-simple-table th,
 .dark .notion-simple-table td {
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* =========================================
