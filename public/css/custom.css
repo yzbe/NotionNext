@@ -8,34 +8,44 @@
 }
 
 /* =========================================
-   NotionNext 表格框线与排版优化 (终极完美版)
-   原理：不破坏原生物理结构，直接替换系统底层颜色变量
+   NotionNext 简单表格 (Simple Table) 终极暴力重置版
+   原理：彻底抹除所有内置样式，强制按标准 HTML 表格渲染
    ========================================= */
 
-/* 1. 替换日间模式的表格“画笔颜色” */
+/* 1. 扒掉所有 Notion 默认的边框、阴影、圆角，防止任何干扰 */
 .notion-simple-table,
-.notion-collection {
-    --fg-color-0: #d1d5db !important; /* 强制将底层颜色0替换为清晰的中灰 */
-    --fg-color-1: #d1d5db !important; /* 强制将底层颜色1替换为清晰的中灰 */
-}
-
-/* 2. 替换夜间模式的表格“画笔颜色” */
-.dark .notion-simple-table,
-.dark .notion-collection {
-    --fg-color-0: rgba(255, 255, 255, 0.2) !important; /* 替换为半透明白 */
-    --fg-color-1: rgba(255, 255, 255, 0.2) !important; /* 替换为半透明白 */
-}
-
-/* 3. 减小表格上下留白，使排版更紧凑 (保留你之前的配置) */
+.notion-simple-table thead,
+.notion-simple-table tbody,
+.notion-simple-table tr,
 .notion-simple-table th,
 .notion-simple-table td {
-    padding: 6px 12px !important;
-    line-height: 1.5 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important; /* 修复由于隐藏圆角导致的边框不闭合/未对齐 */
 }
-.notion-table-cell,
-.notion-table-view-header-cell-inner,
-.notion-table-cell-text {
-    padding: 6px 12px !important;
+
+/* 2. 强制使用标准的表格边框合并模式 */
+.notion-simple-table {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    /* 关键：给整个表格最外围也加上边框，彻底解决外圈不闭合的问题 */
+    border: 1px solid #9ca3af !important; 
+}
+
+/* 3. 日间模式：内部单元格边框 (使用更深、更清晰的灰色) */
+.notion-simple-table th,
+.notion-simple-table td {
+    border: 1px solid #9ca3af !important; 
+    padding: 8px 12px !important; /* 控制留白，保持紧凑排版 */
+}
+
+/* 4. 夜间模式：统一使用半透明白色 */
+.dark .notion-simple-table {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+.dark .notion-simple-table th,
+.dark .notion-simple-table td {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 /* =========================================
