@@ -14,24 +14,30 @@
 
 /* ================= 1. 简单表格 (Simple Table) ================= */
 
-/* 关键修复：强制合并，并去掉 table 最外层边框，防止双线 */
+/* 强制合并边框，并去掉最外层 table 的边框 */
 .notion-simple-table {
     border-collapse: collapse !important;
     border: none !important; 
 }
 
-/* 日间模式：仅给内部单元格加中灰色边框 */
+/* 【关键修复】彻底清除 Notion 默认加在“行”上的边框，防止横线叠加变粗 */
+.notion-simple-table tr,
+.notion-simple-table tbody,
+.notion-simple-table thead {
+    border: none !important;
+}
+
+/* 日间模式：确保所有单元格都是绝对统一的 1px 边框 */
 .notion-simple-table th,
 .notion-simple-table td {
     border: 1px solid #d1d5db !important; 
 }
 
-/* 夜间模式：仅给内部单元格加半透明白边框 */
+/* 夜间模式：统一半透明白边框 */
 .dark .notion-simple-table th,
 .dark .notion-simple-table td {
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
-
 
 /* ================= 2. 数据库表格 (Collection Table) ================= */
 /* 数据库表格是用 div 拼出来的，所以只能加单边(下边和右边) */
