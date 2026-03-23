@@ -8,48 +8,61 @@
 }
 
 /* =========================================
-   NotionNext 简单表格终极修复：强制标准网格渲染
-   原理：破解 display: block 导致的合并失效，并干掉外围包裹器
+   NotionNext 简单表格终极修复：手工拼装网格
+   原理：彻底放弃 border-collapse 自动合并，采用 1px 完美拼装，解决粗细不均
    ========================================= */
 
-/* 1. 斩草除根：干掉最外层包裹器的多余游离线条和内边距 */
-.notion-simple-table-wrapper,
-.notion-table-view {
+/* 1. 干掉外围幽灵线和内边距（这步我们上一版已经成功了） */
+.notion-simple-table-wrapper {
     border: none !important;
-    box-shadow: none !important;
     padding: 0 !important;
-}
-
-/* 2. 拨乱反正：强制恢复标准表格属性，让“边框合并”重新生效 */
-.notion-simple-table {
-    display: table !important;            /* 绝对关键：打破 block 模式 */
-    border-collapse: collapse !important; /* 现在合并 100% 会生效了 */
-    width: 100% !important;
-    border: 1px solid #9ca3af !important; 
     box-shadow: none !important;
-    margin: 0 !important;
 }
 
-/* 3. 剥离行边框，防止任何残留干扰 */
+/* 2. 重置表格，关闭自动合并，让单元格紧紧贴合 */
+.notion-simple-table {
+    border-collapse: separate !important; /* 关键：放弃自动合并 */
+    border-spacing: 0 !important;         /* 关键：单元格之间零缝隙 */
+    width: 100% !important;
+    box-shadow: none !important;
+}
+
+/* 3. 清理所有默认边框，为手工画线腾出干净的画布 */
+.notion-simple-table,
 .notion-simple-table tr,
-.notion-simple-table thead,
-.notion-simple-table tbody {
-    border: none !important;
-}
-
-/* 4. 给单元格画线，并控制紧凑留白 */
 .notion-simple-table th,
 .notion-simple-table td {
-    border: 1px solid #9ca3af !important;
-    padding: 8px 12px !important;
+    border: none !important; 
+}
+
+/* ================= 核心拼图区 ================= */
+
+/* 日间模式画线：深灰色 #9ca3af */
+/* A. 整个表格包揽【顶部】和【左侧】边框 */
+.notion-simple-table {
+    border-top: 1px solid #9ca3af !important;
+    border-left: 1px solid #9ca3af !important;
+}
+/* B. 所有单元格包揽【底部】和【右侧】边框 */
+.notion-simple-table th,
+.notion-simple-table td {
+    border-bottom: 1px solid #9ca3af !important;
+    border-right: 1px solid #9ca3af !important;
+    padding: 8px 12px !important; /* 维持舒适的行高留白 */
     box-sizing: border-box !important;
 }
 
-/* 5. 夜间模式适配（半透明白） */
-.dark .notion-simple-table,
+/* 夜间模式画线：半透明白色 */
+/* C. 整个表格包揽【顶部】和【左侧】边框 */
+.dark .notion-simple-table {
+    border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+/* D. 所有单元格包揽【底部】和【右侧】边框 */
 .dark .notion-simple-table th,
 .dark .notion-simple-table td {
-    border-color: rgba(255, 255, 255, 0.3) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 /* =========================================
