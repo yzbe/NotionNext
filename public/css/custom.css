@@ -12,33 +12,41 @@
    修复：彻底去除顶部双线，精准控制日/夜间对比度
    ========================================= */
 
-/* ================= 1. 简单表格 (Simple Table) ================= */
+/* ================= 1. 简单表格 (Simple Table) 终极单线拼合法 ================= */
 
-/* 第一步：彻底清除 Notion 默认的边框和阴影伪装，防止任何叠加 */
+/* 第一步：清空所有默认边框、阴影，强制去除单元格间隙 */
 .notion-simple-table,
 .notion-simple-table tr,
 .notion-simple-table th,
 .notion-simple-table td {
     border: none !important;
-    box-shadow: none !important; /* 关键杀手锏：干掉 Notion 自带的阴影边框 */
+    box-shadow: none !important;
+    border-collapse: separate !important; /* 放弃 collapse */
+    border-spacing: 0 !important; /* 强制单元格之间零距离 */
 }
 
-/* 第二步：开启边框合并 */
+/* 第二步：日间模式（精确分配边框） */
+/* 表格整体包揽【上】和【左】边框 */
 .notion-simple-table {
-    border-collapse: collapse !important;
+    border-top: 1px solid #d1d5db !important;
+    border-left: 1px solid #d1d5db !important;
 }
-
-/* 第三步：干干净净地重新绘制 1px 边框 */
-/* 日间模式 */
+/* 内部单元格包揽【下】和【右】边框 */
 .notion-simple-table th,
 .notion-simple-table td {
-    border: 1px solid #d1d5db !important; 
+    border-bottom: 1px solid #d1d5db !important;
+    border-right: 1px solid #d1d5db !important;
 }
 
-/* 夜间模式 */
+/* 第三步：夜间模式（精确分配边框，使用半透明白） */
+.dark .notion-simple-table {
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
 .dark .notion-simple-table th,
 .dark .notion-simple-table td {
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 /* ================= 2. 数据库表格 (Collection Table) ================= */
