@@ -8,7 +8,7 @@
 }
 
 /* =========================================
-   NotionNext 表格框线优化 (终极修复版)
+   NotionNext 表格框线优化
    修复：彻底去除顶部双线，精准控制日/夜间对比度
    ========================================= */
 
@@ -54,4 +54,22 @@
 .dark .notion-table-view-header-cell-inner,
 .dark .notion-table-cell {
     border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* =========================================
+   NotionNext 减小表格上下留白 (调整行高与内边距)
+   ========================================= */
+
+/* 1. 针对简单表格 (Simple Table) */
+.notion-simple-table th,
+.notion-simple-table td {
+    padding: 6px 12px !important; /* 核心逻辑：第一个值(6px)控制上下留白，第二个值(12px)控制左右留白 */
+    line-height: 1.5 !important;  /* 固定行高，防止多行文本过于松散 */
+}
+
+/* 2. 针对数据库表格 (Collection Table) */
+.notion-table-cell,
+.notion-table-view-header-cell-inner,
+.notion-table-cell-text {
+    padding: 6px 12px !important; 
 }
