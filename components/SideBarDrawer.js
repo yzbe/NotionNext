@@ -2,9 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 /**
- * 侧边栏抽屉面板，可以从侧面拉出 (全局通用版)
- * @returns {JSX.Element}
- * @constructor
+ * 侧边栏抽屉面板 (全局通用版)
  */
 const SideBarDrawer = ({
   children,
@@ -26,20 +24,18 @@ const SideBarDrawer = ({
     }
   }, [router.events])
 
-  // ⭐️ 修复核心：更加稳健的状态同步逻辑
+  // ⭐️ 核心逻辑：通知 React 状态 + 强制接管 DOM
   const switchSideDrawerVisible = showStatus => {
-    // 1. 先触发父组件的状态更新
+    // 1. 同步 React 状态
     if (showStatus) {
       onOpen && onOpen()
     } else {
       onClose && onClose()
     }
     
-    // 2. 稳健的 DOM 操作，抛弃 replace，改用 remove/add
+    // 2. 强制 DOM 扭转
     const sideBarDrawer = window.document.getElementById('sidebar-drawer')
-    const sideBarDrawerBackground = window.document.getElementById(
-      'sidebar-drawer-background'
-    )
+    const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
 
     if (showStatus) {
       sideBarDrawer?.classList.remove('translate-x-[-100%]', 'opacity-0')
@@ -59,26 +55,27 @@ const SideBarDrawer = ({
       id='sidebar-wrapper'
       className={`block ${showOnPC ? '' : 'lg:hidden'} top-0`}>
       
-      {/* 侧边栏主体：z-50 保持最高层级 */}
+      {/* 侧边栏主体：z-50 */}
       <div
         id='sidebar-drawer'
-        className={`z-50 ${className} ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-[-100%] opacity-0'} transform transition-transform duration-300 ease-in-out bg-white dark:bg-gray-900 flex flex-col fixed h-full left-0 overflow-y-scroll top-0`}
+        className={`z-50 ${className} ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-[-100%] opacity-0'} transform transition-all duration-300 ease-in-out bg-white dark:bg-gray-900 flex flex-col fixed h-full left-0 overflow-y-scroll top-0`}
       >
         {children}
       </div>
 
-      {/* ⭐️ 背景蒙版：增加滑动事件、提升层级、铺满全屏 */}
+      {/* ⭐️ 背景蒙版：z-40，绑定所有可能的点击/滑动事件 */}
       <div
         id='sidebar-drawer-background'
-        // 点击蒙版关闭
+        // 电脑端点击
         onClick={() => switchSideDrawerVisible(false)}
-        // 手机端滑动蒙版关闭
+        // 移动端极速触摸响应 (手指刚碰到就关)
+        onTouchStart={() => switchSideDrawerVisible(false)}
+        // 移动端滑动响应
         onTouchMove={(e) => {
-            e.preventDefault(); // 防止穿透滑动到底层页面
+            e.preventDefault(); 
             switchSideDrawerVisible(false);
         }}
-        // 改为 inset-0 全屏铺满，z-40 确保盖住底层网页，但位于菜单(z-50)下方
-        className={`${isOpen ? 'block' : 'hidden'} fixed inset-0 z-40 w-full h-full bg-black/70 transition-opacity duration-300 cursor-pointer`}
+        className={`${isOpen ? 'block' : 'hidden'} fixed inset-0 z-40 w-full h-full bg-black/70 transition-opacity duration-300 cursor-pointer pointer-events-auto`}
       />
     </div>
   )
