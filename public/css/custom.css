@@ -8,36 +8,50 @@
 }
 
 /* =========================================
-   NotionNext 增强表格框线 (最终修正版)
-   修复：日间模式不清晰、夜间模式顶部多余边框(双线)
+   NotionNext 表格框线优化 (终极修复版)
+   修复：彻底去除顶部双线，精准控制日/夜间对比度
    ========================================= */
 
-/* 1. 基础设置：合并相邻边框，彻底解决顶部多余线条/双线问题 */
-.notion-simple-table,
-.notion-collection-table {
+/* ================= 1. 简单表格 (Simple Table) ================= */
+
+/* 关键修复：强制合并，并去掉 table 最外层边框，防止双线 */
+.notion-simple-table {
     border-collapse: collapse !important;
+    border: none !important; 
 }
 
-/* 2. 日间模式 (Light Mode) 框线加深 */
-/* 直接使用固定的中灰色，确保在白色背景下绝对清晰 */
-.notion-simple-table,
+/* 日间模式：仅给内部单元格加中灰色边框 */
 .notion-simple-table th,
-.notion-simple-table td,
+.notion-simple-table td {
+    border: 1px solid #d1d5db !important; 
+}
+
+/* 夜间模式：仅给内部单元格加半透明白边框 */
+.dark .notion-simple-table th,
+.dark .notion-simple-table td {
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+
+/* ================= 2. 数据库表格 (Collection Table) ================= */
+/* 数据库表格是用 div 拼出来的，所以只能加单边(下边和右边) */
+
+/* 日间模式 */
 .notion-table-header-inner,
-.notion-table-row,
+.notion-table-row {
+    border-bottom: 1px solid #d1d5db !important;
+}
 .notion-table-view-header-cell-inner,
 .notion-table-cell {
-    border: 1px solid #d1d5db !important; /* 一种清晰且不刺眼的中灰色 */
+    border-right: 1px solid #d1d5db !important;
 }
 
-/* 3. 夜间模式 (Dark Mode) 框线设置 */
-/* 保持半透明白色，融合暗色背景 */
-.dark .notion-simple-table,
-.dark .notion-simple-table th,
-.dark .notion-simple-table td,
+/* 夜间模式 */
 .dark .notion-table-header-inner,
-.dark .notion-table-row,
+.dark .notion-table-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
 .dark .notion-table-view-header-cell-inner,
 .dark .notion-table-cell {
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
