@@ -1,19 +1,24 @@
 import SideBar from './SideBar'
 import { useRouter } from 'next/router'
-import { useEffect, useImperativeHandle, useRef } from 'react'
+import { useEffect, useImperativeHandle } from 'react'
 
 /**
- * NEXT 主题：侧边栏抽屉面板
+ * 侧边栏抽屉面板，可以从侧面拉出
+ * @returns {JSX.Element}
+ * @constructor
  */
-const SideBarDrawer = ({ post, currentCategory, currentTag, cRef, categories, tags, slot }) => {
-  // 1. 设置引用，用来精确定位侧边栏主体
-  const drawerRef = useRef(null)
-
+const SideBarDrawer = ({ post, cRef, tags, slot, categories, currentCategory }) => {
+  // 暴露给父组件 通过cRef.current.handleMenuClick 调用
   useImperativeHandle(cRef, () => {
     return {
       handleSwitchSideDrawerVisible: () => switchSideDrawerVisible(true)
     }
   })
+
+  useEffect(() => {
+    const sideBarWrapperElement = document.getElementById('sidebar-wrapper')
+    sideBarWrapperElement?.classList?.remove('hidden')
+  }, [])
 
   const router = useRouter()
   useEffect(() => {
@@ -26,70 +31,27 @@ const SideBarDrawer = ({ post, currentCategory, currentTag, cRef, categories, ta
     }
   }, [router.events])
 
-  // 2. NEXT 主题专属的抽屉开关逻辑
+  // 点击按钮更改侧边抽屉状态
   const switchSideDrawerVisible = (showStatus) => {
     const sideBarDrawer = window.document.getElementById('sidebar-drawer')
     const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
 
     if (showStatus) {
-      sideBarDrawer?.classList.remove('-translate-x-full', 'translate-x-full')
-      sideBarDrawer?.classList.add('translate-x-0')
-      sideBarDrawerBackground?.classList.remove('hidden')
-      sideBarDrawerBackground?.classList.add('block')
+      sideBarDrawer.classList.replace('-ml-80', 'ml-0')
+      sideBarDrawerBackground.classList.replace('hidden', 'block')
     } else {
-      sideBarDrawer?.classList.remove('translate-x-0')
-      // 兼容可能存在的左右滑出设定
-      sideBarDrawer?.classList.add('-translate-x-full') 
-      sideBarDrawerBackground?.classList.remove('block')
-      sideBarDrawerBackground?.classList.add('hidden')
+      sideBarDrawer.classList.replace('ml-0', '-ml-80')
+      sideBarDrawerBackground.classList.replace('block', 'hidden')
     }
   }
 
-  // 3. 全局监听：不管谁挡住了事件，只要点/滑在外面就关掉
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
-      if (
-        sideBarDrawerBackground?.classList.contains('block') &&
-        drawerRef.current &&
-        !drawerRef.current.contains(event.target)
-      ) {
-        switchSideDrawerVisible(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    document.addEventListener('touchstart', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-      document.removeEventListener('touchstart', handleClickOutside)
-    }
-  }, [])
-
-  return (
-    <div id='sidebar-wrapper'>
-      {/* 侧边栏主体（白底菜单部分） */}
-      <div 
-        ref={drawerRef}
-        id='sidebar-drawer' 
-        className='-translate-x-full transition-transform duration-300 fixed h-full left-0 w-72 max-w-full bg-white dark:bg-gray-900 flex flex-col overflow-y-scroll scroll-hidden top-0 z-50 shadow-2xl'
-      >
-        <SideBar tags={tags} post={post} slot={slot} categories={categories} currentCategory={currentCategory} currentTag={currentTag} />
-      </div>
-
-      {/* ⭐️ 背景蒙版：支持点击、滑动关闭 */}
-      <div 
-        id='sidebar-drawer-background' 
-        onClick={() => switchSideDrawerVisible(false)}
-        onTouchMove={(e) => { 
-            e.preventDefault(); // 阻止滑动穿透到底部网页
-            switchSideDrawerVisible(false); 
-        }}
-        className='hidden fixed inset-0 z-40 bg-black/40 dark:bg-black/60 glassmorphism cursor-pointer pointer-events-auto' 
-      />
+  return <div id='sidebar-wrapper' className='hidden'>
+    <div id='sidebar-drawer' className='-ml-80 bg-white dark:bg-gray-900 flex flex-col duration-300 fixed h-full left-0 overflow-y-scroll scroll-hidden top-0 z-40'>
+      <SideBar tags={tags} post={post} slot={slot} categories={categories} currentCategory={currentCategory} />
     </div>
-  )
-}
+    {/* 背景蒙版 */}
+    <div id='sidebar-drawer-background' onClick={() => { switchSideDrawerVisible(false) }} className='hidden animate__animated animate__fadeIn fixed top-0 duration-300 left-0 z-30 w-full h-full glassmorphism' />
 
+  </div>
+}
 export default SideBarDrawer
