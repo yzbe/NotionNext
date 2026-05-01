@@ -1,6 +1,7 @@
 {
   "name": "notion-next",
-  "version": "4.9.4.2",
+  "version": "4.9.5.1",
+  "packageManager": "yarn@1.22.22",
   "homepage": "https://github.com/tangly1024/NotionNext.git",
   "license": "MIT",
   "engines": {
@@ -73,6 +74,7 @@
     "react-hotkeys-hook": "^4.6.2",
     "react-notion-x": "7.10.0",
     "react-share": "^5.2.2",
+    "@supabase/supabase-js": "^2.57.4",
     "react-tweet-embed": "~2.0.0"
   },
   "devDependencies": {
@@ -84,6 +86,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@waline/client": "^3.6.0",
+    "@netlify/plugin-nextjs": "^5.15.8",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
@@ -106,7 +109,8 @@
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "resolutions": {
-    "axios": ">=0.21.1"
+    "axios": ">=0.21.1",
+    "form-data": "^4.0.4"
   },
   "bugs": {
     "url": "https://github.com/tangly/NotionNext/issues",
