@@ -156,7 +156,6 @@ const LayoutBase = props => {
             <JumpToTopButton percent={percent} />
             <JumpToBottomButton />
             <FloatDarkModeButton />
-            <FloatDarkModeButton />
             {floatSlot}
           </div>
         </div>
