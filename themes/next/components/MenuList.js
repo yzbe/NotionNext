@@ -79,8 +79,9 @@ export const MenuList = props => {
       {/* 移动端菜单 */}
       <menu
         id='nav-menu-mobile'
-        // ⭐️ 加入了颜色区分和边框界线
-        className='block md:hidden my-auto justify-start bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 pt-2 pb-4 rounded-b-[12px]'>
+        // ⭐️ 核心同步：使用 dark:bg-hexo-black-gray 确保与文章卡片颜色完全一致
+        // 同时保留了 border-t 分割线，防止它与上方导航条（#1F2937）粘连
+        className='block md:hidden my-auto justify-start bg-white dark:bg-hexo-black-gray border-t border-gray-100 dark:border-gray-800 pt-2 pb-4 rounded-b-[12px]'>
         {links?.map(
           (link, index) =>
             link &&
