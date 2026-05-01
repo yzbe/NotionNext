@@ -26,8 +26,8 @@ const PaginationNumber = ({ page, totalPage }) => {
       data-aos-duration='300'
       data-aos-once='false'
       data-aos-anchor-placement='top-bottom'
-      // ⭐️ 核心魔法：强制 16px 圆角，绕过所有样式覆盖和缓存问题
-      style={{ borderRadius: '16px' }}
+      // 圆角：强制 12px 圆角，绕过所有样式覆盖和缓存问题
+      style={{ borderRadius: '12px' }}
       className='overflow-hidden mt-5 py-3 flex justify-center items-end font-medium text-black hover:shadow-xl duration-200 transition-all bg-white dark:bg-hexo-black-gray dark:text-gray-300 shadow space-x-2'
     >
       {/* 上一页 */}
