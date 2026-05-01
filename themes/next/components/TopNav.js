@@ -21,16 +21,16 @@ const TopNav = (props) => {
   const searchDrawer = useRef()
   const collapseRef = useRef(null)
   
-  // ⭐️ 1. 新增：创建一个 ref 探头，用来定位整个导航菜单的物理范围
   const topNavRef = useRef(null) 
   
   const router = useRouter()
 
+  // ⭐️ 同步修改：匹配 top-1 的悬浮状态
   const scrollTrigger = useCallback(throttle(() => {
     const scrollS = window.scrollY
     if (scrollS >= windowTop && scrollS > 10) {
       const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('top-1', '-top-40') // 注意这里匹配悬浮的 top-1
+      nav && nav.classList.replace('top-1', '-top-40') 
       windowTop = scrollS
     } else {
       const nav = document.querySelector('#sticky-nav')
@@ -66,19 +66,16 @@ const TopNav = (props) => {
     changeShow(!isOpen)
   }
 
-  // ⭐️ 2. 核心逻辑：全局监听点击和触摸
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // 如果菜单是开着的，且你点击/触摸的元素不在 TopNav 内部，就关掉它！
       if (isOpen && topNavRef.current && !topNavRef.current.contains(event.target)) {
         changeShow(false)
       }
     }
 
-    // 只有当菜单打开时，才开始监听整个文档的动作，节能高效
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
-      document.addEventListener('touchstart', handleClickOutside) // 手机端手指一摸就触发
+      document.addEventListener('touchstart', handleClickOutside) 
     }
 
     return () => {
@@ -131,18 +128,16 @@ const TopNav = (props) => {
     </>
 
   return (
-        // ⭐️ 3. 将探头 ref 挂在最外层的 div 上
         <div id='top-nav' className='block lg:hidden' ref={topNavRef}>
             <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
-            {/* ⭐️ 终极魔法：四角全圆，顶部悬浮，左右悬浮 */}
+            {/* ⭐️ 核心修改：保留了顶部悬浮（top-1 / mt-1）和四角全圆，但将宽度恢复成了贴边的 w-full */}
             <div 
               id='sticky-nav' 
               style={{ borderRadius: '12px' }}
-              className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1 left-0 right-0' : 'relative mt-1'} lg:relative mx-auto w-[calc(100%-8px)] z-20 transform duration-500`}
+              className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1' : 'relative mt-1'} lg:relative w-full z-20 transform duration-500`}
             >
                 <div className='w-full flex justify-between items-center p-4 bg-[#1F2937] dark:bg-[#1F2937] text-white relative'> 
-                    {/* 左侧LOGO 标题 */}
                     <div className='flex flex-none flex-grow-0'>
                         <div onClick={toggleMenuOpen} className='w-8 cursor-pointer'>
                             {isOpen ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
@@ -153,7 +148,6 @@ const TopNav = (props) => {
                         <Logo {...props} />
                     </div>
 
-                    {/* 右侧功能 */}
                     <div className='mr-1 flex justify-end items-center text-sm space-x-4 font-serif dark:text-gray-200'>
                         <div className="cursor-pointer block lg:hidden" onClick={showSearchModal}>
                             <i className="mr-2 fas fa-search" />
