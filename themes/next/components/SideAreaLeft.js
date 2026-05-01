@@ -49,7 +49,7 @@ const SideAreaLeft = props => {
         {/* 顶部菜单区块 */}
         {/* ⭐️ 核心魔法：在这里加上了强制圆角和防溢出 */}
         <section 
-          style={{ borderRadius: '16px' }}
+          style={{ borderRadius: '12px' }}
           className='rounded-xl overflow-hidden shadow hidden lg:block mb-5 pb-4 bg-white dark:bg-hexo-black-gray hover:shadow-xl duration-200'
         >
           <Logo className='min-h-32 ' {...props} />
