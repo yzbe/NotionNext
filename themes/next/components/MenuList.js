@@ -79,7 +79,11 @@ export const MenuList = props => {
       {/* 移动端菜单 */}
       <menu
         id='nav-menu-mobile'
-        className='block md:hidden my-auto justify-start bg-white'>
+        // ⭐️ 核心修复：
+        // 1. 添加 dark:bg-[#1F2937] 让夜间模式下的菜单背景和顶部导航条完美融合
+        // 2. 添加 pt-1 和 pb-4 留出呼吸空间
+        // 3. 添加 rounded-b-[12px] 强制底部两个角保持和我们全局一致的圆润感
+        className='block md:hidden my-auto justify-start bg-white dark:bg-[#1F2937] pt-1 pb-4 rounded-b-[12px]'>
         {links?.map(
           (link, index) =>
             link &&
