@@ -26,6 +26,14 @@ const SideBar = (props) => {
       style={{ borderRadius: '16px' }}
       className='lg:my-4 lg:ml-4 overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-[calc(100vh-2rem)]'
     >
+      {/* ⚠️ 就是这里：之前你不小心把这个开启的 div 和下面的 InfoCard 给删掉了 */}
+      <div className={(!post ? 'sticky top-0' : '') + ' bg-white dark:bg-gray-900 pb-4'}>
+
+        {/* 头像信息卡片 */}
+        <section className='py-5'>
+          <InfoCard {...props} />
+        </section>
+
         {/* 分类  */}
         {categories && (
           <section className='mt-8'>
@@ -66,8 +74,8 @@ const SideBar = (props) => {
 
         {slot}
 
+      {/* 这个闭合的 div 现在有对应的开启标签了，就不会报错了 */}
       </div>
-
     </aside>
   )
 }
