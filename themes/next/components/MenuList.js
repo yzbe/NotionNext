@@ -80,7 +80,7 @@ export const MenuList = props => {
       <menu
         id='nav-menu-mobile'
         // ⭐️ 加入了颜色区分和边框界线
-        className='block md:hidden my-auto justify-start bg-white dark:bg-black-900 border-t border-gray-100 dark:border-gray-700 pt-2 pb-4 rounded-b-[12px]'>
+        className='block md:hidden my-auto justify-start bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 pt-2 pb-4 rounded-b-[12px]'>
         {links?.map(
           (link, index) =>
             link &&
