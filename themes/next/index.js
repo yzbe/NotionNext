@@ -96,7 +96,8 @@ const LayoutBase = props => {
     <ThemeGlobalNext.Provider value={{ searchModal }}>
       <div
         id='theme-next'
-        className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth`}>
+        // ⭐️ 全局统一留白 1：pb-1 控制整个网页最底部的悬浮留白，确保 Footer 的圆角露出来
+        className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth pb-1`}>
         <Style />
 
         {/* 移动端顶部导航栏 */}
@@ -106,15 +107,14 @@ const LayoutBase = props => {
 
         <>{headerSlot}</>
 
-      
-
         {/* 主区 */}
-         <main
+        <main
           id='wrapper'
           className={
             (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
               ? 'flex-row-reverse'
-              : '') + ' next relative flex justify-center flex-1 pb-12 lg:mt-1' // 顶部留白 lg:mt-4
+              : '') + ' next relative flex justify-center flex-1 pb-12 lg:mt-1 lg:mb-1' 
+              // ⭐️ 全局统一留白 2：lg:mt-1 (桌面端顶部留白), lg:mb-1 (中间三栏与底部 Footer 的留白)
           }>
           {/* 左侧栏样式 */}
           <SideAreaLeft targetRef={targetRef} {...props} />
@@ -155,6 +155,7 @@ const LayoutBase = props => {
             }>
             <JumpToTopButton percent={percent} />
             <JumpToBottomButton />
+            <FloatDarkModeButton />
             <FloatDarkModeButton />
             {floatSlot}
           </div>
