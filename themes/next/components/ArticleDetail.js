@@ -35,11 +35,13 @@ export default function ArticleDetail(props) {
   }
 
   return (
-    <div className='shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full '>
+    // ⭐️ 修改点 1：外层阴影容器加上 rounded-xl
+    <div className='rounded-xl shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full '>
       <div
         itemScope
         itemType='https://schema.org/Movie'
-        className='overflow-y-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+        // ⭐️ 修改点 2：内层白底容器加上 rounded-xl，并将原本的 overflow-y-hidden 改为 overflow-hidden 以防底部直角溢出
+        className='rounded-xl overflow-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
         {showArticleInfo && (
           <header {...aosProps}>
             {/* 头图 */}
@@ -98,7 +100,7 @@ export default function ArticleDetail(props) {
                 )}
               </div>
 
-               {/*  WordCount 移动到这里，这样它就只会所以页面显示 
+               {/* WordCount 移动到这里，这样它就只会所以页面显示 
               <WordCount wordCount={post.wordCount} readTime={post.readTime} />
               */}
             </section>
