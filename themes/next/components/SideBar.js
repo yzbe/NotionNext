@@ -18,8 +18,10 @@ import SmartLink from '@/components/SmartLink'
 const SideBar = (props) => {
   const { tags, currentTag, post, slot, categories, currentCategory } = props
   const { locale } = useGlobal()
+  
   return (
-    <aside id='sidebar' className='bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-full'>
+    // ⭐️ 核心修改点：在最外层的 aside 标签加上 rounded-xl 和 overflow-hidden
+    <aside id='sidebar' className='rounded-xl overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-full'>
 
       <div className={(!post ? 'sticky top-0' : '') + ' bg-white dark:bg-gray-900 pb-4'}>
 
