@@ -20,15 +20,12 @@ const SideBar = (props) => {
   const { locale } = useGlobal()
   
   return (
-    // ⭐️ 核心修改点：在最外层的 aside 标签加上 rounded-xl 和 overflow-hidden
-    <aside id='sidebar' className='rounded-xl overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-full'>
-
-      <div className={(!post ? 'sticky top-0' : '') + ' bg-white dark:bg-gray-900 pb-4'}>
-
-        <section className='py-5'>
-          <InfoCard {...props} />
-        </section>
-
+    // ⭐️ 核心魔法：强制圆角，加入 lg:my-4 lg:ml-4 把它从边缘往里推一点点，并重算高度
+    <aside 
+      id='sidebar' 
+      style={{ borderRadius: '16px' }}
+      className='lg:my-4 lg:ml-4 overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-[calc(100vh-2rem)]'
+    >
         {/* 分类  */}
         {categories && (
           <section className='mt-8'>
