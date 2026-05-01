@@ -42,7 +42,7 @@ const SideAreaRight = (props) => {
             />
         </Card>}
 
-        <div className="sticky top-8 space-y-4 w-full">
+        <div className="sticky top-1 space-y-4 w-full">
 
             {announcementVisible && <Card>
                 <Announcement post={notice} />
