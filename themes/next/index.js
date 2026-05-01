@@ -109,12 +109,12 @@ const LayoutBase = props => {
       
 
         {/* 主区 */}
-        <main
+         <main
           id='wrapper'
           className={
             (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
               ? 'flex-row-reverse'
-              : '') + ' next relative flex justify-center flex-1 pb-12'
+              : '') + ' next relative flex justify-center flex-1 pb-12 lg:mt-1' // 顶部留白 lg:mt-4
           }>
           {/* 左侧栏样式 */}
           <SideAreaLeft targetRef={targetRef} {...props} />
