@@ -35,14 +35,17 @@ export default function ArticleDetail(props) {
   }
 
   return (
-    <div className='shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full '>
-  <div
-    itemScope
-    itemType='https://schema.org/Movie'
-    // 圆角：强制 12px 圆角，并加一个底边距(mb-4)防止它死死贴住底部版权栏
-    style={{ borderRadius: '12px' }}
-    className='mb-4 overflow-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'
-  >
+    // ⭐️ 核心修正：将 圆角、防溢出、底边距、背景色和阴影 全部整合到最外层容器！杜绝底色漏出。
+    <div 
+      style={{ borderRadius: '12px' }}
+      className='mb-4 overflow-hidden bg-white dark:bg-hexo-black-gray shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full'
+    >
+      <div
+        itemScope
+        itemType='https://schema.org/Movie'
+        // 内层不再需要定义背景色和圆角，直接透明继承外层即可
+        className='py-10 px-4 lg:pt-24 md:px-24 dark:border-gray-700'
+      >
         {showArticleInfo && (
           <header {...aosProps}>
             {/* 头图 */}
@@ -82,28 +85,15 @@ export default function ArticleDetail(props) {
                       </div>
                     </SmartLink>
 
-                     {/* --- 更新时间 --- */}
-                      {/*
-                    <span className='mr-2'>
-                      {' '}
-                      | <i className='far fa-calendar-check mr-2' />
-                      {post.lastEditedDay}{' '}
-                    </span>
-                      */}
-
                     <div className='hidden busuanzi_container_page_pv font-light mr-2'>
                       <i className='mr-1 fas fa-eye' />
                       <span className='mr-2 busuanzi_value_page_pv' />
                     </div>
-                      {/* 将 WordCount 移动到这里，这样它就只会在非 Page 页面显示 */}
-                      <WordCount wordCount={post.wordCount} readTime={post.readTime} />
+                    {/* WordCount 组件 */}
+                    <WordCount wordCount={post.wordCount} readTime={post.readTime} />
                   </>
                 )}
               </div>
-
-               {/* WordCount 移动到这里，这样它就只会所以页面显示 
-              <WordCount wordCount={post.wordCount} readTime={post.readTime} />
-              */}
             </section>
           </header>
         )}
@@ -169,7 +159,7 @@ export default function ArticleDetail(props) {
         )}
 
         {/* 评论互动 */}
-        <div className='duration-200 w-full dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+        <div className='duration-200 w-full dark:border-gray-700 bg-transparent'>
           <Comment frontMatter={post} />
         </div>
       </div>
