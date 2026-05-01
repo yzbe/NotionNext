@@ -138,7 +138,7 @@ const TopNav = (props) => {
               className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1' : 'relative mt-1'} lg:relative w-full z-20 transform duration-500`}
             >
                {/* 顶部改用更中性深邃的颜色 + 毛玻璃透明模糊效果 */}
-                <div className='w-full flex justify-between items-center p-4 bg-[#18181B]/90 dark:bg-hexo-black-gray/90 backdrop-blur-md text-white relative border-b border-white/5 dark:border-gray-800/50'>
+                <div className='w-full flex justify-between items-center p-4 bg-[#18181B]/90 dark:bg-hexo-black-gray/90 backdrop-blur-md text-white relative'>
                     <div className='flex flex-none flex-grow-0'>
                         <div onClick={toggleMenuOpen} className='w-8 cursor-pointer'>
                             {isOpen ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
