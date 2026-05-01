@@ -78,18 +78,21 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
     }
   }
 
-  return <div className='flex w-full bg-gray-100'
-              data-aos="fade-down"
-              data-aos-duration="500"
-              data-aos-delay="200"
-              data-aos-once="true"
-              data-aos-anchor-placement="top-bottom"
-        >
+  return (
+    // ⭐️ 核心修改点 1：给最外层 div 加 rounded-full 和 overflow-hidden，打造胶囊状底座
+    <div className='flex w-full bg-gray-100 rounded-full overflow-hidden'
+         data-aos="fade-down"
+         data-aos-duration="500"
+         data-aos-delay="200"
+         data-aos-once="true"
+         data-aos-anchor-placement="top-bottom"
+    >
         <input
             ref={searchInputRef}
             type='text'
             placeholder={currentTag ? `${locale.SEARCH.TAGS} #${currentTag}` : `${locale.SEARCH.ARTICLES}`}
-            className={'outline-none w-full text-sm pl-4 transition focus:shadow-lg font-light leading-10 text-black bg-gray-100 dark:bg-gray-800 dark:text-white'}
+            // ⭐️ 核心修改点 2：给输入框本身也加上 rounded-full，并确保背景色在暗黑模式下也能无缝贴合
+            className={'rounded-full outline-none w-full text-sm pl-4 transition focus:shadow-lg font-light leading-10 text-black bg-gray-100 dark:bg-gray-800 dark:text-white'}
             onKeyUp={handleKeyUp}
             onFocus={handleFocus}
             onCompositionStart={lockSearchInput}
@@ -99,17 +102,18 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
             defaultValue={keyword || ''}
         />
 
-        <div className='-ml-8 cursor-pointer float-right items-center justify-center py-2'
+        <div className='-ml-8 cursor-pointer float-right items-center justify-center py-2 pr-3'
             onClick={handleSearch}>
             <i className={`hover:text-black transform duration-200  text-gray-500 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'}`} />
         </div>
 
         {(showClean &&
-            <div className='-ml-12 cursor-pointer dark:bg-gray-600 dark:hover:bg-gray-800 float-right items-center justify-center py-2'>
+            <div className='-ml-12 cursor-pointer dark:bg-gray-600 dark:hover:bg-gray-800 float-right items-center justify-center py-2 pr-2'>
                 <i className='hover:text-black transform duration-200 text-gray-500 cursor-pointer fas fa-times' onClick={cleanSearch} />
             </div>
         )}
     </div>
+  )
 }
 
 export default SearchInput
