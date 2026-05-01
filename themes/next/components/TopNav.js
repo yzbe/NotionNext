@@ -131,13 +131,14 @@ const TopNav = (props) => {
         <div id='top-nav' className='block lg:hidden' ref={topNavRef}>
             <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
-            {/* ⭐️ 核心修改：保留了顶部悬浮（top-1 / mt-1）和四角全圆，但将宽度恢复成了贴边的 w-full */}
+            {/* 顶部悬浮（top-1 / mt-1）和四角全圆，但将宽度恢复成了贴边的 w-full */}
             <div 
               id='sticky-nav' 
               style={{ borderRadius: '12px' }}
               className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1' : 'relative mt-1'} lg:relative w-full z-20 transform duration-500`}
             >
-                <div className='w-full flex justify-between items-center p-4 bg-[#1F2937] dark:bg-[#1F2937] text-white relative'> 
+               {/* 顶部改用更中性深邃的颜色 + 毛玻璃透明模糊效果 */}
+                <div className='w-full flex justify-between items-center p-4 bg-[#18181B]/90 dark:bg-hexo-black-gray/90 backdrop-blur-md text-white relative border-b border-white/5 dark:border-gray-800/50'>
                     <div className='flex flex-none flex-grow-0'>
                         <div onClick={toggleMenuOpen} className='w-8 cursor-pointer'>
                             {isOpen ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
