@@ -39,7 +39,7 @@ export default function ArticleDetail(props) {
   <div
     itemScope
     itemType='https://schema.org/Movie'
-    // ⭐️ 核心魔法：强制 16px 圆角，并加一个底边距(mb-4)防止它死死贴住底部版权栏
+    // 圆角：强制 12px 圆角，并加一个底边距(mb-4)防止它死死贴住底部版权栏
     style={{ borderRadius: '12px' }}
     className='mb-4 overflow-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'
   >
