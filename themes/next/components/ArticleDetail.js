@@ -35,15 +35,14 @@ export default function ArticleDetail(props) {
   }
 
   return (
-    // ⭐️ 核心修正：将 圆角、防溢出、底边距、背景色和阴影 全部整合到最外层容器！杜绝底色漏出。
+    // ⭐️ 大扫除点：去掉了这里的 mb-4，把底部留白的控制权完全交还给 index.js
     <div 
       style={{ borderRadius: '12px' }}
-      className='mb-4 overflow-hidden bg-white dark:bg-hexo-black-gray shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full'
+      className='overflow-hidden bg-white dark:bg-hexo-black-gray shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full'
     >
       <div
         itemScope
         itemType='https://schema.org/Movie'
-        // 内层不再需要定义背景色和圆角，直接透明继承外层即可
         className='py-10 px-4 lg:pt-24 md:px-24 dark:border-gray-700'
       >
         {showArticleInfo && (
