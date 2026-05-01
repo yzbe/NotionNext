@@ -13,7 +13,9 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          'flex flex-col justify-center items-center cursor-pointer bg-[#1F2937] dark:bg-[#1F2937] w-full space-y-3 font-bold ' +
+          // ⭐️ 核心修复：删除了原本写死的 bg-[#1F2937]，换成了 bg-transparent
+          // 这样无论是放在顶部的毛玻璃导航栏，还是放在左侧边栏，它都能完美融入背景，不再有难看的方框！
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent w-full space-y-3 font-bold ' +
           className
         }>
             
