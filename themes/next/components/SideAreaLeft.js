@@ -65,7 +65,8 @@ const SideAreaLeft = props => {
       </section>
 
       {/* 侧边跟随区块 */}
-      <div className='sticky top-4 hidden lg:block'>
+      {/*  top-*，滑动悬浮时的顶部留白 */}
+      <div className='sticky top-0 hidden lg:block'>
         <Card>
           {/* 【关键修改逻辑】
               如果有目录：使用 Tabs 组件切换显示目录和个人信息
