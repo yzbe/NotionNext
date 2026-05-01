@@ -30,11 +30,11 @@ const TopNav = (props) => {
     const scrollS = window.scrollY
     if (scrollS >= windowTop && scrollS > 10) {
       const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('top-0', '-top-40')
+      nav && nav.classList.replace('top-1', '-top-40') // 注意这里匹配悬浮的 top-1
       windowTop = scrollS
     } else {
       const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('-top-40', 'top-0')
+      nav && nav.classList.replace('-top-40', 'top-1')
       windowTop = scrollS
     }
   }, 200), [])
@@ -135,7 +135,12 @@ const TopNav = (props) => {
         <div id='top-nav' className='block lg:hidden' ref={topNavRef}>
             <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
-            <div id='sticky-nav' className={`${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed' : 'relative'} lg:relative w-full top-0 z-20 transform duration-500`}>
+            {/* ⭐️ 终极魔法：四角全圆，顶部悬浮，左右悬浮 */}
+            <div 
+              id='sticky-nav' 
+              style={{ borderRadius: '12px' }}
+              className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1 left-0 right-0' : 'relative mt-1'} lg:relative mx-auto w-[calc(100%-8px)] z-20 transform duration-500`}
+            >
                 <div className='w-full flex justify-between items-center p-4 bg-[#1F2937] dark:bg-[#1F2937] text-white relative'> 
                     {/* 左侧LOGO 标题 */}
                     <div className='flex flex-none flex-grow-0'>
