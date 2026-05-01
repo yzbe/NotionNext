@@ -45,7 +45,7 @@ const PaginationNumber = ({ page, totalPage }) => {
           rel='prev'
           className={`${
             currentPage === 1 ? 'invisible' : 'block'
-          } hover:border-t-2 border-white  hover:border-gray-400 dark:hover:border-gray-400 w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
+          } hover:border-t-2 border-transparent hover:border-gray-400 dark:hover:border-gray-400 w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
           <i className='fas fa-angle-left' />
         </div>
       </SmartLink>
@@ -64,7 +64,7 @@ const PaginationNumber = ({ page, totalPage }) => {
           rel='next'
           className={`${
             +showNext ? 'block' : 'invisible'
-          } hover:border-t-2 border-white  hover:border-gray-400 dark:hover:border-gray-400 w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
+          } hover:border-t-2 border-transparent hover:border-gray-400 dark:hover:border-gray-400 w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
           <i className='fas fa-angle-right' />
         </div>
       </SmartLink>
@@ -99,7 +99,7 @@ function generatePages(pagePrefix, page, currentPage, totalPage) {
     }
     if (startPage > 2) {
       pages.push(
-        <div key={-1} className='select-none'>
+        <div key={-1} className='select-none flex items-center justify-center w-8 h-8'>
           ...{' '}
         </div>
       )
@@ -113,7 +113,7 @@ function generatePages(pagePrefix, page, currentPage, totalPage) {
 
     if (startPage + dynamicGroupCount < totalPage) {
       pages.push(
-        <div key={-2} className='select-none'>
+        <div key={-2} className='select-none flex items-center justify-center w-8 h-8'>
           ...{' '}
         </div>
       )
@@ -137,10 +137,13 @@ function getPageElement(pagePrefix, page, currentPage) {
       key={page}
       passHref
       className={
+        // ⭐️ 核心修改点：
+        // 如果是当前页，加上 rounded-full 让背景变圆形
+        // 顺便修复了原本用 border-white 占位可能导致白边的 bug，改用 border-transparent
         (page + '' === currentPage + ''
-          ? 'font-bold bg-gray-500 dark:bg-gray-400 text-white '
-          : 'hover:border-t-2 duration-200 transition-all border-white hover:border-gray-400 ') +
-        ' border-white  dark:hover:border-gray-400 cursor-pointer w-8 h-8 justify-center flex items-center font-light hover:font-bold'
+          ? 'font-bold bg-gray-500 dark:bg-gray-400 text-white rounded-full border-transparent '
+          : 'hover:border-t-2 duration-200 transition-all border-transparent hover:border-gray-400 ') +
+        ' dark:hover:border-gray-400 cursor-pointer w-8 h-8 justify-center flex items-center font-light hover:font-bold'
       }>
       {page}
     </SmartLink>
