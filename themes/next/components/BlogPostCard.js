@@ -26,7 +26,8 @@ const BlogPostCard = ({ post, index, showSummary }) => {
       : {}
 
   return (
-    <Card className='w-full'>
+    // ⭐️ 核心修改点：在这里加入了 rounded-xl 和 overflow-hidden
+    <Card className='w-full rounded-xl overflow-hidden'>
       <div
         key={post.id}
         className='flex flex-col-reverse justify-between duration-300'>
