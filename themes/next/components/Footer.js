@@ -12,7 +12,7 @@ const Footer = ({ title }) => {
     // ⭐️ 核心修改点：加入强制 12px 圆角，防溢出，以及 mb-4 让它底部悬浮不贴边
     <footer 
       style={{ borderRadius: '12px' }}
-      className='mb-4 overflow-hidden relative z-10 dark:bg-gray-800 flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-2 bg-white dark:text-gray-400'
+      className='mb-1 overflow-hidden relative z-10 dark:bg-gray-800 flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-2 bg-white dark:text-gray-400'
     >
       {/* 使用 flex 布局让所有元素在一行水平居中，gap-x-4 控制元素间的间距 */}
       <div className='flex flex-wrap justify-center items-center gap-x-6'>
