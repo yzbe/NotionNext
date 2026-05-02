@@ -83,7 +83,8 @@ const Toc = ({ toc }) => {
                     display: 'inline-block',
                     marginLeft: tocItem.indentLevel * 16
                   }}
-                  className={`truncate ${activeSection === id ? ' font-bold text-red-400 underline' : ''}`}>
+                  // ⭐️ 核心修改点：去掉了 text-red-400，改为了日间深灰 text-gray-600，夜间浅灰 dark:text-gray-300
+                  className={`truncate ${activeSection === id ? ' font-bold text-gray-600 dark:text-gray-300 underline' : ''}`}>
                   {tocItem.text}
                 </span>
               </a>
