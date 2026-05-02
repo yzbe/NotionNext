@@ -8,13 +8,13 @@ const Card = (props) => {
   return (
     <div className={className}>
       <>{headerSlot}</>
-      {/* ⭐️ 终极阴影同步：
-          [0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a]
-          这串魔法代码是 Tailwind `shadow-xl` 的完美白色复刻版！
-          向下偏移20px，完全保持了日间模式那种“底部有立体阴影，顶部没有”的真实悬浮感。
-          使用了 #ffffff26 (15%透明白) 确保编译器不出错且亮度足够。
+      {/* ⭐️ 阴影加宽版：
+          原版：[0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a]
+          新版：[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]
+          将 blur（模糊半径）从 25px 和 10px 分别翻倍提升至 50px 和 20px。
+          完美做到：左右阴影扩大两倍，顶部依旧保持克制，底部深邃悬浮！
       */}
-      <section className="rounded-xl overflow-hidden shadow px-2 py-4 bg-white dark:bg-hexo-black-gray duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a]">
+      <section className="rounded-xl overflow-hidden shadow px-2 py-4 bg-white dark:bg-hexo-black-gray duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]">
         {children}
       </section>
     </div>
