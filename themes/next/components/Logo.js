@@ -13,15 +13,14 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 核心修复：删除了原本写死的 bg-[#1F2937]，换成了 bg-transparent
-          // 这样无论是放在顶部的毛玻璃导航栏，还是放在左侧边栏，它都能完美融入背景，不再有难看的方框！
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent w-full space-y-3 font-bold ' +
+          // ⭐️ 核心魔法：利用 lg: 前缀隔离手机端和桌面端
+          // 手机端保持 bg-transparent 透明，桌面端(lg以上)恢复曜石黑深色背景
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B] dark:lg:bg-hexo-black-gray w-full space-y-3 font-bold ' +
           className
         }>
             
-                  {/* 移动端专属的圆形头像：进一步精简尺寸与光圈 */}
+          {/* 移动端专属的圆形头像：进一步精简尺寸与光圈 */}
           <div className='block lg:hidden'>
-              {/* p-[1px] 使用了自定义像素值，让光圈贴得更紧；bg 和 border 的透明度也调低了一点，更隐形 */}
               <div className="p-[0px] rounded-full bg-white/10 border border-white/20">
                   <LazyImage 
                     src={avatar} 
