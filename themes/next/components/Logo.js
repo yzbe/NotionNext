@@ -13,11 +13,11 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 核心调整：
-          // 1. lg:from-[#eef0f1] lg:to-[#9ca3af]: 换成你指定的金属质感渐变色
-          // 2. 删除了所有的 dark:lg:bg-xxx 覆盖，让夜间模式与日间完全相同
-          // 3. dark:lg:border-transparent: 在夜间模式下完美隐藏外框线条
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:lg:border-transparent lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 w-full space-y-3 font-bold ' +
+          // ⭐️ 核心修改：
+          // 1. 彻底删除了 lg:hover:-translate-y-1 (取消物理上浮)
+          // 2. 加上了与 Card.js 完全同款的自定义柔和白光：dark:lg:hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]
+          // 3. 补上了日间模式的 lg:hover:shadow-xl 保证两边动画强度一致
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:lg:border-transparent lg:shadow-sm lg:hover:shadow-xl dark:lg:hover:shadow-[0_0_20px_rgba(255,255,255,0.06)] lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transition-shadow duration-300 w-full space-y-3 font-bold ' +
           className
         }>
             
@@ -39,7 +39,6 @@ const Logo = props => {
             data-aos-duration='500'
             data-aos-once='true'
             data-aos-anchor-placement='top-bottom'
-            // ⭐️ 移除了暗色模式下的白色文字，强制使用深色文字，以适配浅灰色的卡片底色
             className='font-serif text-xl text-gray-900 logo text-center w-full'>
             {siteConfig('TITLE')}
             </div>
