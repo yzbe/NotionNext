@@ -8,12 +8,13 @@ const Card = (props) => {
   return (
     <div className={className}>
       <>{headerSlot}</>
-      {/* ⭐️ 核心修改：
-          使用了自定义的夜间发光特效 dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]
-          这个参数的意思是：无偏移量(0 0)，扩散半径20px，使用6%透明度的纯白光。
-          这会让卡片四周均匀发光，完美模拟白天悬浮时四周的微弱漫反射效果！
+      {/* ⭐️ 终极阴影同步：
+          [0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a]
+          这串魔法代码是 Tailwind `shadow-xl` 的完美白色复刻版！
+          向下偏移20px，完全保持了日间模式那种“底部有立体阴影，顶部没有”的真实悬浮感。
+          使用了 #ffffff26 (15%透明白) 确保编译器不出错且亮度足够。
       */}
-      <section className="rounded-xl overflow-hidden shadow px-2 py-4 bg-white dark:bg-hexo-black-gray duration-300 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+      <section className="rounded-xl overflow-hidden shadow px-2 py-4 bg-white dark:bg-hexo-black-gray duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a]">
         {children}
       </section>
     </div>
