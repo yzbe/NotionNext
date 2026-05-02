@@ -13,12 +13,13 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 极简分区策略：
-          // 1. bg-transparent：完全舍弃色块背景，融入大环境
-          // 2. lg:border-b：在桌面端底部加一条极细的边界线
-          // 3. lg:border-gray-200 dark:lg:border-gray-800：线条颜色极淡，若有若无
-          // 4. pb-6 mb-2：用留白（Whitespace）来辅助视觉分区，不拥挤
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:border-b lg:border-gray-200 dark:lg:border-gray-800 pb-6 mb-2 w-full space-y-3 font-bold ' +
+          // ⭐️ 悬浮卡片式设计核心修改：
+          // 1. lg:bg-white dark:lg:bg-hexo-black-gray: 桌面端赋予卡片实体的背景色
+          // 2. lg:shadow-md lg:hover:shadow-lg: 增加阴影，鼠标悬停时阴影加深，体现悬浮感
+          // 3. lg:rounded-xl: 增加圆角，让卡片看起来更柔和
+          // 4. lg:p-6 lg:mb-4 lg:mx-2: 增加内边距让内容居中呼吸，外边距让卡片与周围元素拉开距离
+          // 5. 手机端保持 bg-transparent 融入顶部导航
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-6 lg:mb-4 lg:mx-2 transition-shadow duration-300 w-full space-y-3 font-bold ' +
           className
         }>
             
@@ -34,14 +35,13 @@ const Logo = props => {
           </div>
 
         {/* 桌面端专属的文字 Logo 和描述 */}
-        <div className='hidden lg:block'>
+        <div className='hidden lg:block w-full'>
             <div
             data-aos='fade-down'
             data-aos-duration='500'
             data-aos-once='true'
             data-aos-anchor-placement='top-bottom'
-            // ⭐️ 核心修复：文字颜色改为 text-gray-900 dark:text-white，适配无底色状态
-            className='font-serif text-xl text-gray-900 dark:text-white logo text-center'>
+            className='font-serif text-xl text-gray-900 dark:text-white logo text-center w-full'>
             {siteConfig('TITLE')}
             </div>
             
@@ -52,7 +52,7 @@ const Logo = props => {
                 data-aos-delay='300'
                 data-aos-once='true'
                 data-aos-anchor-placement='top-bottom'
-                className='text-sm text-gray-500 dark:text-gray-400 font-light text-center mt-3'>
+                className='text-sm text-gray-500 dark:text-gray-400 font-light text-center mt-3 w-full px-2 break-words'>
                 {siteConfig('DESCRIPTION')}
             </div>
             )}
