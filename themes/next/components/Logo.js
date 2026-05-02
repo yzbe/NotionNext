@@ -3,24 +3,19 @@ import SmartLink from '@/components/SmartLink'
 import LazyImage from '@/components/LazyImage'
 
 const Logo = props => {
-  //  从 props 中提取 siteInfo
   const { className, siteInfo } = props 
   
-  // 优先使用 Notion 数据库设置的 Icon，如果没有再退回到配置文件里的头像
   const avatar = siteInfo?.icon || siteConfig('AUTHOR_IMAGE') || '/avatar.svg'
 
   return (
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 终极安全版特效：
-          // 完全弃用 [] 括号写法。改用原生 hover:shadow-xl 搭配 dark:hover:shadow-white/20
-          // 这样夜间模式悬浮时，就会呈现非常均匀的 20% 透明度白色光晕，且绝对不会编译失败！
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:border-transparent lg:shadow-sm lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transition-shadow duration-300 w-full space-y-3 font-bold hover:shadow-xl dark:hover:shadow-xl dark:hover:shadow-white/20 ' +
+          // ⭐️ 清理完毕：去除了所有的 shadow 和 hover 特效，保留渐变背景和圆角排版
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:border-transparent lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto w-full space-y-3 font-bold ' +
           className
         }>
             
-          {/* 移动端专属的圆形头像 */}
           <div className='block lg:hidden'>
               <div className="p-[0px] rounded-full bg-white/10 border border-white/20">
                   <LazyImage 
@@ -31,7 +26,6 @@ const Logo = props => {
               </div>
           </div>
 
-        {/* 桌面端专属的文字 Logo 和描述 */}
         <div className='hidden lg:block w-full'>
             <div
             data-aos='fade-down'
