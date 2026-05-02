@@ -69,7 +69,9 @@ export const MenuList = props => {
         data-aos-delay='400'
         data-aos-once='true'
         data-aos-anchor-placement='top-bottom'
-        className='hidden md:block leading-8 text-gray-500 dark:text-gray-400 '>
+        // ⭐️ 核心魔法注入：
+        // 专门为电脑端大屏菜单加上了和 Card 同款的背景色、圆角、边距以及日夜间双重悬浮特效！
+        className='hidden md:block leading-8 text-gray-500 dark:text-gray-400 bg-white dark:bg-hexo-black-gray rounded-xl shadow px-2 py-4 lg:mx-1 lg:mb-4 transition-shadow duration-300 hover:shadow-xl dark:hover:shadow-xl dark:hover:shadow-white/20'>
         {links.map(
           (link, index) =>
             link && link.show && <MenuItemDrop key={index} link={link} />
@@ -79,8 +81,7 @@ export const MenuList = props => {
       {/* 移动端菜单 */}
       <menu
         id='nav-menu-mobile'
-        // ⭐️ 核心同步：使用 dark:bg-hexo-black-gray 确保与文章卡片颜色完全一致
-        // 同时保留了 border-t 分割线，防止它与上方导航条（#1F2937）粘连
+        // 移动端保持之前调好的底色和顶部边框
         className='block md:hidden my-auto justify-start bg-white dark:bg-hexo-black-gray border-t border-gray-100 dark:border-gray-800 pt-2 pb-4 rounded-b-[12px]'>
         {links?.map(
           (link, index) =>
