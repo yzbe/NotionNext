@@ -17,7 +17,7 @@ const Logo = props => {
           // 1. lg:bg-gradient-to-br: 设置从左上到右下 (Bottom-Right) 的渐变方向
           // 2. lg:from-white lg:to-[#eef0f1]: 颜色从白自然过渡到你选的高级灰
           // 3. dark:lg:bg-none: 确保夜间模式下关掉渐变，避免冲突
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-white lg:to-[#eef0f1] dark:lg:bg-none dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-700/50 lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 dark:lg:hover:bg-gray-800 w-full space-y-3 font-bold ' +
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-white lg:to-[#dddfe4] dark:lg:bg-none dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-700/50 lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 dark:lg:hover:bg-gray-800 w-full space-y-3 font-bold ' +
           className
         }>
             
