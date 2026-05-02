@@ -13,9 +13,9 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // 给桌面端的背景色加上 /90 (90%透明度)
-          // 这样它就会透出一点点下方的白色卡片底色，变得和移动端顶部导航条一模一样的柔和浅灰黑！
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B]/90 dark:lg:bg-hexo-black-gray/90 w-full space-y-3 font-bold ' +
+          // ⭐️ 核心魔法：加入了 lg:border-b lg:border-transparent dark:lg:border-gray-800
+          // 这样在夜间模式的桌面端，Logo 和菜单之间就会多出一条高级的微透明分割线！
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B]/90 dark:lg:bg-hexo-black-gray/90 lg:border-b lg:border-transparent dark:lg:border-gray-800 w-full space-y-3 font-bold ' +
           className
         }>
             
