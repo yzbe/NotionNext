@@ -13,9 +13,9 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 核心魔法：利用 lg: 前缀隔离手机端和桌面端
-          // 手机端保持 bg-transparent 透明，桌面端(lg以上)恢复曜石黑深色背景
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B] dark:lg:bg-hexo-black-gray w-full space-y-3 font-bold ' +
+          // 给桌面端的背景色加上 /90 (90%透明度)
+          // 这样它就会透出一点点下方的白色卡片底色，变得和移动端顶部导航条一模一样的柔和浅灰黑！
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B]/90 dark:lg:bg-hexo-black-gray/90 w-full space-y-3 font-bold ' +
           className
         }>
             
