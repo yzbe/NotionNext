@@ -7,7 +7,6 @@ import { formatDateFmt } from '@/lib/utils/formatDate'
 import LazyImage from '@/components/LazyImage'
 import SmartLink from '@/components/SmartLink'
 import CONFIG from '../config'
-import Card from './Card'
 import TagItemMini from './TagItemMini'
 
 const BlogPostCard = ({ post, index, showSummary }) => {
@@ -26,8 +25,9 @@ const BlogPostCard = ({ post, index, showSummary }) => {
       : {}
 
   return (
-    // ⭐️ 核心修改点：在这里加入了 rounded-xl 和 overflow-hidden
-    <Card className='w-full rounded-xl overflow-hidden'>
+    // 将背景色、圆角、隐藏溢出，以及我们引以为傲的“双倍宽夜间白光悬浮”特效，全部在这一层完美实现！
+    // 因为 shadow 和 overflow-hidden 在同一层，所以阴影向外扩散，绝不会再被裁剪遮挡！
+    <div className='w-full rounded-xl overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'>
       <div
         key={post.id}
         className='flex flex-col-reverse justify-between duration-300'>
@@ -133,7 +133,7 @@ const BlogPostCard = ({ post, index, showSummary }) => {
             </SmartLink>
           )}
       </div>
-    </Card>
+    </div>
   )
 }
 
