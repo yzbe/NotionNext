@@ -14,11 +14,11 @@ const Logo = props => {
       <div
         className={
           // ⭐️ 核心修正：
-          // 1. lg:w-auto lg:mx-4: 放弃 w-full，改用 auto 加左右 margin，确保它绝对不会溢出外层容器！
-          // 2. lg:border lg:border-gray-100 dark:lg:border-gray-800: 增加极细的实体边框，强制画出卡片界限。
-          // 3. lg:shadow-md: 加深默认阴影，提升悬浮感。
-          // 4. lg:mb-6: 增加底部外边距，拉开和菜单的距离。
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-800 lg:shadow-md lg:hover:shadow-lg lg:rounded-xl lg:py-6 lg:mb-6 lg:mx-4 lg:w-auto transition-all duration-300 w-full space-y-3 font-bold ' +
+          // 1. lg:mx-1 lg:mt-1: 缩小左右间距，增加顶部间距，让四周留白看起来均匀统一。
+          // 2. lg:hover:-translate-y-1: 增加“物理向上浮动”的动画，这是夜间模式下悬浮感的最强利器！
+          // 3. dark:lg:hover:bg-gray-800: 夜间模式悬浮时背景微亮，弥补阴影看不见的缺陷。
+          // 4. dark:lg:border-gray-700/50: 夜间模式边框改得更弱、更柔和，不再突兀。
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-700/50 lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 dark:lg:hover:bg-gray-800 w-full space-y-3 font-bold ' +
           className
         }>
             
