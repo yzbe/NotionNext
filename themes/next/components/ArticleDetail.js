@@ -39,7 +39,7 @@ export default function ArticleDetail(props) {
       style={{ borderRadius: '12px' }}
       // ⭐️ 调整点：将 mt-4 改为 mt-1
       // 这样移动端下，文章页顶部与导航栏的空隙就和主页完全一致了
-      className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full'
+      className='mt-1.5 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full'
     >
       <div
         itemScope
