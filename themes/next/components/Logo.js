@@ -13,11 +13,11 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 渐变色魔法：
-          // 1. lg:bg-gradient-to-br: 设置从左上到右下 (Bottom-Right) 的渐变方向
-          // 2. lg:from-white lg:to-[#eef0f1]: 颜色从白自然过渡到你选的高级灰
-          // 3. dark:lg:bg-none: 确保夜间模式下关掉渐变，避免冲突
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-white lg:to-[#b2b7c2] dark:lg:bg-none dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-700/50 lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 dark:lg:hover:bg-gray-800 w-full space-y-3 font-bold ' +
+          // ⭐️ 核心调整：
+          // 1. lg:from-[#eef0f1] lg:to-[#9ca3af]: 换成你指定的金属质感渐变色
+          // 2. 删除了所有的 dark:lg:bg-xxx 覆盖，让夜间模式与日间完全相同
+          // 3. dark:lg:border-transparent: 在夜间模式下完美隐藏外框线条
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:lg:border-transparent lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 w-full space-y-3 font-bold ' +
           className
         }>
             
@@ -39,7 +39,8 @@ const Logo = props => {
             data-aos-duration='500'
             data-aos-once='true'
             data-aos-anchor-placement='top-bottom'
-            className='font-serif text-xl text-gray-900 dark:text-white logo text-center w-full'>
+            // ⭐️ 移除了暗色模式下的白色文字，强制使用深色文字，以适配浅灰色的卡片底色
+            className='font-serif text-xl text-gray-900 logo text-center w-full'>
             {siteConfig('TITLE')}
             </div>
             
@@ -50,7 +51,7 @@ const Logo = props => {
                 data-aos-delay='300'
                 data-aos-once='true'
                 data-aos-anchor-placement='top-bottom'
-                className='text-sm text-gray-500 dark:text-gray-400 font-light text-center mt-3 w-full px-2 break-words'>
+                className='text-sm text-gray-700 font-light text-center mt-3 w-full px-2 break-words'>
                 {siteConfig('DESCRIPTION')}
             </div>
             )}
