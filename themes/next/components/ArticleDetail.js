@@ -17,8 +17,8 @@ import TagItem from './TagItem'
 import WordCount from '@/components/WordCount'
 
 /**
- * 文章详情
- * @param {*} param0
+ * 文章详情组件
+ * @param {*} props
  * @returns
  */
 export default function ArticleDetail(props) {
@@ -27,7 +27,7 @@ export default function ArticleDetail(props) {
   const { locale } = useGlobal()
   const router = useRouter()
   const showArticleInfo = siteConfig('NEXT_ARTICLE_INFO', null, CONFIG)
-  
+
   // 动画样式
   const aosProps = {
     'data-aos': 'fade-down',
@@ -46,27 +46,21 @@ export default function ArticleDetail(props) {
   }
 
   return (
-    <div 
+    <div
       style={{ borderRadius: '12px' }}
-      className='mt-2 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
+      className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
     >
-      
-      {/* ⭐️ 核心修正：真正的悬浮返回按钮 (fixed 定位)
-          1. fixed: 相对于屏幕视口固定，不随页面滚动消失
-          2. top-[15px] left-[15px]: 距离屏幕边缘的精确距离
-          3. z-50: 确保层级最高，不被文章图片或标题遮挡
-      */}
-      <div className='block md:hidden fixed top-[15px] left-[15px] z-50'>
-          <button 
-            onClick={handleBack}
-            className='flex items-center justify-center w-10 h-10 rounded-full 
-                       bg-white/80 dark:bg-black/60 backdrop-blur-md 
-                       border border-gray-200 dark:border-gray-700 
-                       text-gray-700 dark:text-gray-200
-                       shadow-md active:scale-90 transition-all'
-          >
-            <i className='fas fa-chevron-left text-lg' />
-          </button>
+      {/* ⭐️ 移动端悬浮返回按钮：磨砂质感 + 固定位置 */}
+      <div className='block md:hidden fixed top-[16px] left-[16px] z-50'>
+        <button
+          onClick={handleBack}
+          className='flex items-center justify-center w-9 h-9 rounded-full 
+                     bg-white/40 dark:bg-black/20 backdrop-blur-xl
+                     text-gray-900 dark:text-white
+                     shadow-sm active:scale-90 transition-all'
+        >
+          <i className='fas fa-chevron-left text-lg' />
+        </button>
       </div>
 
       <div
@@ -79,7 +73,7 @@ export default function ArticleDetail(props) {
             {/* 头图 */}
             {siteConfig('NEXT_POST_HEADER_IMAGE_VISIBLE', null, CONFIG) &&
               post?.type &&
-              !post?.type !== 'Page' &&
+              post?.type !== 'Page' &&
               post?.pageCover && (
                 <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
                   <LazyImage
@@ -90,15 +84,15 @@ export default function ArticleDetail(props) {
                 </div>
               )}
 
-            {/* title */}
-            <div className=' text-center font-bold text-3xl text-black dark:text-white font-serif pt-6'>
+            {/* 标题 */}
+            <div className='text-center font-bold text-3xl text-black dark:text-white font-serif pt-6'>
               {siteConfig('POST_TITLE_ICON') && (
                 <NotionIcon icon={post.pageIcon} />
               )}
               {post.title}
             </div>
 
-            {/* meta */}
+            {/* 元数据 */}
             <section className='mt-2 text-gray-500 dark:text-gray-400 font-light leading-7 text-sm'>
               <div className='flex flex-wrap justify-center'>
                 {post?.type !== 'Page' && (
@@ -125,6 +119,7 @@ export default function ArticleDetail(props) {
           </header>
         )}
 
+        {/* Notion内容主体 */}
         <article id='article-wrapper' className='mx-auto'>
           <WWAds className='w-full' orientation='horizontal' />
           {post && <NotionPage post={post} />}
@@ -133,10 +128,15 @@ export default function ArticleDetail(props) {
 
         {showArticleInfo && (
           <>
+            {/* 分享 */}
             <ShareBar post={post} />
+
+            {/* 版权声明 */}
             {post?.type === 'Post' && (
               <ArticleCopyright author={siteConfig('AUTHOR')} url={url} />
             )}
+
+            {/* 推荐文章 */}
             {post?.type === 'Post' && (
               <RecommendPosts
                 currentPost={post}
@@ -145,38 +145,34 @@ export default function ArticleDetail(props) {
             )}
 
             <section className='flex justify-between'>
+              {/* 分类 */}
               {post.category && (
-                <>
-                  <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
-                    <SmartLink href={`/category/${post.category}`} legacyBehavior>
-                      <a>
-                        <i className='mr-1 far fa-folder-open' />{' '}
-                        {post.category}
-                      </a>
-                    </SmartLink>
-                  </div>
-                </>
+                <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
+                  <SmartLink href={`/category/${post.category}`} legacyBehavior>
+                    <a>
+                      <i className='mr-1 far fa-folder-open' /> {post.category}
+                    </a>
+                  </SmartLink>
+                </div>
               )}
 
-              {post?.type === 'Post' && (
-                <>
-                  {post.tagItems && (
-                    <div className='flex items-center flex-nowrap leading-8 p-1 py-4 overflow-x-auto'>
-                      <div className='hidden md:block dark:text-gray-300 whitespace-nowrap'>
-                        {locale.COMMON.TAGS}:&nbsp;
-                      </div>
-                      {post.tagItems.map(tag => (
-                        <TagItem key={tag.name} tag={tag} />
-                      ))}
-                    </div>
-                  )}
-                </>
+              {/* 标签列表 */}
+              {post?.type === 'Post' && post.tagItems && (
+                <div className='flex items-center flex-nowrap leading-8 p-1 py-4 overflow-x-auto'>
+                  <div className='hidden md:block dark:text-gray-300 whitespace-nowrap'>
+                    {locale.COMMON.TAGS}:&nbsp;
+                  </div>
+                  {post.tagItems.map(tag => (
+                    <TagItem key={tag.name} tag={tag} />
+                  ))}
+                </div>
               )}
             </section>
             {post?.type === 'Post' && <BlogAround prev={prev} next={next} />}
           </>
         )}
 
+        {/* 评论互动 */}
         <div className='duration-200 w-full dark:border-gray-700 bg-transparent'>
           <Comment frontMatter={post} />
         </div>
