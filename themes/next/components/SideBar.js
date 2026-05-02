@@ -20,13 +20,11 @@ const SideBar = (props) => {
   const { locale } = useGlobal()
   
   return (
-    // ⭐️ 核心魔法：将特效全部转移到最外层的 aside 上！
-    // 加入了 transition-shadow duration-300 shadow hover:shadow-xl 
-    // 以及你专属定制的两倍宽白光：dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]
+    // ⭐️ 清理完毕：去除了之前加错的 transition、shadow 和所有 hover 发光特效，还原它原本的清爽状态
     <aside 
       id='sidebar' 
       style={{ borderRadius: '16px' }}
-      className='lg:my-4 lg:ml-4 overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-[calc(100vh-2rem)] transition-shadow duration-300 shadow hover:shadow-xl dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
+      className='lg:my-4 lg:ml-4 overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-[calc(100vh-2rem)]'
     >
       <div className={(!post ? 'sticky top-0' : '') + ' bg-white dark:bg-gray-900 pb-4'}>
 
