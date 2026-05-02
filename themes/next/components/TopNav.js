@@ -137,8 +137,11 @@ const TopNav = (props) => {
               style={{ borderRadius: '12px' }}
               className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1' : 'relative mt-1'} lg:relative w-full z-20 transform duration-500`}
             >
-               {/* 顶部改用更中性深邃的颜色 + 毛玻璃透明模糊效果 */}
-                <div className='w-full flex justify-between items-center p-4 bg-[#18181B]/90 dark:bg-hexo-black-gray/90 backdrop-blur-md text-white relative'>
+               {/* ⭐️ 核心修改点：
+                   1. 背景色：bg-white/90 dark:bg-hexo-black-gray/90 (日间白，夜间深)
+                   2. 字体图标颜色：text-black dark:text-white (日间黑，夜间白)
+               */}
+                <div className='w-full flex justify-between items-center p-4 bg-white/90 dark:bg-hexo-black-gray/90 backdrop-blur-md text-black dark:text-white relative'>
                     <div className='flex flex-none flex-grow-0'>
                         <div onClick={toggleMenuOpen} className='w-8 cursor-pointer'>
                             {isOpen ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
@@ -149,7 +152,8 @@ const TopNav = (props) => {
                         <Logo {...props} />
                     </div>
 
-                    <div className='mr-1 flex justify-end items-center text-sm space-x-4 font-serif dark:text-gray-200'>
+                    {/* ⭐️ 图标颜色也同步去掉了强制的深色模式约束，让它跟随父级 */}
+                    <div className='mr-1 flex justify-end items-center text-sm space-x-4 font-serif'>
                         <div className="cursor-pointer block lg:hidden" onClick={showSearchModal}>
                             <i className="mr-2 fas fa-search" />
                         </div>
