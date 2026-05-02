@@ -9,10 +9,11 @@ const Footer = ({ title }) => {
     parseInt(since) < currentYear ? since + '-' + currentYear : currentYear
 
   return (
-    // ⭐️ 核心修改点：加入强制 12px 圆角，防溢出，以及 mb-0 让它底部留白
+    // ⭐️ 核心修改点：将 dark:bg-gray-800 替换为了 dark:bg-hexo-black-gray
+    // 这样在夜间模式下，底栏就能和上面的正文卡片、侧边栏保持 100% 相同的高级纯粹深色了！
     <footer 
       style={{ borderRadius: '12px' }}
-      className='mb-0 overflow-hidden relative z-10 dark:bg-gray-800 flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-2 bg-white dark:text-gray-400'
+      className='mb-0 overflow-hidden relative z-10 dark:bg-hexo-black-gray flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-2 bg-white dark:text-gray-400'
     >
       {/* 使用 flex 布局让所有元素在一行水平居中，gap-x-4 控制元素间的间距 */}
       <div className='flex flex-wrap justify-center items-center gap-x-6'>
