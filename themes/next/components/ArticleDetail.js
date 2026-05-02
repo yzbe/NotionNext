@@ -38,7 +38,9 @@ export default function ArticleDetail(props) {
     // ⭐️ 大扫除点：去掉了这里的 mb-4，把底部留白的控制权完全交还给 index.js
     <div 
       style={{ borderRadius: '12px' }}
-      className='overflow-hidden bg-white dark:bg-hexo-black-gray shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full'
+      // ⭐️ 核心魔法注入：加入了 transition-shadow duration-300 和我们独家定制的夜间超宽白光特效
+      // 注意这里用的是 dark:md:hover:shadow-[...]，保证和前面的 md:hover:shadow-2xl 触发时机完全一致！
+      className='overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full'
     >
       <div
         itemScope
