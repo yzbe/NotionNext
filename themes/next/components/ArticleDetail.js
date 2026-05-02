@@ -25,7 +25,7 @@ export default function ArticleDetail(props) {
   const { post, recommendPosts, prev, next } = props
   const url = siteConfig('LINK') + useRouter().asPath
   const { locale } = useGlobal()
-  const router = useRouter() // 引入 router 用于返回功能
+  const router = useRouter()
   const showArticleInfo = siteConfig('NEXT_ARTICLE_INFO', null, CONFIG)
   
   // 动画样式
@@ -36,10 +36,10 @@ export default function ArticleDetail(props) {
     'data-aos-anchor-placement': 'top-bottom'
   }
 
-  // ⭐️ 返回上一级逻辑
+  // 返回上一级逻辑
   const handleBack = () => {
     if (window.history.length <= 1) {
-      router.push('/') // 如果没有历史记录，直接回首页
+      router.push('/')
     } else {
       router.back()
     }
@@ -48,21 +48,24 @@ export default function ArticleDetail(props) {
   return (
     <div 
       style={{ borderRadius: '12px' }}
-      // 保持之前的 mt-1 md:mt-0 间距和夜间悬浮特效
-      className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
+      className='mt-2 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
     >
       
-      {/* ⭐️ 核心新增：左上角悬浮返回按钮 (仅在移动端显示 block md:hidden) */}
-      <div className='block md:hidden absolute top-3 left-3 z-30'>
+      {/* ⭐️ 核心修正：真正的悬浮返回按钮 (fixed 定位)
+          1. fixed: 相对于屏幕视口固定，不随页面滚动消失
+          2. top-[15px] left-[15px]: 距离屏幕边缘的精确距离
+          3. z-50: 确保层级最高，不被文章图片或标题遮挡
+      */}
+      <div className='block md:hidden fixed top-[15px] left-[15px] z-50'>
           <button 
             onClick={handleBack}
-            className='flex items-center justify-center w-9 h-9 rounded-full 
-                       bg-white/70 dark:bg-black/50 backdrop-blur-md 
+            className='flex items-center justify-center w-10 h-10 rounded-full 
+                       bg-white/80 dark:bg-black/60 backdrop-blur-md 
                        border border-gray-200 dark:border-gray-700 
-                       text-gray-600 dark:text-gray-300
-                       shadow-sm active:scale-90 transition-all'
+                       text-gray-700 dark:text-gray-200
+                       shadow-md active:scale-90 transition-all'
           >
-            <i className='fas fa-chevron-left' />
+            <i className='fas fa-chevron-left text-lg' />
           </button>
       </div>
 
