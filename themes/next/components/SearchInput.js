@@ -22,14 +22,12 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
   })
 
   const handleFocus = () => {
-    // 使用Algolia
     if (siteConfig('ALGOLIA_APP_ID')) {
       searchModal.current.openSearch()
     }
   }
 
   const handleSearch = () => {
-    // 使用Algolia
     if (siteConfig('ALGOLIA_APP_ID')) {
       searchModal.current.openSearch()
       return
@@ -47,9 +45,9 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
     }
   }
   const handleKeyUp = (e) => {
-    if (e.keyCode === 13) { // 回车
+    if (e.keyCode === 13) {
       handleSearch(searchInputRef.current.value)
-    } else if (e.keyCode === 27) { // ESC
+    } else if (e.keyCode === 27) {
       cleanSearch()
     }
   }
@@ -78,7 +76,6 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
   }
 
   return (
-    // ⭐️ 修复：同时使用 Tailwind 类和 inline-style 强制圆角，并适配暗色背景
     <div 
       style={{ borderRadius: '9999px' }}
       className='flex w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden'
@@ -93,8 +90,12 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
             type='text'
             style={{ borderRadius: '9999px' }}
             placeholder={currentTag ? `${locale.SEARCH.TAGS} #${currentTag}` : `${locale.SEARCH.ARTICLES}`}
-            // ⭐️ 核心修正：补回了 rounded-full，并保持 bg-transparent 解决白边问题
-            className={'rounded-full outline-none w-full text-sm pl-4 transition focus:shadow-lg font-light leading-10 text-black bg-transparent dark:text-white'}
+            /* ⭐️ 核心修正：
+               1. text-base (16px) -> 强制移动端不缩放
+               2. md:text-sm -> 电脑端自动回归小字号
+               3. appearance-none -> 去除系统默认样式
+            */
+            className={'rounded-full outline-none w-full text-base md:text-sm pl-4 transition focus:shadow-lg font-light leading-10 text-black bg-transparent dark:text-white appearance-none'}
             onKeyUp={handleKeyUp}
             onFocus={handleFocus}
             onCompositionStart={lockSearchInput}
