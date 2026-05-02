@@ -13,9 +13,12 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 核心调整：去掉了分割线，将夜间模式的底色改为了暗一点的 dark:lg:bg-gray-900/90
-          // 这样就通过自然的明暗对比，完美区分了 Logo 区和下方的菜单区
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B]/90 dark:lg:bg-gray-900/90 w-full space-y-3 font-bold ' +
+          // ⭐️ 极简分区策略：
+          // 1. bg-transparent：完全舍弃色块背景，融入大环境
+          // 2. lg:border-b：在桌面端底部加一条极细的边界线
+          // 3. lg:border-gray-200 dark:lg:border-gray-800：线条颜色极淡，若有若无
+          // 4. pb-6 mb-2：用留白（Whitespace）来辅助视觉分区，不拥挤
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:border-b lg:border-gray-200 dark:lg:border-gray-800 pb-6 mb-2 w-full space-y-3 font-bold ' +
           className
         }>
             
@@ -37,7 +40,8 @@ const Logo = props => {
             data-aos-duration='500'
             data-aos-once='true'
             data-aos-anchor-placement='top-bottom'
-            className='font-serif text-xl text-white logo text-center'>
+            // ⭐️ 核心修复：文字颜色改为 text-gray-900 dark:text-white，适配无底色状态
+            className='font-serif text-xl text-gray-900 dark:text-white logo text-center'>
             {siteConfig('TITLE')}
             </div>
             
@@ -48,7 +52,7 @@ const Logo = props => {
                 data-aos-delay='300'
                 data-aos-once='true'
                 data-aos-anchor-placement='top-bottom'
-                className='text-sm text-gray-500 dark:text-gray-300 font-light text-center mt-3'>
+                className='text-sm text-gray-500 dark:text-gray-400 font-light text-center mt-3'>
                 {siteConfig('DESCRIPTION')}
             </div>
             )}
