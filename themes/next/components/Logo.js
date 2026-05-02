@@ -13,8 +13,10 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 同步加宽夜间白色阴影的水平散布范围：
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:lg:border-transparent lg:shadow-sm lg:hover:shadow-xl dark:lg:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transition-shadow duration-300 w-full space-y-3 font-bold ' +
+          // ⭐️ 终极安全版特效：
+          // 完全弃用 [] 括号写法。改用原生 hover:shadow-xl 搭配 dark:hover:shadow-white/20
+          // 这样夜间模式悬浮时，就会呈现非常均匀的 20% 透明度白色光晕，且绝对不会编译失败！
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:border-transparent lg:shadow-sm lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transition-shadow duration-300 w-full space-y-3 font-bold hover:shadow-xl dark:hover:shadow-xl dark:hover:shadow-white/20 ' +
           className
         }>
             
