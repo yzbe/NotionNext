@@ -26,7 +26,7 @@ export default function ArticleDetail(props) {
   const url = siteConfig('LINK') + useRouter().asPath
   const { locale } = useGlobal()
   const showArticleInfo = siteConfig('NEXT_ARTICLE_INFO', null, CONFIG)
-  // 动画样式  首屏卡片不用，后面翻出来的加动画
+  // 动画样式
   const aosProps = {
     'data-aos': 'fade-down',
     'data-aos-duration': '400',
@@ -37,10 +37,9 @@ export default function ArticleDetail(props) {
   return (
     <div 
       style={{ borderRadius: '12px' }}
-      // ⭐️ 核心魔法注入：
-      // 1. mt-4 md:mt-0 -> 修复移动端贴顶问题，手机端增加 16px 间距，桌面端回正
-      // 2. dark:md:hover:shadow-[...] -> 加入夜间模式专属悬浮白光特效
-      className='mt-4 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full'
+      // ⭐️ 调整点：将 mt-4 改为 mt-1
+      // 这样移动端下，文章页顶部与导航栏的空隙就和主页完全一致了
+      className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full'
     >
       <div
         itemScope
@@ -87,10 +86,9 @@ export default function ArticleDetail(props) {
                     </SmartLink>
 
                     <div className='hidden busuanzi_container_page_pv font-light mr-2'>
-                      <i className='mr-1 fas fa-eye' />
+                      <i className='mr-1 fas fa eye' />
                       <span className='mr-2 busuanzi_value_page_pv' />
                     </div>
-                    {/* WordCount 组件 */}
                     <WordCount wordCount={post.wordCount} readTime={post.readTime} />
                   </>
                 )}
@@ -99,7 +97,6 @@ export default function ArticleDetail(props) {
           </header>
         )}
 
-        {/* Notion内容主体 */}
         <article id='article-wrapper' className='mx-auto'>
           <WWAds className='w-full' orientation='horizontal' />
           {post && <NotionPage post={post} />}
@@ -108,15 +105,10 @@ export default function ArticleDetail(props) {
 
         {showArticleInfo && (
           <>
-            {/* 分享 */}
             <ShareBar post={post} />
-
-            {/* 版权声明 */}
             {post?.type === 'Post' && (
               <ArticleCopyright author={siteConfig('AUTHOR')} url={url} />
             )}
-
-            {/* 推荐文章 */}
             {post?.type === 'Post' && (
               <RecommendPosts
                 currentPost={post}
@@ -125,7 +117,6 @@ export default function ArticleDetail(props) {
             )}
 
             <section className='flex justify-between'>
-              {/* 分类 */}
               {post.category && (
                 <>
                   <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
@@ -139,7 +130,6 @@ export default function ArticleDetail(props) {
                 </>
               )}
 
-              {/* 标签列表 */}
               {post?.type === 'Post' && (
                 <>
                   {post.tagItems && (
@@ -159,7 +149,6 @@ export default function ArticleDetail(props) {
           </>
         )}
 
-        {/* 评论互动 */}
         <div className='duration-200 w-full dark:border-gray-700 bg-transparent'>
           <Comment frontMatter={post} />
         </div>
