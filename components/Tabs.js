@@ -21,7 +21,9 @@ const Tabs = ({ className, children }) => {
         <ul className="flex justify-center space-x-5 pb-4 dark:text-gray-400 text-gray-600 overflow-auto">
           {validChildren.map((item, index) => (
             <li key={index}
-              className={`${currentTab === index ? 'font-black border-b-2 border-red-600 text-red-600 animate__animated animate__jello' : 'font-extralight cursor-pointer'} text-sm font-sans`}
+              // ⭐️ 核心修改点：去掉了 red-600 和 jello 果冻动画
+              // 换成了沉稳的日间深灰(text-gray-700)、夜间浅灰(dark:text-gray-200)，并加了一点 hover 交互
+              className={`${currentTab === index ? 'font-bold text-gray-700 dark:text-gray-200 border-b-2 border-gray-600 dark:border-gray-300' : 'font-extralight cursor-pointer hover:font-bold'} text-sm font-sans`}
               onClick={() => setCurrentTab(index)}>
               {item.key}
             </li>
