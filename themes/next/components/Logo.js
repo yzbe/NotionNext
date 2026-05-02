@@ -13,17 +13,16 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 悬浮卡片式设计核心修改：
-          // 1. lg:bg-white dark:lg:bg-hexo-black-gray: 桌面端赋予卡片实体的背景色
-          // 2. lg:shadow-md lg:hover:shadow-lg: 增加阴影，鼠标悬停时阴影加深，体现悬浮感
-          // 3. lg:rounded-xl: 增加圆角，让卡片看起来更柔和
-          // 4. lg:p-6 lg:mb-4 lg:mx-2: 增加内边距让内容居中呼吸，外边距让卡片与周围元素拉开距离
-          // 5. 手机端保持 bg-transparent 融入顶部导航
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-6 lg:mb-4 lg:mx-2 transition-shadow duration-300 w-full space-y-3 font-bold ' +
+          // ⭐️ 核心修正：
+          // 1. lg:w-auto lg:mx-4: 放弃 w-full，改用 auto 加左右 margin，确保它绝对不会溢出外层容器！
+          // 2. lg:border lg:border-gray-100 dark:lg:border-gray-800: 增加极细的实体边框，强制画出卡片界限。
+          // 3. lg:shadow-md: 加深默认阴影，提升悬浮感。
+          // 4. lg:mb-6: 增加底部外边距，拉开和菜单的距离。
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-800 lg:shadow-md lg:hover:shadow-lg lg:rounded-xl lg:py-6 lg:mb-6 lg:mx-4 lg:w-auto transition-all duration-300 w-full space-y-3 font-bold ' +
           className
         }>
             
-          {/* 移动端专属的圆形头像：进一步精简尺寸与光圈 */}
+          {/* 移动端专属的圆形头像 */}
           <div className='block lg:hidden'>
               <div className="p-[0px] rounded-full bg-white/10 border border-white/20">
                   <LazyImage 
