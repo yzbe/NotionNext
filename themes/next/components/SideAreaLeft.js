@@ -47,10 +47,14 @@ const SideAreaLeft = props => {
       }>
       <section className='w-60'>
         {/* 顶部菜单区块 */}
-        {/* ⭐️ 核心魔法：在这里加上了强制圆角和防溢出 */}
+        {/* ⭐️ 核心魔法注入：这就是包裹 Logo 和菜单的“大外框”！
+            在这里加入了你心心念念的夜间双倍宽白光特效：
+            dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] 
+            以及更平滑的 transition-shadow duration-300
+        */}
         <section 
           style={{ borderRadius: '12px' }}
-          className='rounded-xl overflow-hidden shadow hidden lg:block mb-5 pb-4 bg-white dark:bg-hexo-black-gray hover:shadow-xl duration-200'
+          className='rounded-xl overflow-hidden shadow hidden lg:block mb-5 pb-4 bg-white dark:bg-hexo-black-gray transition-shadow duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
         >
           <Logo className='min-h-32 ' {...props} />
           <div className='pt-2 px-2 '>
@@ -65,7 +69,7 @@ const SideAreaLeft = props => {
       </section>
 
       {/* 侧边跟随区块 */}
-      {/*  top-*，滑动悬浮时的顶部留白 */}
+      {/* top-*，滑动悬浮时的顶部留白 */}
       <div className='sticky top-1 hidden lg:block'>
         <Card>
           {/* 【关键修改逻辑】
