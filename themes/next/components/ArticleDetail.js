@@ -50,19 +50,19 @@ export default function ArticleDetail(props) {
       style={{ borderRadius: '12px' }}
       className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
     >
-      {/* ⭐️ 核心修改：磨砂透明悬浮返回按钮 */}
-      {/* 1. fixed: 相对于窗口定位，滑动时不随文章移动 */}
-      {/* 2. top/left: 精确对齐到文章卡片左上角的初始视觉位置 */}
-      <div className='block md:hidden fixed top-[16px] left-[16px] z-50'>
+      {/* ⭐️ 优化后的悬浮返回按钮 */}
+      {/* 1. fixed: 始终相对于屏幕固定 */}
+      {/* 2. top-[20px]: 避开顶部导航栏的视觉中心 */}
+      {/* 3. left-[20px]: 初始位置对齐文章左上角，且滑动时不随文章走 */}
+      <div className='block md:hidden fixed top-[20px] left-[20px] z-50'>
         <button
           onClick={handleBack}
-          // 3. bg-white/40 & dark:bg-black/20: 高透明度底色，参考图示质感
-          // 4. backdrop-blur-xl: 强力毛玻璃效果，实现完美的磨砂感
-          // 5. 去掉 border: 让边缘更柔和，符合现代极简设计
+          // 4. bg-white/40 & backdrop-blur-xl: 极高透明度的磨砂质感
+          // 5. shadow-none: 去掉阴影，让它看起来更像悬浮在背景上的玻璃片
           className='flex items-center justify-center w-10 h-10 rounded-full 
                      bg-white/40 dark:bg-black/20 backdrop-blur-xl
                      text-gray-900 dark:text-white
-                     shadow-sm active:scale-90 transition-all'
+                     active:scale-95 transition-all duration-200'
         >
           <i className='fas fa-chevron-left text-lg' />
         </button>
