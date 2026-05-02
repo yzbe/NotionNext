@@ -13,8 +13,10 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 同步亮度升级：dark:lg:hover:shadow-[0_0_15px_rgba(255,255,255,0.15)]
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:lg:border-transparent lg:shadow-sm lg:hover:shadow-xl dark:lg:hover:shadow-[0_0_15px_rgba(255,255,255,0.25)] lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transition-shadow duration-300 w-full space-y-3 font-bold ' +
+          // ⭐️ Logo 区同款终极阴影：
+          // 注入了 dark:lg:hover:shadow-[0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a]
+          // 确保它在夜间悬浮时，效果和方向与下方所有卡片一模一样
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:lg:border-transparent lg:shadow-sm lg:hover:shadow-xl dark:lg:hover:shadow-[0_20px_25px_-5px_#ffffff26,0_8px_10px_-6px_#ffffff1a] lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transition-shadow duration-300 w-full space-y-3 font-bold ' +
           className
         }>
             
