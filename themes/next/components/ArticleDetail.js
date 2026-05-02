@@ -25,7 +25,9 @@ export default function ArticleDetail(props) {
   const { post, recommendPosts, prev, next } = props
   const url = siteConfig('LINK') + useRouter().asPath
   const { locale } = useGlobal()
+  const router = useRouter() // 引入 router 用于返回功能
   const showArticleInfo = siteConfig('NEXT_ARTICLE_INFO', null, CONFIG)
+  
   // 动画样式
   const aosProps = {
     'data-aos': 'fade-down',
@@ -34,13 +36,36 @@ export default function ArticleDetail(props) {
     'data-aos-anchor-placement': 'top-bottom'
   }
 
+  // ⭐️ 返回上一级逻辑
+  const handleBack = () => {
+    if (window.history.length <= 1) {
+      router.push('/') // 如果没有历史记录，直接回首页
+    } else {
+      router.back()
+    }
+  }
+
   return (
     <div 
       style={{ borderRadius: '12px' }}
-      // ⭐️ 调整点：将 mt-4 改为 mt-2
-      // 这样移动端下，文章页顶部与导航栏的空隙就和主页完全一致了
-      className='mt-2 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full'
+      // 保持之前的 mt-1 md:mt-0 间距和夜间悬浮特效
+      className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
     >
+      
+      {/* ⭐️ 核心新增：左上角悬浮返回按钮 (仅在移动端显示 block md:hidden) */}
+      <div className='block md:hidden absolute top-3 left-3 z-30'>
+          <button 
+            onClick={handleBack}
+            className='flex items-center justify-center w-9 h-9 rounded-full 
+                       bg-white/70 dark:bg-black/50 backdrop-blur-md 
+                       border border-gray-200 dark:border-gray-700 
+                       text-gray-600 dark:text-gray-300
+                       shadow-sm active:scale-90 transition-all'
+          >
+            <i className='fas fa-chevron-left' />
+          </button>
+      </div>
+
       <div
         itemScope
         itemType='https://schema.org/Movie'
@@ -86,7 +111,7 @@ export default function ArticleDetail(props) {
                     </SmartLink>
 
                     <div className='hidden busuanzi_container_page_pv font-light mr-2'>
-                      <i className='mr-1 fas fa eye' />
+                      <i className='mr-1 fas fa-eye' />
                       <span className='mr-2 busuanzi_value_page_pv' />
                     </div>
                     <WordCount wordCount={post.wordCount} readTime={post.readTime} />
