@@ -13,9 +13,9 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 核心魔法：加入了 lg:border-b lg:border-transparent dark:lg:border-gray-800
-          // 这样在夜间模式的桌面端，Logo 和菜单之间就会多出一条高级的微透明分割线！
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B]/90 dark:lg:bg-hexo-black-gray/90 lg:border-b lg:border-transparent dark:lg:border-gray-800 w-full space-y-3 font-bold ' +
+          // ⭐️ 核心调整：去掉了分割线，将夜间模式的底色改为了暗一点的 dark:lg:bg-gray-900/90
+          // 这样就通过自然的明暗对比，完美区分了 Logo 区和下方的菜单区
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-[#18181B]/90 dark:lg:bg-gray-900/90 w-full space-y-3 font-bold ' +
           className
         }>
             
