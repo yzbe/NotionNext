@@ -17,7 +17,7 @@ import TagItem from './TagItem'
 import WordCount from '@/components/WordCount'
 
 /**
- * 文章详情组件
+ * 文章详情
  * @param {*} props
  * @returns
  */
@@ -50,11 +50,16 @@ export default function ArticleDetail(props) {
       style={{ borderRadius: '12px' }}
       className='mt-1 md:mt-0 overflow-hidden bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] overflow-x-auto flex-grow mx-auto w-screen md:w-full relative'
     >
-      {/* ⭐️ 移动端悬浮返回按钮：磨砂质感 + 固定位置 */}
+      {/* ⭐️ 核心修改：磨砂透明悬浮返回按钮 */}
+      {/* 1. fixed: 相对于窗口定位，滑动时不随文章移动 */}
+      {/* 2. top/left: 精确对齐到文章卡片左上角的初始视觉位置 */}
       <div className='block md:hidden fixed top-[16px] left-[16px] z-50'>
         <button
           onClick={handleBack}
-          className='flex items-center justify-center w-9 h-9 rounded-full 
+          // 3. bg-white/40 & dark:bg-black/20: 高透明度底色，参考图示质感
+          // 4. backdrop-blur-xl: 强力毛玻璃效果，实现完美的磨砂感
+          // 5. 去掉 border: 让边缘更柔和，符合现代极简设计
+          className='flex items-center justify-center w-10 h-10 rounded-full 
                      bg-white/40 dark:bg-black/20 backdrop-blur-xl
                      text-gray-900 dark:text-white
                      shadow-sm active:scale-90 transition-all'
@@ -119,7 +124,6 @@ export default function ArticleDetail(props) {
           </header>
         )}
 
-        {/* Notion内容主体 */}
         <article id='article-wrapper' className='mx-auto'>
           <WWAds className='w-full' orientation='horizontal' />
           {post && <NotionPage post={post} />}
@@ -128,15 +132,10 @@ export default function ArticleDetail(props) {
 
         {showArticleInfo && (
           <>
-            {/* 分享 */}
             <ShareBar post={post} />
-
-            {/* 版权声明 */}
             {post?.type === 'Post' && (
               <ArticleCopyright author={siteConfig('AUTHOR')} url={url} />
             )}
-
-            {/* 推荐文章 */}
             {post?.type === 'Post' && (
               <RecommendPosts
                 currentPost={post}
@@ -145,7 +144,6 @@ export default function ArticleDetail(props) {
             )}
 
             <section className='flex justify-between'>
-              {/* 分类 */}
               {post.category && (
                 <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
                   <SmartLink href={`/category/${post.category}`} legacyBehavior>
@@ -156,7 +154,6 @@ export default function ArticleDetail(props) {
                 </div>
               )}
 
-              {/* 标签列表 */}
               {post?.type === 'Post' && post.tagItems && (
                 <div className='flex items-center flex-nowrap leading-8 p-1 py-4 overflow-x-auto'>
                   <div className='hidden md:block dark:text-gray-300 whitespace-nowrap'>
@@ -172,7 +169,6 @@ export default function ArticleDetail(props) {
           </>
         )}
 
-        {/* 评论互动 */}
         <div className='duration-200 w-full dark:border-gray-700 bg-transparent'>
           <Comment frontMatter={post} />
         </div>
