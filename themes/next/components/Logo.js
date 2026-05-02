@@ -18,7 +18,7 @@ const Logo = props => {
           // 2. lg:hover:-translate-y-1: 增加“物理向上浮动”的动画，这是夜间模式下悬浮感的最强利器！
           // 3. dark:lg:hover:bg-gray-800: 夜间模式悬浮时背景微亮，弥补阴影看不见的缺陷。
           // 4. dark:lg:border-gray-700/50: 夜间模式边框改得更弱、更柔和，不再突兀。
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-700/50 lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-1 lg:mt-1 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 dark:lg:hover:bg-gray-800 w-full space-y-3 font-bold ' +
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-white dark:lg:bg-hexo-black-gray lg:border lg:border-gray-100 dark:lg:border-gray-700/50 lg:shadow-sm lg:hover:shadow-md lg:rounded-xl lg:py-5 lg:mb-4 lg:mx-2 lg:mt-2 lg:w-auto transform transition-all duration-300 lg:hover:-translate-y-1 dark:lg:hover:bg-gray-800 w-full space-y-3 font-bold ' +
           className
         }>
             
