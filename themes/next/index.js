@@ -46,13 +46,11 @@ const LayoutBase = props => {
   const { children, headerSlot, rightAreaSlot, post } = props
   const targetRef = useRef(null)
   const floatButtonGroup = useRef(null)
-  const router = useRouter() // ⭐️ 修复 1：引入 router 以便监听路由变化
+  const router = useRouter()
   
-  // ⭐️ 修改 1：初始状态改为 true (始终悬浮)
   const [showRightFloat, switchShow] = useState(true) 
-  const [percent, changePercent] = useState(0) // 页面阅读百分比
+  const [percent, changePercent] = useState(0) 
   
-  // ⭐️ 修改 2：仅保留滚动百分比计算，剥离原有的显示/隐藏判定逻辑
   const scrollListener = () => {
     const targetRef = document.getElementById('wrapper')
     const clientHeight = targetRef?.clientHeight
@@ -63,14 +61,12 @@ const LayoutBase = props => {
     changePercent(per)
   }
 
-  // ⭐️ 修改 3：新增全局动作监听与自动隐藏逻辑 (保留你的 5 秒设置)
   useEffect(() => {
     let timeoutId;
     const handleUserAction = () => {
-      switchShow(true); // 有动作立刻显示
+      switchShow(true); 
       if (timeoutId) clearTimeout(timeoutId);
       
-      // 5秒后无动作自动隐藏
       timeoutId = setTimeout(() => {
         switchShow(false);
       }, 5000);
@@ -79,7 +75,7 @@ const LayoutBase = props => {
     const events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
     events.forEach(e => window.addEventListener(e, handleUserAction, { passive: true }));
     
-    handleUserAction(); // 组件挂载时初始化计时
+    handleUserAction(); 
 
     return () => {
       events.forEach(e => window.removeEventListener(e, handleUserAction));
@@ -87,9 +83,7 @@ const LayoutBase = props => {
     };
   }, []);
 
-  // ⭐️ 修改 4：保留原有的 fb messenger 与滚动监听逻辑
   useEffect(() => {
-    // facebook messenger 插件需要调整右下角悬浮按钮的高度
     const fb = document.getElementsByClassName('fb-customerchat')
     if (fb.length === 0) {
       floatButtonGroup?.current?.classList.replace('bottom-24', 'bottom-12')
@@ -101,19 +95,17 @@ const LayoutBase = props => {
     return () => document.removeEventListener('scroll', scrollListener)
   }, [])
 
-  // ⭐️ 核心修复 5：监听路由返回动作，强制唤醒 AOS 动画，解决卡片隐身变黑框问题
   useEffect(() => {
     const handleRouteChange = () => {
       setTimeout(() => {
         if (typeof window !== 'undefined' && window.AOS) {
           window.AOS.refresh()
         }
-      }, 300) // 给 DOM 渲染留出 300ms 缓冲时间
+      }, 300) 
     }
 
-    // 绑定路由完成事件
     router.events.on('routeChangeComplete', handleRouteChange)
-    handleRouteChange() // 首次挂载也执行一次防呆
+    handleRouteChange() 
 
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
@@ -121,7 +113,6 @@ const LayoutBase = props => {
   }, [router.events])
 
 
-  // 悬浮抽屉
   const drawerRight = useRef(null)
   const floatSlot = (
     <div className='block lg:hidden'>
@@ -141,30 +132,24 @@ const LayoutBase = props => {
     <ThemeGlobalNext.Provider value={{ searchModal }}>
       <div
         id='theme-next'
-        // ⭐️ 全局统一留白 1：pb-1 控制整个网页最底部的悬浮留白，确保 Footer 的圆角露出来
         className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth pb-1`}>
         <Style />
 
-        {/* 移动端顶部导航栏 */}
         <TopNav {...props} />
 
         <AlgoliaSearchModal cRef={searchModal} {...props} />
 
         <>{headerSlot}</>
 
-        {/* 主区 */}
         <main
           id='wrapper'
           className={
             (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
               ? 'flex-row-reverse'
               : '') + ' next relative flex justify-center flex-1 pb-12 lg:mt-1 lg:mb-1' 
-              // ⭐️ 全局统一留白 2：lg:mt-1 (桌面端顶部留白), lg:mb-1 (中间三栏与底部 Footer 的留白)
           }>
-          {/* 左侧栏样式 */}
           <SideAreaLeft targetRef={targetRef} {...props} />
 
-          {/* 中央内容 */}
           <section
             id='container-inner'
             className={`${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'mt-24' : ''} lg:max-w-3xl xl:max-w-4xl flex-grow md:mt-0 min-h-screen w-full relative z-10`}
@@ -172,7 +157,6 @@ const LayoutBase = props => {
             {children}
           </section>
 
-          {/* 右侧栏样式 */}
           {siteConfig('NEXT_RIGHT_BAR', null, CONFIG) && (
             <SideAreaRight
               targetRef={targetRef}
@@ -182,14 +166,12 @@ const LayoutBase = props => {
           )}
         </main>
 
-        {/* 悬浮目录按钮 */}
         {post && (
           <div className='block lg:hidden'>
             <TocDrawer post={post} cRef={drawerRight} targetRef={tocRef} />
           </div>
         )}
 
-        {/* 右下角悬浮 */}
         <div
           ref={floatButtonGroup}
           className='right-8 bottom-12 lg:right-2 fixed justify-end z-20 '>
@@ -205,7 +187,6 @@ const LayoutBase = props => {
           </div>
         </div>
 
-        {/* 页脚 */}
         <Footer title={siteConfig('TITLE')} />
       </div>
     </ThemeGlobalNext.Provider>
@@ -214,15 +195,11 @@ const LayoutBase = props => {
 
 /**
  * 首页
- * 首页就是一个博客列表
- * @param {*} props
- * @returns
  */
 const LayoutIndex = props => {
   const { notice } = props
   return (
     <>
-      {/* 首页移动端顶部显示公告 */}
       <Card className='my-2 lg:hidden'>
         <Announcement post={notice} />
       </Card>
@@ -240,12 +217,9 @@ const LayoutIndex = props => {
 
 /**
  * 博客列表
- * @param {*} props
- * @returns
  */
 const LayoutPostList = props => {
   return (
-    // ⭐️ 核心修复：为非首页的列表页（第二页、分类页等）移动端增加 mt-2 间距，桌面端保持 mt-0
     <div className='mt-2 md:mt-0'>
       <BlogListBar {...props} />
 
@@ -260,8 +234,6 @@ const LayoutPostList = props => {
 
 /**
  * 搜索
- * @param {*} props
- * @returns
  */
 const LayoutSearch = props => {
   const { locale } = useGlobal()
@@ -288,7 +260,6 @@ const LayoutSearch = props => {
           {locale.COMMON.RESULT_OF_SEARCH}
         </div>
       </StickyBar>
-      {/* ⭐️ 修复：搜索结果页也同样需要 mt-2 间距缓冲 */}
       <div className='mt-2 md:mt-5'>
         {siteConfig('POST_LIST_STYLE') !== 'page' ? (
           <BlogPostListScroll {...props} showSummary={true} />
@@ -302,19 +273,14 @@ const LayoutSearch = props => {
 
 /**
  * 404
- * @param {*} props
- * @returns
  */
 const Layout404 = props => {
   const router = useRouter()
   useEffect(() => {
-    // 延时3秒如果加载失败就返回首页
     setTimeout(() => {
       const article = isBrowser && document.getElementById('article-wrapper')
       if (!article) {
-        router.push('/').then(() => {
-          // console.log('找不到页面', router.asPath)
-        })
+        router.push('/').then(() => {})
       }
     }, 3000)
   }, [])
@@ -338,15 +304,17 @@ const Layout404 = props => {
 
 /**
  * 归档
- * @param {*} props
- * @returns
  */
 const LayoutArchive = props => {
   const { archivePosts } = props
 
   return (
-    <>
-      <div className='mb-10 pb-20 bg-white md:p-12 p-3 dark:bg-hexo-black-gray shadow-md min-h-full'>
+    // ⭐️ 修复：归档页面加入 mt-2，并注入统一圆角与悬浮阴影特效
+    <div className='mt-2 md:mt-0'>
+      <div 
+        style={{ borderRadius: '12px' }}
+        className='mb-10 pb-20 bg-white md:p-12 p-3 dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] min-h-full'
+      >
         {Object.keys(archivePosts).map(archiveTitle => (
           <BlogPostArchive
             key={archiveTitle}
@@ -355,14 +323,12 @@ const LayoutArchive = props => {
           />
         ))}
       </div>
-    </>
+    </div>
   )
 }
 
 /**
  * 文章详情
- * @param {*} props
- * @returns
  */
 const LayoutSlug = props => {
   const { post, lock, validPassword } = props
@@ -370,7 +336,6 @@ const LayoutSlug = props => {
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
   useEffect(() => {
-    // 404
     if (!post) {
       setTimeout(
         () => {
@@ -390,7 +355,6 @@ const LayoutSlug = props => {
   return (
     <>
       {post && !lock && <ArticleDetail {...props} />}
-
       {post && lock && <ArticleLock validPassword={validPassword} />}
     </>
   )
@@ -398,15 +362,17 @@ const LayoutSlug = props => {
 
 /**
  * 分类列表
- * @param {*} props
- * @returns
  */
 const LayoutCategoryIndex = props => {
   const { allPosts, categoryOptions } = props
   const { locale } = useGlobal()
   return (
-    <div totalPosts={allPosts} {...props}>
-      <div className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow h-full'>
+    // ⭐️ 修复：分类页面加入 mt-2，并注入统一圆角与悬浮阴影特效
+    <div totalPosts={allPosts} {...props} className='mt-2 md:mt-0'>
+      <div 
+        style={{ borderRadius: '12px' }}
+        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
+      >
         <div className='dark:text-gray-200 mb-5'>
           <i className='mr-4 fas faTh' />
           {locale.COMMON.CATEGORY}:
@@ -437,15 +403,17 @@ const LayoutCategoryIndex = props => {
 
 /**
  * 标签列表
- * @param {*} props
- * @returns
  */
 const LayoutTagIndex = props => {
   const { tagOptions } = props
   const { locale } = useGlobal()
   return (
-    <>
-      <div className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow h-full'>
+    // ⭐️ 修复：标签页面加入 mt-2，并注入统一圆角与悬浮阴影特效
+    <div className='mt-2 md:mt-0'>
+      <div 
+        style={{ borderRadius: '12px' }}
+        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
+      >
         <div className='dark:text-gray-200 mb-5'>
           <i className='fas fa-tags mr-4' />
           {locale.COMMON.TAGS}:
@@ -460,7 +428,7 @@ const LayoutTagIndex = props => {
           })}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
