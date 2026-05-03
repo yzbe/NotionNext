@@ -46,6 +46,7 @@ const LayoutBase = props => {
   const { children, headerSlot, rightAreaSlot, post } = props
   const targetRef = useRef(null)
   const floatButtonGroup = useRef(null)
+  const router = useRouter() // ⭐️ 修复 1：引入 router 以便监听路由变化
   
   // ⭐️ 修改 1：初始状态改为 true (始终悬浮)
   const [showRightFloat, switchShow] = useState(true) 
@@ -62,7 +63,7 @@ const LayoutBase = props => {
     changePercent(per)
   }
 
-  // ⭐️ 修改 3：新增全局动作监听与 10 秒自动隐藏逻辑
+  // ⭐️ 修改 3：新增全局动作监听与自动隐藏逻辑 (保留你的 5 秒设置)
   useEffect(() => {
     let timeoutId;
     const handleUserAction = () => {
@@ -86,7 +87,7 @@ const LayoutBase = props => {
     };
   }, []);
 
-  // ⭐️ 修改 4：保留原有的 fb messenger 与滚动监听逻辑，移除依赖项
+  // ⭐️ 修改 4：保留原有的 fb messenger 与滚动监听逻辑
   useEffect(() => {
     // facebook messenger 插件需要调整右下角悬浮按钮的高度
     const fb = document.getElementsByClassName('fb-customerchat')
@@ -99,6 +100,26 @@ const LayoutBase = props => {
     document.addEventListener('scroll', scrollListener)
     return () => document.removeEventListener('scroll', scrollListener)
   }, [])
+
+  // ⭐️ 核心修复 5：监听路由返回动作，强制唤醒 AOS 动画，解决卡片隐身变黑框问题
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setTimeout(() => {
+        if (typeof window !== 'undefined' && window.AOS) {
+          window.AOS.refresh()
+        }
+      }, 300) // 给 DOM 渲染留出 300ms 缓冲时间
+    }
+
+    // 绑定路由完成事件
+    router.events.on('routeChangeComplete', handleRouteChange)
+    handleRouteChange() // 首次挂载也执行一次防呆
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
+
 
   // 悬浮抽屉
   const drawerRight = useRef(null)
