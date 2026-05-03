@@ -46,8 +46,12 @@ const LayoutBase = props => {
   const { children, headerSlot, rightAreaSlot, post } = props
   const targetRef = useRef(null)
   const floatButtonGroup = useRef(null)
-  const [showRightFloat, switchShow] = useState(false)
+  
+  // ⭐️ 修改 1：初始状态改为 true (始终悬浮)
+  const [showRightFloat, switchShow] = useState(true) 
   const [percent, changePercent] = useState(0) // 页面阅读百分比
+  
+  // ⭐️ 修改 2：仅保留滚动百分比计算，剥离原有的显示/隐藏判定逻辑
   const scrollListener = () => {
     const targetRef = document.getElementById('wrapper')
     const clientHeight = targetRef?.clientHeight
@@ -55,14 +59,34 @@ const LayoutBase = props => {
     const fullHeight = clientHeight - window.outerHeight
     let per = parseFloat(((scrollY / fullHeight) * 100).toFixed(0))
     if (per > 100) per = 100
-    const shouldShow = scrollY > 100 && per > 0
-
-    if (shouldShow !== showRightFloat) {
-      switchShow(shouldShow)
-    }
     changePercent(per)
   }
 
+  // ⭐️ 修改 3：新增全局动作监听与 10 秒自动隐藏逻辑
+  useEffect(() => {
+    let timeoutId;
+    const handleUserAction = () => {
+      switchShow(true); // 有动作立刻显示
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      // 10秒后无动作自动隐藏
+      timeoutId = setTimeout(() => {
+        switchShow(false);
+      }, 10000);
+    };
+
+    const events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
+    events.forEach(e => window.addEventListener(e, handleUserAction, { passive: true }));
+    
+    handleUserAction(); // 组件挂载时初始化计时
+
+    return () => {
+      events.forEach(e => window.removeEventListener(e, handleUserAction));
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
+  // ⭐️ 修改 4：保留原有的 fb messenger 与滚动监听逻辑，移除依赖项
   useEffect(() => {
     // facebook messenger 插件需要调整右下角悬浮按钮的高度
     const fb = document.getElementsByClassName('fb-customerchat')
@@ -74,7 +98,7 @@ const LayoutBase = props => {
 
     document.addEventListener('scroll', scrollListener)
     return () => document.removeEventListener('scroll', scrollListener)
-  }, [showRightFloat])
+  }, [])
 
   // 悬浮抽屉
   const drawerRight = useRef(null)
