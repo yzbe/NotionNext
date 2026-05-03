@@ -200,7 +200,8 @@ const LayoutIndex = props => {
  */
 const LayoutPostList = props => {
   return (
-    <>
+    // ⭐️ 核心修复：为非首页的列表页（第二页、分类页等）移动端增加 mt-2 间距，桌面端保持 mt-0
+    <div className='mt-2 md:mt-0'>
       <BlogListBar {...props} />
 
       {siteConfig('POST_LIST_STYLE') !== 'page' ? (
@@ -208,7 +209,7 @@ const LayoutPostList = props => {
       ) : (
         <BlogPostListPage {...props} />
       )}
-    </>
+    </div>
   )
 }
 
@@ -242,7 +243,8 @@ const LayoutSearch = props => {
           {locale.COMMON.RESULT_OF_SEARCH}
         </div>
       </StickyBar>
-      <div className='md:mt-5'>
+      {/* ⭐️ 修复：搜索结果页也同样需要 mt-2 间距缓冲 */}
+      <div className='mt-2 md:mt-5'>
         {siteConfig('POST_LIST_STYLE') !== 'page' ? (
           <BlogPostListScroll {...props} showSummary={true} />
         ) : (
