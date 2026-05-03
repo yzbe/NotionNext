@@ -112,7 +112,6 @@ const LayoutBase = props => {
     }
   }, [router.events])
 
-
   const drawerRight = useRef(null)
   const floatSlot = (
     <div className='block lg:hidden'>
@@ -234,8 +233,6 @@ const LayoutPostList = props => {
 
 /**
  * 搜索
- * @param {*} props
- * @returns
  */
 const LayoutSearch = props => {
   const { locale } = useGlobal()
@@ -257,11 +254,8 @@ const LayoutSearch = props => {
   return (
     <>
       <StickyBar>
-        {/* ⭐️ 修复：为搜索结果栏加上统一的圆角、底色和悬浮特效 */}
-        <div 
-          style={{ borderRadius: '12px' }}
-          className='p-4 bg-white dark:bg-hexo-black-gray dark:text-gray-200 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
-        >
+        {/* ⭐️ 已恢复：去除冗余的特效包，只保留最基础的内容展示，把样式交给 StickyBar 统管 */}
+        <div className='p-4 dark:text-gray-200'>
           <i className='mr-1 fas fa-search' /> {posts?.length}{' '}
           {locale.COMMON.RESULT_OF_SEARCH}
         </div>
@@ -315,7 +309,6 @@ const LayoutArchive = props => {
   const { archivePosts } = props
 
   return (
-    // ⭐️ 修复：归档页面加入 mt-2，并注入统一圆角与悬浮阴影特效
     <div className='mt-2 md:mt-0'>
       <div 
         style={{ borderRadius: '12px' }}
@@ -373,7 +366,6 @@ const LayoutCategoryIndex = props => {
   const { allPosts, categoryOptions } = props
   const { locale } = useGlobal()
   return (
-    // ⭐️ 修复：分类页面加入 mt-2，并注入统一圆角与悬浮阴影特效
     <div totalPosts={allPosts} {...props} className='mt-2 md:mt-0'>
       <div 
         style={{ borderRadius: '12px' }}
@@ -414,7 +406,6 @@ const LayoutTagIndex = props => {
   const { tagOptions } = props
   const { locale } = useGlobal()
   return (
-    // ⭐️ 修复：标签页面加入 mt-2，并注入统一圆角与悬浮阴影特效
     <div className='mt-2 md:mt-0'>
       <div 
         style={{ borderRadius: '12px' }}
