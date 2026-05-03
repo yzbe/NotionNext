@@ -234,6 +234,8 @@ const LayoutPostList = props => {
 
 /**
  * 搜索
+ * @param {*} props
+ * @returns
  */
 const LayoutSearch = props => {
   const { locale } = useGlobal()
@@ -255,7 +257,11 @@ const LayoutSearch = props => {
   return (
     <>
       <StickyBar>
-        <div className='p-4 dark:text-gray-200'>
+        {/* ⭐️ 修复：为搜索结果栏加上统一的圆角、底色和悬浮特效 */}
+        <div 
+          style={{ borderRadius: '12px' }}
+          className='p-4 bg-white dark:bg-hexo-black-gray dark:text-gray-200 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
+        >
           <i className='mr-1 fas fa-search' /> {posts?.length}{' '}
           {locale.COMMON.RESULT_OF_SEARCH}
         </div>
