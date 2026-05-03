@@ -69,10 +69,10 @@ const LayoutBase = props => {
       switchShow(true); // 有动作立刻显示
       if (timeoutId) clearTimeout(timeoutId);
       
-      // 10秒后无动作自动隐藏
+      // 5秒后无动作自动隐藏
       timeoutId = setTimeout(() => {
         switchShow(false);
-      }, 10000);
+      }, 5000);
     };
 
     const events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
