@@ -27,8 +27,8 @@ const PaginationNumber = ({ page, totalPage }) => {
       data-aos-once='false'
       data-aos-anchor-placement='top-bottom'
       style={{ borderRadius: '12px' }}
-      // ⭐️ 优化1：将 items-end 改为 items-center，让所有圆形元素垂直居中对齐
-      className='overflow-hidden mt-5 py-3 flex justify-center items-center font-medium text-black hover:shadow-xl duration-200 transition-all bg-white dark:bg-hexo-black-gray dark:text-gray-300 shadow space-x-2'
+      // ⭐️ 核心注入：加入了夜间模式专属悬浮白光特效 dark:md:hover:shadow-[...]
+      className='overflow-hidden mt-5 py-3 flex justify-center items-center font-medium text-black transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] bg-white dark:bg-hexo-black-gray dark:text-gray-300 shadow space-x-2'
     >
       {/* 上一页 */}
       <SmartLink
@@ -43,7 +43,6 @@ const PaginationNumber = ({ page, totalPage }) => {
         legacyBehavior>
         <div
           rel='prev'
-          // ⭐️ 优化2：去除 border-t-2，改为 hover:bg-gray-200 和 rounded-full
           className={`${
             currentPage === 1 ? 'invisible' : 'block'
           } hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
@@ -63,7 +62,6 @@ const PaginationNumber = ({ page, totalPage }) => {
         legacyBehavior>
         <div
           rel='next'
-          // ⭐️ 优化3：同样去除 border-t-2，应用浅色圆形 hover 效果
           className={`${
             +showNext ? 'block' : 'invisible'
           } hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
@@ -140,9 +138,6 @@ function getPageElement(pagePrefix, page, currentPage) {
       key={page}
       passHref
       className={
-        // ⭐️ 核心优化：
-        // 当前页：深色实心圆
-        // 非当前页：去除边框动画，鼠标悬浮时变为浅色实心圆 (hover:bg-gray-200)
         (page + '' === currentPage + ''
           ? 'font-bold bg-gray-500 dark:bg-gray-400 text-white '
           : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ') +
