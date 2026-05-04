@@ -13,7 +13,8 @@ const Logo = props => {
         className={
           // ⭐️ 核心修改点：
           // 删除了这里的 lg:mb-4，彻底消除 Logo 下方多余的空隙！
-          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#eef0f1] lg:to-[#9ca3af] lg:border lg:border-gray-200 dark:border-transparent lg:rounded-xl lg:py-5 lg:mx-1 lg:mt-1 lg:w-auto w-full space-y-3 font-bold ' +
+         
+'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#a9aec6] lg:via-[#dedede] lg:to-[#a9aec6] lg:border lg:border-gray-200 dark:border-transparent lg:rounded-xl lg:py-5 lg:mx-1 lg:mt-1 lg:w-auto w-full space-y-3 font-bold ' +
           className
         }>
             
