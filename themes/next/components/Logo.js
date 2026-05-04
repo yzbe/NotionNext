@@ -11,10 +11,10 @@ const Logo = props => {
     <SmartLink href='/' passHref legacyBehavior>
       <div
         className={
-          // ⭐️ 核心修改点：
-          // 删除了这里的 lg:mb-4，彻底消除 Logo 下方多余的空隙！
-         
-'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#a9aec6] lg:via-[#dedede] lg:to-[#a9aec6] lg:border lg:border-gray-200 dark:border-transparent lg:rounded-xl lg:py-5 lg:mx-1 lg:mt-1 lg:w-auto w-full space-y-3 font-bold ' +
+          // 修改点1：
+          // 将 lg:rounded-xl 缩小为 lg:rounded-lg，以满足同心圆角视觉比例
+          // 保持删除了 lg:mb-4，彻底消除 Logo 下方多余的空隙！
+          'flex flex-col justify-center items-center cursor-pointer bg-transparent lg:bg-gradient-to-br lg:from-[#a9aec6] lg:via-[#dedede] lg:to-[#a9aec6] lg:border lg:border-gray-200 dark:border-transparent lg:rounded-lg lg:py-5 lg:mx-1 lg:mt-1 lg:w-auto w-full space-y-3 font-bold ' +
           className
         }>
             
@@ -34,7 +34,10 @@ const Logo = props => {
             data-aos-duration='500'
             data-aos-once='true'
             data-aos-anchor-placement='top-bottom'
-            className='font-serif text-xl text-gray-900 logo text-center w-full'>
+            // 修改点2：
+            // 移除了 font-serif 避免网络字体加载导致的文字闪烁
+            // 替换为 font-sans font-extrabold，使用系统默认字体并加粗
+            className='font-sans font-extrabold text-xl text-gray-900 logo text-center w-full'>
             {siteConfig('TITLE')}
             </div>
             
