@@ -143,7 +143,9 @@ export default function ArticleDetail(props) {
               <section className='flex justify-between'>
                 {post.category && (
                   <div className='cursor-pointer my-auto text-md mr-2 hover:text-black dark:hover:text-white border-b dark:text-gray-500 border-dashed'>
-                    <SmartLink href={`/category/${post.category}`} legacyBehavior>
+                    <SmartLink
+                      href={`/category/${post.category}`}
+                      legacyBehavior>
                       <a>
                         <i className='mr-1 far fa-folder-open' /> {post.category}
                       </a>
