@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect, useRef } from 'react'
 import { siteConfig } from '@/lib/config'
+import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
 import { useGlobal } from '@/lib/global'
 import CONFIG from '../config'
 import SmartLink from '@/components/SmartLink'
@@ -75,6 +76,7 @@ export const SideNav = (props) => {
   const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, opacity: 0 })
   const navRef = useRef(null)
   const itemRefs = useRef({})
+  const emailIcon = useRef(null)
   
   // Get avatar from props or global context (Hexo way uses props)
   const avatarUrl = props?.siteInfo?.icon || siteInfo?.icon || siteConfig('AVATAR')
@@ -105,8 +107,7 @@ export const SideNav = (props) => {
     { key: 'CONTACT_WEHCHAT_PUBLIC', label: 'WeChat' },
   ]
 
-  // Email
-  const email = siteConfig('CONTACT_EMAIL')
+  const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
 
   // Update indicator position - with validation to prevent stuck indicator
   const updateIndicatorPosition = (tabName) => {
@@ -269,15 +270,17 @@ export const SideNav = (props) => {
               {/* Social Icons - Horizontal Layout, single row with light gray background */}
               <div className="flex items-center justify-center gap-1.5 flex-nowrap">
                 {/* Email Icon */}
-                {email && (
-                    <a 
-                    href={`mailto:${email}`}
-                    title={email}
-                    className="w-[1.75rem] h-[1.75rem] flex items-center justify-center bg-gray-200 text-gray-500 rounded-full hover:text-white hover:bg-gray-600 transition-colors flex-shrink-0"
-                  >
+                {CONTACT_EMAIL && (
+                  <a
+                    onClick={e =>
+                      handleEmailClick(e, emailIcon, CONTACT_EMAIL)
+                    }
+                    title='email'
+                    className='w-[1.75rem] h-[1.75rem] flex cursor-pointer items-center justify-center rounded-full bg-gray-200 text-gray-500 transition-colors hover:bg-gray-600 hover:text-white flex-shrink-0'
+                    ref={emailIcon}>
                     <MailFillIcon size={14} />
-                </a>
-              )}
+                  </a>
+                )}
               
               {/* Social Links */}
               {socialLinks.map(({ key, svg, label }) => {

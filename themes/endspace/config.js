@@ -74,6 +74,12 @@ const CONFIG = {
   // 文章详情页 (Article Page)
   // ============================================
   ENDSPACE_ARTICLE_LAYOUT_VERTICAL: false, // 文章页是否使用垂直布局
-  ENDSPACE_ARTICLE_ADJACENT: true // 是否显示上一篇/下一篇文章导航
+  ENDSPACE_ARTICLE_ADJACENT: true, // 是否显示上一篇/下一篇文章导航
+
+  // ============================================
+  // 浮动控件 (Floating controls)
+  // ============================================
+  /** 右下角胶囊是否显示浅色/深色切换（与全局 dark 类联动） */
+  ENDSPACE_WIDGET_DARK_MODE: true
 }
 export default CONFIG

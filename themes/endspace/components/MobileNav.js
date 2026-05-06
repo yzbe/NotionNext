@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { siteConfig } from '@/lib/config'
+import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
 import { useGlobal } from '@/lib/global'
 import CONFIG from '../config'
 import SmartLink from '@/components/SmartLink'
@@ -9,7 +10,6 @@ import {
   IconMenu2,
   IconX,
   IconBrandX,
-  IconMail,
   IconBrandGithub,
   IconBrandTwitter,
   IconBrandWeibo,
@@ -72,6 +72,7 @@ export const MobileNav = (props) => {
   const { siteInfo } = useGlobal()
   const [activeTab, setActiveTab] = useState('Home')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const emailIcon = useRef(null)
   
   // Get avatar from props or global context
   const avatarUrl = props?.siteInfo?.icon || siteInfo?.icon || siteConfig('AVATAR')
@@ -102,8 +103,7 @@ export const MobileNav = (props) => {
     { key: 'CONTACT_WEHCHAT_PUBLIC', label: 'WeChat' },
   ]
 
-  // Email
-  const email = siteConfig('CONTACT_EMAIL')
+  const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
 
   useEffect(() => {
     const path = router.asPath
@@ -226,12 +226,14 @@ export const MobileNav = (props) => {
         <div className="px-6 pb-8">
           <div className="flex items-center gap-3 flex-wrap">
             {/* Email */}
-            {email && (
+            {CONTACT_EMAIL && (
               <a
-                href={`mailto:${email}`}
-                title={email}
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-[var(--endspace-bg-secondary)] text-[var(--endspace-text-muted)] hover:text-[var(--endspace-text-primary)] hover:bg-[#d4d4d8] transition-colors"
-              >
+                onClick={e =>
+                  handleEmailClick(e, emailIcon, CONTACT_EMAIL)
+                }
+                title='email'
+                className='flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[var(--endspace-bg-secondary)] text-[var(--endspace-text-muted)] transition-colors hover:bg-[#d4d4d8] hover:text-[var(--endspace-text-primary)]'
+                ref={emailIcon}>
                 <MailFillIcon size={16} />
               </a>
             )}

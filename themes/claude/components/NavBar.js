@@ -1,6 +1,6 @@
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-import { decryptEmail } from '@/lib/plugins/mailEncrypt'
+import { resolveContactEmail } from '@/lib/plugins/mailEncrypt'
 import LazyImage from '@/components/LazyImage'
 import { MenuList } from './MenuList'
 import SmartLink from '@/components/SmartLink'
@@ -18,16 +18,6 @@ const getGithubUsername = githubUrl => {
   } catch (error) {
     return githubUrl.replace(/^https?:\/\/github\.com\//, '').replace(/^\/+|\/+$/g, '')
   }
-}
-
-const resolveEmail = raw => {
-  if (!raw || typeof raw !== 'string') {
-    return ''
-  }
-  if (raw.includes('@')) {
-    return raw
-  }
-  return decryptEmail(raw)
 }
 
 const formatTerminalLoginTime = date => {
@@ -73,7 +63,7 @@ export default function NavBar(props) {
   const bio = siteConfig('BIO')
   const githubUrl = siteConfig('CONTACT_GITHUB')
   const githubLabel = getGithubUsername(githubUrl) || githubUrl?.replace(/^https?:\/\//, '')
-  const profileEmail = resolveEmail(siteConfig('CONTACT_EMAIL'))
+  const profileEmail = resolveContactEmail(siteConfig('CONTACT_EMAIL'))
   const hasContact = Boolean(githubUrl || profileEmail)
   const terminalMetaRef = useRef(null)
   const terminalShellRef = useRef(null)
