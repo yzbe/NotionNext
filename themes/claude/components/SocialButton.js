@@ -1,10 +1,15 @@
 import { siteConfig } from '@/lib/config'
+import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
+import { useRef } from 'react'
 
 /**
  * 社交联系方式 — Claude Docs 风格
  * 小图标水平行，含 padding 防止 hover 溢出
  */
 const SocialButton = () => {
+  const emailIcon = useRef(null)
+  const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
+
   return (
     <div className='claude-social-row flex-wrap'>
       {siteConfig('CONTACT_GITHUB') && (
@@ -37,8 +42,12 @@ const SocialButton = () => {
           <i className='fab fa-instagram' />
         </a>
       )}
-      {siteConfig('CONTACT_EMAIL') && (
-        <a target='_blank' rel='noreferrer' title='Email' href={`mailto:${siteConfig('CONTACT_EMAIL')}`}>
+      {CONTACT_EMAIL && (
+        <a
+          onClick={e => handleEmailClick(e, emailIcon, CONTACT_EMAIL)}
+          title='Email'
+          className='cursor-pointer'
+          ref={emailIcon}>
           <i className='fas fa-envelope' />
         </a>
       )}

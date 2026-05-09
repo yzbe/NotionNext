@@ -88,6 +88,16 @@ const preBuild = (function () {
     console.log('Deleted existing sitemap.xml from root directory')
   }
 
+  // 构建前删除遗留的静态 RSS 产物，避免与生成逻辑不一致时读到过时 feed（源自 PR #3123 的单一补丁）
+  const rssDir = path.resolve(__dirname, 'public', 'rss')
+  for (const name of ['feed.xml', 'atom.xml', 'feed.json']) {
+    const rssPath = path.join(rssDir, name)
+    if (fs.existsSync(rssPath)) {
+      fs.unlinkSync(rssPath)
+      console.log(`Deleted existing ${name} from public/rss`)
+    }
+  }
+
   const notionCacheRoot = path.resolve(__dirname, '.next', 'cache', 'notion')
   const prefetchDir = path.join(notionCacheRoot, 'sessions')
   const sessionFile = path.join(notionCacheRoot, 'build-session.json')

@@ -8,11 +8,11 @@ NotionNext 支持多种部署方式，本指南将详细介绍各种部署选项
 
 ### 0. 本地统一基线（推荐）
 
-为提升跨平台兼容性（Vercel / Cloudflare Pages / Netlify），本项目建议统一使用以下最简流程：
+为提升跨平台兼容性（Vercel / Cloudflare Pages / Netlify / EdgeOne Pages 等），本项目建议统一使用以下最简流程：
 
 ```bash
-# Node 20
-nvm use || nvm install 20.20.0
+# Node 20（版本以仓库根目录 `.nvmrc` 为准，便于与各平台预装列表对齐）
+nvm use || nvm install
 
 # Yarn
 npm i -g yarn
@@ -194,6 +194,18 @@ netlify deploy --prod --dir=out
   to = "/rss.xml"
   status = 301
 ```
+
+## 腾讯云 EdgeOne Pages
+
+EdgeOne 构建阶段会按仓库中的 `.nvmrc` 切换 Node 版本。若控制台报错类似 **Failed to switch to Node.js x.y.z**，通常是因为平台上 **未提供该补丁版本**（例如仅有 `20.18.0`，而旧版本 `.nvmrc` 写了 `20.20.0`）。
+
+处理方式：
+
+1. **保持上游**：拉取最新 NotionNext，确认 `.nvmrc` 已与 EdgeOne「项目设置 → Node.js 版本」下拉列表中可选版本一致（一般为当前文件中的 `20.18.x`）。
+2. **自建仓库**：在 EdgeOne 控制台选择与 `.nvmrc` **完全一致**的 Node 版本；仍失败时检查构建日志是否仍在读取旧的 `.nvmrc`（需推送后再构建）。
+3. `package.json` 中 `engines.node` 为 `>=20 <25`，在 Node 20 系列内均可构建；关键是 **构建环境实际安装的版本**能解析 `.nvmrc`。
+
+构建命令与静态导出等与其它平台相同，按需配置环境变量（至少 `NOTION_PAGE_ID`）。
 
 ## Docker 部署
 
