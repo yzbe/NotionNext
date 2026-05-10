@@ -37,7 +37,7 @@ const LatestPostsGroup = ({ latestPosts }) => {
             passHref
             className={'my-1 flex font-light'}>
             
-            {/* ⭐️ 核心修改区：重写了这里的动态 className，匹配圆角气泡风格 */}
+            {/* 重写了这里的动态 className，匹配圆角气泡风格 */}
             <div
               className={`
                 w-full py-1.5 px-3 flex rounded-lg cursor-pointer transition-colors duration-200
