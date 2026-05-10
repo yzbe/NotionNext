@@ -7,11 +7,7 @@ export default function Live2DWife() {
     initLive2DWife()
   }, [])
   return <>
-    <Head>
-      {/* ⭐️ 核心修复 1：将错误的 SmartLink 改回标准的 link 标签 */}
-      {/* ⭐️ 核心修复 2：将链接升级为支持最新图标命名的 v6.5.1 版本 */}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.2.0/css/all.min.css" />
-    </Head>
+    <Head><SmartLink rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css" /></Head>
   </>
 }
 
@@ -35,4 +31,7 @@ function initLive2DWife() {
       })
     })
   }
+  // initWidget 第一个参数为 waifu-tips.json 的路径，第二个参数为 API 地址
+  // API 后端可自行搭建，参考 https://github.com/fghrsh/live2d_api
+  // 初始化看板娘会自动加载指定目录下的 waifu-tips.json
 }
