@@ -18,6 +18,8 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+  # ⭐️ 顺手帮你加上了解决 Node.js 20 弃用警告的环境变量
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -57,7 +59,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          # ⭐️ 核心修改点：注释掉了原本双架构打包的代码
+          # platforms: linux/amd64,linux/arm64
+          # ⭐️ 新增：仅打包适合 GitHub 服务器的 amd64 镜像，彻底告别 qemu_emulator 崩溃！
+          platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

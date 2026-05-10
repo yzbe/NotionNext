@@ -1,5 +1,5 @@
 import CategoryList from './CategoryList'
-import StickyBar from './StickyBar'
+// ⭐️ 删除了原来顶部的 import StickyBar from './StickyBar'
 import TagList from './TagList'
 
 /**
@@ -13,27 +13,24 @@ export default function BlogListBar(props) {
   
   if (tag) {
     return (
-      <StickyBar>
-        {/* ⭐️ 注入统一圆角、背景色和悬浮白光特效 */}
+        // ⭐️ 核心修改点1：完全去除了 <StickyBar> 的包裹
+        // 将 mb-4 改为 mb-6，给下方文章留出更舒适的呼吸空间
         <div 
           style={{ borderRadius: '12px' }}
-          className='p-4 mb-4 bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
+          className='p-4 mb-6 bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
         >
           <TagList tagOptions={tagOptions} currentTag={tag} />
         </div>
-      </StickyBar>
     )
   } else if (category) {
     return (
-      <StickyBar>
-        {/* ⭐️ 注入统一圆角、背景色和悬浮白光特效 */}
+        // ⭐️ 核心修改点2：同上，去除了分类列表的 <StickyBar>
         <div 
           style={{ borderRadius: '12px' }}
-          className='p-4 mb-4 bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
+          className='p-4 mb-6 bg-white dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
         >
           <CategoryList currentCategory={category} categoryOptions={categoryOptions} />
         </div>
-      </StickyBar>
     )
   } else {
     return <></>
