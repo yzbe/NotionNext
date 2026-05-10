@@ -1,6 +1,8 @@
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { loadExternalResource } from '@/lib/utils'
+import { stripTransientQueryParamsFromAsPath } from '@/lib/utils/stripTransientUrlParams'
+import Router from 'next/router'
 import { useEffect } from 'react'
 // import Giscus from '@giscus/react'
 
@@ -15,12 +17,30 @@ const GiscusComponent = () => {
   const { isDarkMode } = useGlobal()
   const theme = isDarkMode ? 'dark' : 'light'
   useEffect(() => {
+    const syncGiscusQueryOutOfUrl = () => {
+      if (typeof window === 'undefined') {
+        return
+      }
+      const full = `${window.location.pathname}${window.location.search}${window.location.hash}`
+      const clean = stripTransientQueryParamsFromAsPath(full)
+      if (clean === full) {
+        return
+      }
+      window.history.replaceState(window.history.state, '', clean)
+      Router.replace(clean, undefined, { scroll: false, shallow: true }).catch(() => {})
+    }
+
     loadExternalResource('/js/giscus.js', 'js').then(() => {
       if (window?.Giscus?.init) {
         window?.Giscus?.init('#giscus')
       }
+      syncGiscusQueryOutOfUrl()
     })
+
+    const onRouteDone = () => syncGiscusQueryOutOfUrl()
+    Router.events.on('routeChangeComplete', onRouteDone)
     return () => {
+      Router.events.off('routeChangeComplete', onRouteDone)
       window?.Giscus?.destroy()
     }
   }, [isDarkMode])
