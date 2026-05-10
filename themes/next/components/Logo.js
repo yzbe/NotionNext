@@ -50,8 +50,8 @@ const Logo = props => {
 
         </div>
 
-        {/* 独立的悬浮短线 */}
-        <div className='w-[80%] mx-auto h-[1px] bg-black/10 dark:bg-white/10'></div>
+        {/* logo下悬浮短线 */}
+        <div className='hidden lg:block w-[85%] mx-auto h-[1px] bg-black/30 dark:bg-white/30'></div>
 
       </div>
     </SmartLink>

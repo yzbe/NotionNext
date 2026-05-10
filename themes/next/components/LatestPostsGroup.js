@@ -36,15 +36,22 @@ const LatestPostsGroup = ({ latestPosts }) => {
             href={post?.href}
             passHref
             className={'my-1 flex font-light'}>
+            
+            {/* ⭐️ 核心修改区：重写了这里的动态 className，匹配圆角气泡风格 */}
             <div
-              className={
-                (selected
-                  ? 'text-white  bg-gray-600 '
-                  : 'text-gray-500 dark:text-gray-400 ') +
-                ' text-xs py-1.5 flex hover:bg-gray-500 px-2 duration-200 w-full ' +
-                'hover:text-white dark:hover:text-white cursor-pointer'
-              }>
-              <li className='line-clamp-2'>{post.title}</li>
+              className={`
+                w-full py-1.5 px-3 flex rounded-lg cursor-pointer transition-colors duration-200
+                ${selected
+                  ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium' 
+                  /* 选中状态：浅灰底色气泡、深色文字、字重加粗 */
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white' 
+                  /* 未选中状态：透明背景、浅色文字、悬浮时出现更浅的灰色气泡 */
+                }
+              `}>
+              
+              {/* 顺手把不合规范的 <li> 换成了 <div>，并将原先过小的 text-xs 改为了 text-sm 以对齐其他组件 */}
+              <div className='line-clamp-2 text-sm'>{post.title}</div>
+              
             </div>
           </SmartLink>
         )
