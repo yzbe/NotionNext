@@ -1,6 +1,7 @@
 import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
 import { fetchGlobalAllData, getPostBlocks } from '@/lib/db/SiteDataApi'
+import { formatNotionBlock } from '@/lib/db/notion/getPostBlocks'
 import { generateRobotsTxt } from '@/lib/utils/robots.txt'
 import { generateRss } from '@/lib/utils/rss'
 import { generateSitemapXml } from '@/lib/utils/sitemap.xml'
@@ -8,6 +9,7 @@ import { DynamicLayout } from '@/themes/theme'
 import { generateRedirectJson } from '@/lib/utils/redirect'
 import { checkDataFromAlgolia } from '@/lib/plugins/algolia'
 import pLimit from 'p-limit'
+import { adapterNotionBlockMap } from '@/lib/utils/notion.util'
 
 /**
  * 首页布局
@@ -78,7 +80,11 @@ export async function getStaticProps(req) {
     await Promise.all(
       previewTargets.map(post =>
         previewLimit(async () => {
-          post.blockMap = await getPostBlocks(post.id, 'slug', POST_PREVIEW_LINES)
+          const rawBlockMap = await getPostBlocks(post.id, 'slug', POST_PREVIEW_LINES)
+          post.blockMap = adapterNotionBlockMap(rawBlockMap)
+          if (post.blockMap?.block) {
+            post.blockMap.block = formatNotionBlock(post.blockMap.block)
+          }
         })
       )
     )
