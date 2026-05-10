@@ -9,12 +9,10 @@ const Logo = props => {
 
   return (
     <SmartLink href='/' passHref legacyBehavior>
-      {/* 最外层容器 */}
-      <div className={'w-full cursor-pointer ' + className}>
+      {/* 下方菜单的紧凑间距 */}
+      <div className={'w-full cursor-pointer -mb-2 ' + className}>
         
-        {/* ⭐️ 修改点1：文字专属区域
-            去除了边框属性。使用 py-6（上下等距的内边距），
-            在数学和视觉上保证了里面的文字绝对垂直居中！ */}
+        {/*  py-6（上下等距的内边距） */}
         <div className='flex flex-col justify-center items-center w-full py-6 space-y-3 font-bold'>
           
           <div className='block lg:hidden'>
@@ -52,11 +50,7 @@ const Logo = props => {
 
         </div>
 
-        {/* ⭐️ 修改点2：独立的悬浮短线
-            w-[80%] 表示占据80%的宽度；
-            mx-auto 表示水平居中（这样左右刚好各空出10%）；
-            h-[1px] 定义线的高度为 1 像素；
-            bg-black/10 dark:bg-white/10 保证它和日/夜间模式完美融合！ */}
+        {/* 独立的悬浮短线 */}
         <div className='w-[80%] mx-auto h-[1px] bg-black/10 dark:bg-white/10'></div>
 
       </div>

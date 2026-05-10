@@ -1,14 +1,4 @@
 /* =========================================
-   静态文件导入与自定义主题样式
-   ========================================= */
-   #theme-fukasawa .sideLeft hr {
-    opacity: .04;
-}
-.fa-info:before {
-    content: "\f05a";
-}
-
-/* =========================================
    NotionNext 表格终极优化版 (边框 + 留白 + 滑动)
    ========================================= */
 
@@ -20,7 +10,7 @@
     max-width: 100% !important;
 }
 
-/* 2. 斩草除根：干掉最外层包裹器的多余游离线条和内边距 */
+/* 2. 斩草除根：清理外层多余的包裹器边框和阴影 */
 .notion-simple-table-wrapper,
 .notion-table-view {
     border: none !important;
@@ -28,50 +18,43 @@
     padding: 0 !important;
 }
 
-/* 3. 表格外壳：强制接管滚动权，同时声明边框 */
+/* 3. 表格外壳：强制接管滚动权，【彻底去除外围边框，专职做透明滚动视窗】 */
 .notion-simple-table {
-    display: block !important;            /* 开启滑动视窗 */
-    overflow-x: auto !important;          /* 允许横向滚动 */
+    display: block !important;            
+    overflow-x: auto !important;          
     -webkit-overflow-scrolling: touch !important;
     width: 100% !important;
-    margin: 0 !important;
-    border-collapse: collapse !important; /* 合并边框 */
-    border: 1px solid #9ca3af !important; /* 外围边框 */
-    box-shadow: none !important;
+    margin: 0 0 16px 0 !important;
+    border: none !important;              /* ⭐️ 核心修复：去除外壳边框，消灭重影 */
+    padding: 0 !important;
 }
 
-/* 4. 恢复行列基本骨架，剥离多余残留干扰 */
-.notion-simple-table thead {
-    display: table-header-group !important;
-    width: auto !important;
-}
+/* 4. 恢复内部真实表格骨架：让 tbody 充当真实的 table，在这里执行边框合并！ */
 .notion-simple-table tbody {
-    display: table-row-group !important;
-    width: auto !important;
+    display: table !important;
+    border-collapse: collapse !important; /* ⭐️ 核心修复：内部完美合并边框 */
+    width: 100% !important;               
+    min-width: max-content !important;    /* 内容过多时强制撑开，触发外层滚动 */
 }
+
 .notion-simple-table tr {
     display: table-row !important;
-    width: auto !important;
-    table-layout: auto !important;        /* 打烂原主题的 fixed 枷锁 */
     border: none !important;
 }
 
-/* 5. 单元格精细化控制 (最小宽度 + 边框 + 紧凑留白) */
+/* 5. 单元格精细化控制 (最小宽度 + 真正的单线边框 + 紧凑留白) */
 .notion-simple-table th,
 .notion-simple-table td {
     display: table-cell !important;
     min-width: 120px !important;          /* 核心动力：保底列宽，撑开滚动条 */
-    width: auto !important;
-    border: 1px solid #9ca3af !important; /* 单元格边框 */
-    padding: 4px 8px !important;          /* 紧凑留白 (上下4px, 左右8px) */
-    line-height: 1.5 !important;          /* 控制多行文本行高 */
-    white-space: normal !important;       /* 允许文字自然换行 */
+    border: 1px solid #9ca3af !important; /* ⭐️ 真正的边框画在单元格上 */
+    padding: 4px 8px !important;          /* 紧凑留白 */
+    line-height: 1.5 !important;
+    white-space: normal !important;
     word-break: break-word !important;
-    box-sizing: border-box !important;
 }
 
 /* 6. 夜间模式适配 (边框变半透明白) */
-.dark .notion-simple-table,
 .dark .notion-simple-table th,
 .dark .notion-simple-table td {
     border-color: rgba(255, 255, 255, 0.3) !important;
@@ -81,13 +64,11 @@
    数据库表格 (Collection Table) 附加修复
    ========================================= */
 
-/* 1. 修复横向滑动与防撑开 */
 .notion-collection {
     overflow-x: auto !important;
     max-width: 100% !important;
 }
 
-/* 2. 减小内部留白 */
 .notion-table-cell,
 .notion-table-view-header-cell-inner,
 .notion-table-cell-text {
