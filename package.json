@@ -25,6 +25,7 @@
     "bundle-report": "cross-env ANALYZE=true next build",
     "build-all-in-dev": "cross-env VERCEL_ENV=production next build",
     "version": "echo $npm_package_version",
+    "bump-patch-version": "node scripts/bump-package-patch-version.js",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
