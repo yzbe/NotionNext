@@ -55,7 +55,7 @@ const SideAreaRight = (props) => {
             {siteConfig('NEXT_RIGHT_CATEGORY_LIST', null, CONFIG) && router.asPath !== '/category' && categoryOptions && (
                 <Card>
                     <div className='text-sm px-2 flex flex-nowrap justify-between font-light'>
-                        <div className='pb-2 text-gray-600 dark:text-gray-300'><i className='mr-2 fas fa-th-list' />{locale.COMMON.CATEGORY}</div>
+                        <div className='pb-2 text-gray-600 dark:text-gray-300'><i className='mr-2 fas fa-list' />{locale.COMMON.CATEGORY}</div>
                         <SmartLink
                             href={'/category'}
                             passHref

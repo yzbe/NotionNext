@@ -23,7 +23,7 @@ export const MenuList = props => {
     },
     {
       id: 2,
-      icon: 'fas fa-th',
+      icon: 'fas fa-list',
       name: locale.COMMON.CATEGORY,
       href: '/category',
       show: siteConfig('NEXT_MENU_CATEGORY', null, CONFIG)

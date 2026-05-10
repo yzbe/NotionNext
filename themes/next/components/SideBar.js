@@ -37,7 +37,7 @@ const SideBar = (props) => {
         {categories && (
           <section className='mt-8'>
             <div className='text-sm px-5 flex flex-nowrap justify-between font-light'>
-              <div className='text-gray-600 dark:text-gray-200'><i className='mr-2 fas fa-th-list' />{locale.COMMON.CATEGORY}</div>
+              <div className='text-gray-600 dark:text-gray-200'><i className='mr-2 fas fa-list' />{locale.COMMON.CATEGORY}</div>
               <SmartLink
                 href={'/category'}
                 passHref
