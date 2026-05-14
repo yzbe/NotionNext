@@ -2,7 +2,7 @@ import BLOG from '@/blog.config'
 import useNotification from '@/components/Notification'
 import TechGrow from '@/components/TechGrow'
 import { siteConfig } from '@/lib/config'
-import { fetchGlobalAllData, resolvePostProps } from '@/lib/db/SiteDataApi'
+import { resolvePostProps } from '@/lib/db/SiteDataApi'
 import { useGlobal } from '@/lib/global'
 import { getPageTableOfContents } from '@/lib/db/notion/getPageTableOfContents'
 import {
@@ -16,8 +16,7 @@ import md5 from 'js-md5'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { isExport } from '@/lib/utils/buildMode'
-import { getPriorityPages, prefetchAllBlockMaps } from '@/lib/build/prefetch'
+import { getStaticPathsBase } from '@/lib/build/staticPaths'
 
 /**
  * 根据notion的slug访问页面
@@ -120,29 +119,11 @@ Slug.propTypes = {
 }
 
 export async function getStaticPaths() {
-  const from = 'slug-paths'
-  const { allPages } = await fetchGlobalAllData({ from })
-
-  // Export 模式：全量预生成
-  if (isExport()) {
-    await prefetchAllBlockMaps(allPages)
-    return {
-      paths: allPages
-        ?.filter(row => checkSlugHasNoSlash(row))
-        .map(row => ({ params: { prefix: row.slug } })),
-      fallback: false
-    }
-  }
-
-  // ISR 模式：预生成最新10篇，其余按需渲染
-  const tops = getPriorityPages(allPages)
-
-  return {
-    paths: tops
-      .filter(row => checkSlugHasNoSlash(row))
-      .map(row => ({ params: { prefix: row.slug } })),
-    fallback: 'blocking'
-  }
+  return getStaticPathsBase({
+    from: 'slug-paths',
+    filterFn: row => checkSlugHasNoSlash(row),
+    mapPageToParams: row => ({ params: { prefix: row.slug } })
+  })
 }
 
 export async function getStaticProps({ params: { prefix }, locale }) {

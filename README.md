@@ -63,6 +63,7 @@ yarn dev
 为方便新贡献者快速上手，项目已补充文档导航与协作规范：
 
 - [文档导航入口（中文）](./docs/README.md)
+- [社区官网能力扩展路线](./docs/COMMUNITY_SITE_ROADMAP.md)
 - [Docs Navigation (English)](./docs/README.en.md)
 - [主题迁移指南（中文）](./docs/THEME_MIGRATION_GUIDE.zh-CN.md)
 - [Theme Migration Guide (English)](./docs/THEME_MIGRATION_GUIDE.md)
