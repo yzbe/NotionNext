@@ -4,6 +4,16 @@
 
 This docs directory helps contributors and new developers understand the project quickly and collaborate safely.
 
+## Repository and organization
+
+The main repository is maintained by the GitHub organization **[notionnext-org](https://github.com/notionnext-org)** (canonical: `https://github.com/notionnext-org/NotionNext`). **You are welcome to request org membership** when that fits your role. If you cloned before the transfer, run:
+
+```bash
+git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+```
+
+See [Contributing](../CONTRIBUTING.md#repository-and-organization) (and the Chinese contributing guide) for details.
+
 ## Start Here (5 minutes)
 
 | Topic | English | 中文 |
@@ -13,6 +23,7 @@ This docs directory helps contributors and new developers understand the project
 | Project Structure | [PROJECT_STRUCTURE.en.md](./PROJECT_STRUCTURE.en.md) | [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) |
 | Configuration | [CONFIGURATION.en.md](./CONFIGURATION.en.md) | [CONFIGURATION.md](./CONFIGURATION.md) |
 | Contribution Workflow | [CONTRIBUTION_WORKFLOW.en.md](./CONTRIBUTION_WORKFLOW.en.md) | [CONTRIBUTION_WORKFLOW.md](./CONTRIBUTION_WORKFLOW.md) |
+| Maintenance & change control | [MAINTENANCE_PHILOSOPHY.en.md](./MAINTENANCE_PHILOSOPHY.en.md) | [MAINTENANCE_PHILOSOPHY.zh-CN.md](./MAINTENANCE_PHILOSOPHY.zh-CN.md) |
 | Theme Migration Guide | [THEME_MIGRATION_GUIDE.md](./THEME_MIGRATION_GUIDE.md) | [THEME_MIGRATION_GUIDE.zh-CN.md](./THEME_MIGRATION_GUIDE.zh-CN.md) |
 
 ## Purpose

@@ -1,11 +1,29 @@
 # 贡献指南（中文）
 
+- [仓库与组织](#仓库与组织)
 - [环境准备](#环境准备)
 - [新建主题](#新建主题)
 - [新增语言](#新增语言)
 - [环境变量](#环境变量)
 
 感谢你愿意为 NotionNext 做贡献！
+
+## 仓库与组织
+
+本仓库已由**个人账号**托管转为 **[GitHub 组织 notionnext-org](https://github.com/notionnext-org)** 管理，canonical 地址为：
+
+**https://github.com/notionnext-org/NotionNext**
+
+若你希望参与长期维护、CI 或组织内协作，可关注组织主页说明并申请加入（具体以组织公告为准）。**欢迎加入组织**，与维护者一起推进项目。
+
+若你仍在使用转让前克隆的本地仓库，建议将默认远端改为组织地址，避免长期依赖旧 URL 重定向：
+
+```bash
+git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+git remote -v
+```
+
+Fork 开发与向 `main` 提 PR 的流程不变；PR 的目标仓库请选择 **notionnext-org/NotionNext**。
 
 ## 环境准备
 
@@ -32,6 +50,8 @@
 3. 不要提交个人本地文件（如 `.env.local`）。
 4. 不要提交会影响他人的个性化默认配置。
 5. 提交前至少执行 lint / type-check / 必要测试。
+
+维护者与高频贡献者请阅读 [维护与变更尺度（共识）](./docs/MAINTENANCE_PHILOSOPHY.zh-CN.md)，避免大范围、难回滚的改动影响主线稳定。
 
 更多文档导航：
 
