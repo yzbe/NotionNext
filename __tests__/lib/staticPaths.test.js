@@ -46,6 +46,32 @@ describe('staticPaths build helpers', () => {
     })
   })
 
+  it('does not keep a rejected allPages lookup pinned in process memory', async () => {
+    isExport.mockReturnValue(false)
+    fetchGlobalAllData
+      .mockRejectedValueOnce(new Error('notion unavailable'))
+      .mockResolvedValueOnce({
+        allPages: [
+          { id: '1', slug: 'hello', type: 'Post', status: 'Published' }
+        ]
+      })
+    getPriorityPages.mockReturnValue([])
+
+    await jest.isolateModulesAsync(async () => {
+      const { getSharedAllPages } = require('@/lib/build/staticPaths')
+
+      await expect(getSharedAllPages({ from: 'slug-paths' })).rejects.toThrow(
+        'notion unavailable'
+      )
+      await expect(getSharedAllPages({ from: 'slug-paths' })).resolves.toEqual([
+        { id: '1', slug: 'hello', type: 'Post', status: 'Published' }
+      ])
+
+      expect(fetchGlobalAllData).toHaveBeenCalledTimes(2)
+      expect(getOrSetDataWithCache).toHaveBeenCalledTimes(2)
+    })
+  })
+
   it('prefetches once per route call in export mode and returns all matching paths', async () => {
     isExport.mockReturnValue(true)
     fetchGlobalAllData.mockResolvedValue({

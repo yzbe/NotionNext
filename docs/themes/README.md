@@ -11,6 +11,7 @@
 | Claude | [CLAUDE.md](./CLAUDE.md) | [CLAUDE.en.md](./CLAUDE.en.md) |
 | Endspace | [ENDSPACE.md](./ENDSPACE.md) | [ENDSPACE.en.md](./ENDSPACE.en.md) |
 | Fuwari | [FUWARI.md](./FUWARI.md) | [FUWARI.md](./FUWARI.md) |
+| ThoughtLite（移植中） | [THOUGHTLITE.md](./THOUGHTLITE.md) | [THOUGHTLITE.en.md](./THOUGHTLITE.en.md) · [迁移计划](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md) |
 
 ## 维护约定
 

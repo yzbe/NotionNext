@@ -4,6 +4,16 @@
 
 本目录用于帮助开源贡献者和新开发者快速理解项目并安全协作。
 
+## 仓库与组织
+
+主仓库现由 GitHub 组织 **[notionnext-org](https://github.com/notionnext-org)** 管理（canonical：`https://github.com/notionnext-org/NotionNext`），已从个人账号迁移以便长期治理。**欢迎加入组织**参与协作（以组织内说明为准）。若在迁移前已克隆本地仓库，建议执行：
+
+```bash
+git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+```
+
+详见 [贡献指南（中文）](../CONTRIBUTING.zh-CN.md#仓库与组织) / [Contributing (English)](../CONTRIBUTING.md#repository-and-organization)。
+
 ## 文档入口（中英双语）
 
 | 主题 | 中文 | English |
@@ -13,6 +23,7 @@
 | 目录与模块说明 | [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) | [PROJECT_STRUCTURE.en.md](./PROJECT_STRUCTURE.en.md) |
 | 配置体系说明 | [CONFIGURATION.md](./CONFIGURATION.md) | [CONFIGURATION.en.md](./CONFIGURATION.en.md) |
 | 提交与 PR 规范 | [CONTRIBUTION_WORKFLOW.md](./CONTRIBUTION_WORKFLOW.md) | [CONTRIBUTION_WORKFLOW.en.md](./CONTRIBUTION_WORKFLOW.en.md) |
+| 维护与变更尺度 | [MAINTENANCE_PHILOSOPHY.zh-CN.md](./MAINTENANCE_PHILOSOPHY.zh-CN.md) | [MAINTENANCE_PHILOSOPHY.en.md](./MAINTENANCE_PHILOSOPHY.en.md) |
 | 主题迁移指南 | [THEME_MIGRATION_GUIDE.zh-CN.md](./THEME_MIGRATION_GUIDE.zh-CN.md) | [THEME_MIGRATION_GUIDE.md](./THEME_MIGRATION_GUIDE.md) |
 | 社区官网能力扩展路线 | [COMMUNITY_SITE_ROADMAP.md](./COMMUNITY_SITE_ROADMAP.md) | — |
 

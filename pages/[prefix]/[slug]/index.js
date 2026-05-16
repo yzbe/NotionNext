@@ -2,8 +2,9 @@ import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
 import { resolvePostProps } from '@/lib/db/SiteDataApi'
 import Slug from '..'
-import { checkSlugHasOneSlash } from '@/lib/utils/post'
 import { getStaticPathsBase } from '@/lib/build/staticPaths'
+import { isExport } from '@/lib/utils/buildMode'
+import { checkSlugHasOneSlash } from '@/lib/utils/post'
 
 /**
  * 根据notion的slug访问页面

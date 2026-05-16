@@ -11,6 +11,7 @@ This directory centralizes documentation for all themes, including design intent
 | Claude | [CLAUDE.en.md](./CLAUDE.en.md) | [CLAUDE.md](./CLAUDE.md) |
 | Endspace | [ENDSPACE.en.md](./ENDSPACE.en.md) | [ENDSPACE.md](./ENDSPACE.md) |
 | Fuwari | [FUWARI.md](./FUWARI.md) | [FUWARI.md](./FUWARI.md) |
+| ThoughtLite (WIP) | [THOUGHTLITE.en.md](./THOUGHTLITE.en.md) | [THOUGHTLITE.md](./THOUGHTLITE.md) · [plan (zh)](./THOUGHTLITE_MIGRATION_PLAN.zh-CN.md) |
 
 ## Maintenance Rules
 
