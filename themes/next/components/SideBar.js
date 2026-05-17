@@ -20,7 +20,6 @@ const SideBar = (props) => {
   const { locale } = useGlobal()
   
   return (
-    // ⭐️ 清理完毕：去除了之前加错的 transition、shadow 和所有 hover 发光特效，还原它原本的清爽状态
     <aside 
       id='sidebar' 
       style={{ borderRadius: '16px' }}
