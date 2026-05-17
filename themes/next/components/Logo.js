@@ -31,7 +31,7 @@ const Logo = props => {
                 data-aos-duration='500'
                 data-aos-once='true'
                 data-aos-anchor-placement='top-bottom'
-                className='font-sans font-extrabold text-xl text-gray-900 dark:text-white logo text-center w-full'>
+                className='font-sans font-extrabold text-3xl text-gray-900 dark:text-white logo text-center w-full'>
                 {siteConfig('TITLE')}
               </div>
               
