@@ -28,7 +28,7 @@ const CategoryGroup = ({ currentCategory, categories }) => {
                 `}>
                 
                 {/* ⭐️ 修复 1 & 2：换成 fa-regular(空心线条)，用 mr-2 保持间距，彻底消除“太黑”和“对不齐”的问题 */}
-                <i className={`fa-regular ${selected ? 'fa-folder-open' : 'fa-folder'} mr-2`} />
+                <i className={`fa-regular ${selected ? 'fa-folder-open' : 'fas-folder'} mr-3`} />
                 
                 <div className='line-clamp-2 text-sm'>
                   {category.name}({category.count})

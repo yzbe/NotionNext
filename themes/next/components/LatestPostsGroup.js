@@ -48,7 +48,7 @@ const LatestPostsGroup = ({ latestPosts }) => {
               `}>
               
               {/* ⭐️ 新增区：加入了你指定的文本行图标，并用 mr-2 保持合适的右侧间距 */}
-              <i className='fas fa-file-lines mr-2' />
+              <i className='fas fa-file-lines mr-3' />
               
               <div className='line-clamp-2 text-sm'>{post.title}</div>
               
