@@ -39,7 +39,8 @@ const LatestPostsGroup = ({ latestPosts }) => {
             
             <div
               className={`
-                w-full py-1.5 px-3 flex items-center rounded-lg cursor-pointer transition-colors duration-200
+                w-full py-1.5 px-2 flex items-center rounded-lg cursor-pointer transition-colors duration-200
+                /* ⭐️ 核心修改：将上面的 px-3 改为了 px-2，实现左侧边缘的完美纵向对齐 */
                 ${selected
                   ? 'bg-gray-200 dark:bg-gray-800 text-black dark:text-white font-medium' 
                   : 'text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white' 
