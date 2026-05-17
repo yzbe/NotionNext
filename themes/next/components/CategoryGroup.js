@@ -17,18 +17,18 @@ const CategoryGroup = ({ currentCategory, categories }) => {
               passHref
               className={'my-1 flex font-light'}>
               
-              {/* ⭐️ 核心对齐：完全套用 LatestPostsGroup 的间距和颜色逻辑，确保毫无偏差 */}
               <div
                 className={`
-                  w-full py-1.5 px-2 flex items-center rounded-lg cursor-pointer transition-colors duration-200
+                  w-full py-1.5 pl-6 pr-2 flex items-center rounded-lg cursor-pointer transition-colors duration-200
+                  /* ⭐️ 层级感优化：px-2 改为 pl-6 pr-2，向右缩进营造子菜单视觉 */
                   ${selected
                     ? 'bg-gray-200 dark:bg-gray-800 text-black dark:text-white font-medium'
                     : 'text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
                   }
                 `}>
                 
-                {/* ⭐️ 修复 1 & 2：换成 fa-regular(空心线条)，用 mr-2 保持间距，彻底消除“太黑”和“对不齐”的问题 */}
-                <i className={`fa-regular ${selected ? 'fa-folder-open' : 'fas-folder'} mr-3`} />
+                {/* ⭐️ 图标回归：改回 fas 实心图标，找回稳重感 */}
+                <i className={`fas ${selected ? 'fa-folder-open' : 'fa-folder'} mr-2`} />
                 
                 <div className='line-clamp-2 text-sm'>
                   {category.name}({category.count})
