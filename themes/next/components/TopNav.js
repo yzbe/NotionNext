@@ -159,10 +159,7 @@ const TopNav = (props) => {
                         </div>
                     </div>
                 </div>
-                {/* ⭐️ 新增：在这里添加一条明显的分割线，仅在菜单打开时显示，颜色加深为 bg-gray-300 */}
-                {isOpen && (
-                <div className='w-full h-px bg-gray-500 dark:bg-gray-500' />
-              )}
+
                 <Collapse collapseRef={collapseRef} type='vertical' isOpen={isOpen}>
                     <MenuList onHeightChange={(param) => collapseRef.current?.updateCollapseHeight(param)} {...props} from='top' />
                 </Collapse>
