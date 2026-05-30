@@ -24,6 +24,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
       packages: write
@@ -59,10 +60,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          # ⭐️ 核心修改点：注释掉了原本双架构打包的代码
-          # platforms: linux/amd64,linux/arm64
-          # ⭐️ 新增：仅打包适合 GitHub 服务器的 amd64 镜像，彻底告别 qemu_emulator 崩溃！
-          platforms: linux/amd64
+          platforms: ${{ github.event_name == 'pull_request' && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
