@@ -14,19 +14,6 @@ import { useRouter } from 'next/router'
 
 let windowTop = 0
 
-// ⭐️ 新增：手动实现一个简易的 throttle（节流）函数
-// 彻底避开 Webpack 的模块循环依赖 Bug，也不会报错未定义
-function throttle(func, wait) {
-  let previous = 0;
-  return function(...args) {
-    let now = Date.now();
-    if (now - previous > wait) {
-      func.apply(this, args);
-      previous = now;
-    }
-  };
-}
-
 const TopNav = (props) => {
   const { tags, currentTag, categories, currentCategory } = props
   const { locale } = useGlobal()
@@ -41,19 +28,25 @@ const TopNav = (props) => {
   const windowTopRef = useRef(0)
   const [isOpen, changeShow] = useState(false)
 
-  // ⭐️ 同步修改：匹配 top-1 的悬浮状态
-  const scrollTrigger = useCallback(throttle(() => {
-    const scrollS = window.scrollY
-    if (scrollS >= windowTop && scrollS > 10) {
-      const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('top-1', '-top-40') 
-      windowTop = scrollS
-    } else {
-      const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('-top-40', 'top-1')
-      windowTop = scrollS
+  // ⭐️ 终极修复：彻底移除引发打包 Bug 的 throttle 引入和外部函数
+  // 直接利用原生的 requestAnimationFrame 实现高性能平滑节流
+  const scrollTrigger = useCallback(() => {
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        const scrollS = window.scrollY
+        if (scrollS >= windowTop && scrollS > 10) {
+          const nav = document.querySelector('#sticky-nav')
+          nav && nav.classList.replace('top-1', '-top-40') 
+          windowTop = scrollS
+        } else {
+          const nav = document.querySelector('#sticky-nav')
+          nav && nav.classList.replace('-top-40', 'top-1')
+          windowTop = scrollS
+        }
+        rafRef.current = null
+      })
     }
-  }, 200), [])
+  }, [])
 
   useEffect(() => {
     if (siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse') {
@@ -102,7 +95,7 @@ const TopNav = (props) => {
     }
   }, [isOpen])
 
-  const { searchModal } = useNextGlobal()
+  const { searchModal } = useNextGlobal() || {}
   const showSearchModal = () => {
     if (siteConfig('ALGOLIA_APP_ID')) {
       searchModal?.current?.openSearch()
@@ -149,16 +142,11 @@ const TopNav = (props) => {
         <div id='top-nav' className='block lg:hidden' ref={topNavRef}>
             <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
-            {/* 顶部悬浮（top-1 / mt-1）和四角全圆，但将宽度恢复成了贴边的 w-full */}
             <div 
               id='sticky-nav' 
               style={{ borderRadius: '12px' }}
               className={`overflow-hidden shadow-md ${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'fixed top-1' : 'relative mt-1'} lg:relative w-full z-20 transform duration-500`}
             >
-               {/* ⭐️ 核心修改点：
-                   1. 背景色：bg-white/90 dark:bg-hexo-black-gray/90 (日间白，夜间深)
-                   2. 字体图标颜色：text-black dark:text-white (日间黑，夜间白)
-               */}
                 <div className='w-full flex justify-between items-center p-4 bg-white/90 dark:bg-hexo-black-gray/90 backdrop-blur-md text-black dark:text-white relative'>
                     <div className='flex flex-none flex-grow-0'>
                         <div onClick={toggleMenuOpen} className='w-8 cursor-pointer'>
@@ -170,7 +158,6 @@ const TopNav = (props) => {
                         <Logo {...props} />
                     </div>
 
-                    {/* ⭐️ 图标颜色也同步去掉了强制的深色模式约束，让它跟随父级 */}
                     <div className='mr-1 flex justify-end items-center text-sm space-x-4 font-serif'>
                         <div className="cursor-pointer block lg:hidden" onClick={showSearchModal}>
                             <i className="mr-2 fas fa-search" />
@@ -182,7 +169,8 @@ const TopNav = (props) => {
                     <MenuList onHeightChange={(param) => collapseRef.current?.updateCollapseHeight(param)} {...props} from='top' />
                 </Collapse>
             </div>
-        </div>)
+        </div>
+  )
 }
 
 export default TopNav
