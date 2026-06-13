@@ -1,4 +1,5 @@
 import { useGlobal } from '@/lib/global'
+import throttle from 'lodash.throttle'
 import SmartLink from '@/components/SmartLink'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import CategoryGroup from './CategoryGroup'
