@@ -9,7 +9,6 @@ import SearchDrawer from './SearchDrawer'
 import TagGroups from './TagGroups'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
-import { useNextGlobal } from '..'
 import { useRouter } from 'next/router'
 
 let windowTop = 0
@@ -19,17 +18,22 @@ const TopNav = (props) => {
   const { locale } = useGlobal()
   const searchDrawer = useRef()
   const collapseRef = useRef(null)
-  
   const topNavRef = useRef(null) 
-  
   const router = useRouter()
   const rafRef = useRef(null)
   const navRef = useRef(null)
-  const windowTopRef = useRef(0)
   const [isOpen, changeShow] = useState(false)
 
-  // ⭐️ 终极修复：彻底移除引发打包 Bug 的 throttle 引入和外部函数
-  // 直接利用原生的 requestAnimationFrame 实现高性能平滑节流
+  // ⭐️ 修复 1：将函数的定义提升到 useEffect 之前，彻底消灭 TDZ 初始化报错
+  const menuCollapseHide = useCallback(() => {
+    changeShow(false)
+  }, [])
+
+  const toggleMenuOpen = () => {
+    changeShow(!isOpen)
+  }
+
+  // ⭐️ 修复 2：彻底弃用容易引发依赖缺失的 throttle，改用原生动画帧，丝滑且永不报错
   const scrollTrigger = useCallback(() => {
     if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(() => {
@@ -67,15 +71,7 @@ const TopNav = (props) => {
     return () => {
       router.events.off('routeChangeComplete', menuCollapseHide)
     }
-  }, [menuCollapseHide, router.events])
-
-  const menuCollapseHide = () => {
-    changeShow(false)
-  }
-
-  const toggleMenuOpen = () => {
-    changeShow(!isOpen)
-  }
+  }, [router.events, menuCollapseHide])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -95,16 +91,13 @@ const TopNav = (props) => {
     }
   }, [isOpen])
 
-  const { searchModal } = useNextGlobal() || {}
+  // ⭐️ 修复 3：切断了 useNextGlobal 的循环依赖，直接唤起原生抽屉搜索
   const showSearchModal = () => {
-    if (siteConfig('ALGOLIA_APP_ID')) {
-      searchModal?.current?.openSearch()
-    } else {
-      searchDrawer?.current?.show()
-    }
+    searchDrawer?.current?.show()
   }
 
-  const searchDrawerSlot = <>
+  const searchDrawerSlot = (
+    <>
         {categories && (
             <section className='mt-8'>
                 <div className='text-sm flex flex-nowrap justify-between font-light px-2'>
@@ -137,6 +130,7 @@ const TopNav = (props) => {
             </section>
         )}
     </>
+  )
 
   return (
         <div id='top-nav' className='block lg:hidden' ref={topNavRef}>
