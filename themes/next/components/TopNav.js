@@ -1,5 +1,4 @@
 import { useGlobal } from '@/lib/global'
-import throttle from 'lodash.throttle'
 import SmartLink from '@/components/SmartLink'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import CategoryGroup from './CategoryGroup'
@@ -24,6 +23,10 @@ const TopNav = (props) => {
   const topNavRef = useRef(null) 
   
   const router = useRouter()
+  const rafRef = useRef(null)
+  const navRef = useRef(null)
+  const windowTopRef = useRef(0)
+  const [isOpen, changeShow] = useState(false)
 
   // ⭐️ 同步修改：匹配 top-1 的悬浮状态
   const scrollTrigger = useCallback(throttle(() => {
@@ -41,22 +44,24 @@ const TopNav = (props) => {
 
   useEffect(() => {
     if (siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse') {
+      navRef.current = document.querySelector('#sticky-nav')
       scrollTrigger()
-      window.addEventListener('scroll', scrollTrigger)
+      window.addEventListener('scroll', scrollTrigger, { passive: true })
     }
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
       siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse' && window.removeEventListener('scroll', scrollTrigger)
     }
-  }, [])
-
-  const [isOpen, changeShow] = useState(false)
+  }, [scrollTrigger])
 
   useEffect(() => {
     router.events.on('routeChangeComplete', menuCollapseHide)
     return () => {
       router.events.off('routeChangeComplete', menuCollapseHide)
     }
-  }, [])
+  }, [menuCollapseHide, router.events])
 
   const menuCollapseHide = () => {
     changeShow(false)

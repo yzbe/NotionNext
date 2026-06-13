@@ -5,7 +5,14 @@ import { isBrowser } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import Announcement from './components/Announcement'
 import ArticleDetail from './components/ArticleDetail'
 import { ArticleLock } from './components/ArticleLock'
