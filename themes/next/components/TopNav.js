@@ -1,5 +1,4 @@
 import { useGlobal } from '@/lib/global'
-import throttle from 'lodash.throttle'
 import SmartLink from '@/components/SmartLink'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import CategoryGroup from './CategoryGroup'
@@ -10,10 +9,23 @@ import SearchDrawer from './SearchDrawer'
 import TagGroups from './TagGroups'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
-import { useNextGlobal } from '../LayoutBase'
+import { useNextGlobal } from '..'
 import { useRouter } from 'next/router'
 
 let windowTop = 0
+
+    function throttle(func, wait) {
+      let previous = 0;
+      return function(...args) {
+        let now = Date.now();
+        if (now - previous > wait) {
+          func.apply(this, args);
+          previous = now;
+        }
+      };
+    }
+
+    const TopNav = (props) => {
 
 const TopNav = (props) => {
   const { tags, currentTag, categories, currentCategory } = props
