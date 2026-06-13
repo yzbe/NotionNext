@@ -14,18 +14,18 @@ import { useRouter } from 'next/router'
 
 let windowTop = 0
 
-    function throttle(func, wait) {
-      let previous = 0;
-      return function(...args) {
-        let now = Date.now();
-        if (now - previous > wait) {
-          func.apply(this, args);
-          previous = now;
-        }
-      };
+// ⭐️ 新增：手动实现一个简易的 throttle（节流）函数
+// 彻底避开 Webpack 的模块循环依赖 Bug，也不会报错未定义
+function throttle(func, wait) {
+  let previous = 0;
+  return function(...args) {
+    let now = Date.now();
+    if (now - previous > wait) {
+      func.apply(this, args);
+      previous = now;
     }
-
-    const TopNav = (props) => {
+  };
+}
 
 const TopNav = (props) => {
   const { tags, currentTag, categories, currentCategory } = props
