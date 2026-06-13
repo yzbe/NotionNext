@@ -10,7 +10,7 @@ import SearchDrawer from './SearchDrawer'
 import TagGroups from './TagGroups'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
-import { useNextGlobal } from '..'
+import { useNextGlobal } from '../LayoutBase'
 import { useRouter } from 'next/router'
 
 let windowTop = 0
