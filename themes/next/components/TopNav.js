@@ -148,7 +148,7 @@ const TopNav = (props) => {
                         </div>
                     </div>
 
-                     <div className='absolute left-1/2 -translate-x-1/2 flex'>
+                    <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex'>
                         <Logo {...props} />
                     </div>
 

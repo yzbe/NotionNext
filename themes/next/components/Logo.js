@@ -9,30 +9,32 @@ const Logo = props => {
 
   return (
     <SmartLink href='/' passHref legacyBehavior>
-      {/* 下方菜单的紧凑间距 */}
-      <div className={'w-full cursor-pointer -mb-2 ' + className}>
-        
-        {/*  py-6（上下等距的内边距） */}
-        <div className='flex flex-col justify-center items-center w-full py-6 space-y-3 font-bold'>
+      <div className={'group w-full cursor-pointer lg:-mb-2 ' + className}>
+        <div className='flex flex-col justify-center items-center w-full lg:py-6 space-y-3 font-bold'>
           
+          {/* === 移动端 Logo (静止无动画) === */}
           <div className='block lg:hidden'>
-              <div className="p-[0px] rounded-full bg-white/10 border border-white/20">
+              <div className="p-[0px] rounded-full bg-white/20 border border-white/40">
                   <LazyImage 
                     src={avatar} 
-                    className='h-8 w-8 rounded-full object-cover' 
+                    className='h-10 w-10 rounded-full object-cover' 
                     alt={siteConfig('TITLE')} 
                   />
               </div>
           </div>
 
+          {/* === 桌面端 Logo (保留悬停平滑放大特效) === */}
           <div className='hidden lg:block w-full'>
               <div
                 data-aos='fade-down'
                 data-aos-duration='500'
                 data-aos-once='true'
                 data-aos-anchor-placement='top-bottom'
-                className='font-sans font-extrabold text-3xl text-gray-900 dark:text-white logo text-center w-full'>
-                {siteConfig('TITLE')}
+                className='w-full text-center'>
+                {/* 此处应用 group-hover:scale-110 放大特效 */}
+                <div className='font-sans font-extrabold text-3xl text-gray-900 dark:text-white logo inline-block transform transition-transform duration-500 group-hover:scale-110'>
+                  {siteConfig('TITLE')}
+                </div>
               </div>
               
               {siteConfig('DESCRIPTION') && (
