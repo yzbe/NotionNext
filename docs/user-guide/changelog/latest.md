@@ -1,6 +1,31 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.5**（见根目录 `package.json`）
+> 当前主线：**4.10.7**（见根目录 `package.json`）
+
+## 4.10.7 发布要点
+
+本版本将主题颜色定制从 Tailwind 类名覆盖，过渡到主题语义色变量与调色板方案。早期使用 TailwindCSS 是为了快速开发；现在主题框架已经成熟，后续更适合通过 `*_COLOR_*` 配置项表达主色、背景、文字、边框等语义色，便于用户在 Notion Config 中快速调色，也避免 `.bg-indigo-600` 这类工具类被覆盖后产生语义混淆。
+
+### 主题调色板
+
+- 全局主题工具新增当前主题调色板，展示每个主题可覆盖的色号变量、CSS 变量名、默认色值和复制入口。
+- 25 个内置主题均已在 `conf/themeSwitch.manifest.js` 声明 palette；切换主题后即可查看该主题的可配置色号。
+- Fuwari 保留原有色相模型，调色板显示 `FUWARI_THEME_COLOR_HUE`，复制值为数字色相，避免破坏现有配置。
+- Endspace、Heo、Claude 等多色主题提供更完整的背景、文字、强调色、边框等变量；Fuwari、Hexo、Medium 等单主色主题保持轻量色板。
+
+### 配置与兼容
+
+- 新增或整理各主题的 `*_COLOR_*` 配置项，用户可在 Notion Config 表、环境变量或主题 `config.js` 中覆盖。
+- 保留既有 TailwindCSS 与旧配置的渲染路径，不要求用户立即迁移；推荐新调色优先使用主题色变量。
+- 补充主题迁移指南与主题色 token roadmap，后续新增主题必须首版声明 `*_COLOR_*` 与 manifest 调色板。
+- 各主题文档补充调色说明，说明如何从全局主题工具复制配置项并在 Notion Config 中覆盖。
+
+### 验证
+
+- Babel parser 定向解析：通过。
+- `npx eslint` 定向检查主题色相关文件：通过。
+- manifest smoke check：25 个内置主题 palette 覆盖率 100%。
+- `git diff --check`：通过，仅保留 Windows 工作区 LF/CRLF 提示。
 
 ## 4.10.5 发布要点
 

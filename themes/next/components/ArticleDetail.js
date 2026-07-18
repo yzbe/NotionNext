@@ -46,6 +46,7 @@ export default function ArticleDetail(props) {
   }
 
   return (
+<<<<<<< HEAD
     <>
       {/* ⭐️ 核心修正：将按钮移出 overflow-hidden 的父容器之外 */}
       {/* 使用 fixed 定位，并设置极高的 z-index */}
@@ -84,6 +85,59 @@ export default function ArticleDetail(props) {
                       className='object-center w-full'
                     />
                   </div>
+=======
+    <div className='shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full '>
+      <div className='overflow-y-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+        {showArticleInfo && (
+          <header {...aosProps}>
+            {/* 头图 */}
+            {siteConfig('NEXT_POST_HEADER_IMAGE_VISIBLE', null, CONFIG) &&
+              post?.type &&
+              !post?.type !== 'Page' &&
+              post?.pageCover && (
+                <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
+                  <LazyImage
+                    alt={post.title}
+                    src={post?.pageCover}
+                    className='object-center w-full'
+                  />
+                </div>
+              )}
+
+            {/* title */}
+            <div className=' text-center font-bold text-3xl text-black dark:text-white font-serif pt-6'>
+              {siteConfig('POST_TITLE_ICON') && (
+                <NotionIcon icon={post.pageIcon} />
+              )}
+              {post.title}
+            </div>
+
+            {/* meta */}
+            <section className='mt-2 text-gray-500 dark:text-gray-400 font-light leading-7 text-sm'>
+              <div className='flex flex-wrap justify-center'>
+                {post?.type !== 'Page' && (
+                  <>
+                    <SmartLink
+                      href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
+                      passHref
+                      legacyBehavior>
+                      <div className='pl-1 mr-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 border-b dark:border-gray-500 border-dashed'>
+                        <i className='far fa-calendar mr-1' />{' '}
+                        {post?.publishDay}
+                      </div>
+                    </SmartLink>
+                    <span className='mr-2'>
+                      {' '}
+                      | <i className='far fa-calendar-check mr-2' />
+                      {post.lastEditedDay}{' '}
+                    </span>
+
+                    <div className='hidden busuanzi_container_page_pv font-light mr-2'>
+                      <i className='mr-1 fas fa-eye' />
+                      <span className='mr-2 busuanzi_value_page_pv' />
+                    </div>
+                  </>
+>>>>>>> main
                 )}
 
               {/* 标题 */}
