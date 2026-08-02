@@ -1,6 +1,39 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.7**（见根目录 `package.json`）
+> 当前主线：**4.10.8**（见根目录 `package.json`）
+
+## 4.10.8 发布要点
+
+本版本新增 Cloudflare Worker 版 Notion 图片反代示例，并补充完整站长教程。站长可以把 Notion 素材统一映射到自己的 CDN 域名，例如 `https://cdn.example.com`，让 `www.notion.so/image/...` 和 Notion 内置封面图经过自己的 Cloudflare 缓存。
+
+### Notion 图片反代
+
+- 新增 `cloudflare/notion-image-proxy` 最小 Worker 工程，默认只放行 `/image/` 和 `/images/`。
+- Worker 支持 Notion 签名图片跳转链路，并使用 `caches.default` 显式缓存响应，重复访问同一图片可观察到 `X-Notion-Image-Proxy-Cache: HIT`。
+- 示例配置使用 Cloudflare Custom Domain，生产示例域名为 `cdn.tangly1024.com`。
+- 保持 NotionNext 侧接入方式不变：只需配置 `NEXT_PUBLIC_NOTION_HOST=https://你的CDN域名`。
+
+### 文档
+
+- 新增 Notion 图片反代教程，覆盖 Worker 部署、API Token 权限、Custom Domain 限制、本地预览、`yarn start` / `yarn export` 兼容性和缓存验证方式。
+- 记录常见坑：`Write all resources` 仍缺 `User -> Memberships -> Read`、Custom Domain 不能带路径、浏览器内存缓存会显示旧的 `CF-Cache-Status: MISS`、`prod-files-secure` 不能直接请求 S3 原始地址。
+- VitePress 部署目录新增「Notion 图片反代」入口。
+- 新增原创存证教程，说明 `NEXT_PUBLIC_ORIGINALITY_PROOF_ENABLE`、Notion `proof` / `proofTime` / `proofHash` / `proofUrl` 字段，以及本地内容哈希的证明边界。
+- 原创存证展示改为紧凑徽章，可展开查看详情并一键复制证据文本。
+- 原创存证新增可选 GitHub 自动公开清单模式，构建时可生成 `public/proofs/originality.json`，用于公开保存文章哈希证据。
+- 原创存证教程补充自动清单 JSON 示例、字段说明和 workflow 常见问题排查。
+
+### 升级说明
+
+- 该能力是可选增强，不影响默认 `https://www.notion.so` 图片加载。
+- 动态部署和静态导出都可使用；静态站点只要重新构建，让 HTML 输出新的 `NEXT_PUBLIC_NOTION_HOST` 即可。
+- 图片请求量大的站点建议使用 Workers Paid，因为每张图片请求都会计入 Worker request。
+
+### 验证
+
+- `node --check cloudflare/notion-image-proxy/worker.mjs`：通过。
+- `curl -I` 连续请求真实 Notion 图片：第二次返回 `CF-Cache-Status: HIT` 与 `X-Notion-Image-Proxy-Cache: HIT`。
+- `git diff --check`：通过，仅保留 Windows 工作区 LF/CRLF 提示。
 
 ## 4.10.7 发布要点
 

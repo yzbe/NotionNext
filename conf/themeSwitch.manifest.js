@@ -117,6 +117,27 @@ export const THEME_SWITCH_MANIFEST = {
       { key: 'NOBELIUM_COLOR_PRIMARY', cssVar: '--nobelium-color-primary', label: '主色', defaultValue: '#6b7280' }
     ]
   },
+  opc: {
+    name: 'Opc',
+    summary: '一人公司 AI 任务流水线入口，聚焦项目、产物和验收结果。',
+    settings: [
+      { key: 'OPC_NAME', label: '顶部名称', type: 'text', defaultValue: 'Tangly · 个人公司' },
+      { key: 'OPC_KICKER', label: '首屏标签', type: 'text', defaultValue: '一人公司 / 独立开发者' },
+      { key: 'OPC_TITLE', label: '主标题', type: 'text', defaultValue: 'Tangly1024' },
+      { key: 'OPC_SUBTITLE', label: '副标题', type: 'text', defaultValue: '一人公司的 AI 任务流水线实验室' },
+      { key: 'OPC_DESCRIPTION', label: '主介绍', type: 'text', defaultValue: '我把 AI 当作能力入口，而不是模拟公司部门开会；用任务文件、产物路径和验收标准，运行内容、产品与交易实验。' },
+      { key: 'OPC_PRIMARY_TEXT', label: '主按钮文字', type: 'text', defaultValue: '查看 NotionNext' },
+      { key: 'OPC_PRIMARY_URL', label: '主按钮链接', type: 'text', defaultValue: 'https://preview.tangly1024.com' },
+      { key: 'OPC_SECONDARY_TEXT', label: '副按钮文字', type: 'text', defaultValue: '阅读长期记录' },
+      { key: 'OPC_SECONDARY_URL', label: '副按钮链接', type: 'text', defaultValue: 'https://blog.tangly1024.com' },
+      { key: 'OPC_STATUS_TEXT', label: '状态标签', type: 'text', defaultValue: '持续公开构建' },
+      { key: 'OPC_CARD_TITLE', label: '卡片标题', type: 'text', defaultValue: '可验收的 AI 生产流水线' },
+      { key: 'OPC_CARD_DESCRIPTION', label: '卡片说明', type: 'text', defaultValue: '每轮只推进一个最小可验证目标：先买或接入成熟方案，再复制成熟做法，最后才自研；执行 AI 只领取一张任务单，交付文件后结束。' },
+      { key: 'OPC_NOW_TITLE', label: '近况标题', type: 'text', defaultValue: '最近正在做什么' },
+      { key: 'OPC_NOW_DESCRIPTION', label: '近况说明', type: 'text', defaultValue: '当前所有方向都按 ready、running、review、done 的流水线推进，只统计有效产物、验收结果和真实业务数据。' },
+      { key: 'OPC_NOW_ITEMS', label: '近况标签', type: 'text', defaultValue: '游戏,小说,短剧,工具产品,流量媒体,AI企业工作流,量化交易' }
+    ]
+  },
   plog: {
     name: 'Plog',
     summary: '偏图片与轻量图文化展示。',
@@ -328,6 +349,7 @@ const THEME_CONFIGS = {
   nav: navConfig,
   next: nextConfig,
   nobelium: nobeliumConfig,
+  opc: opcConfig,
   photo: photoConfig,
   plog: plogConfig,
   proxio: proxioConfig,
@@ -569,6 +591,7 @@ import movieConfig from '@/themes/movie/config'
 import navConfig from '@/themes/nav/config'
 import nextConfig from '@/themes/next/config'
 import nobeliumConfig from '@/themes/nobelium/config'
+import opcConfig from '@/themes/opc/config'
 import photoConfig from '@/themes/photo/config'
 import plogConfig from '@/themes/plog/config'
 import proxioConfig from '@/themes/proxio/config'

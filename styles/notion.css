@@ -2198,6 +2198,18 @@ figure.notion-asset-wrapper.notion-asset-wrapper-video > div {
   padding: 0 16px;
 }
 
+/* Respect Notion Gallery's "Show page icon" view setting. */
+.notion-gallery-hide-page-icons .notion-page-title-icon {
+  display: none;
+}
+
+/* Respect the Gallery title property's visibility setting. */
+.notion-gallery-hide-titles
+  .notion-collection-card-body
+  > .notion-collection-card-property:first-child {
+  display: none;
+}
+
 /* Dark mode: database property tags (select / multi_select) text readability */
 html.dark .notion-property-select-item,
 html.dark .notion-property-status-item,

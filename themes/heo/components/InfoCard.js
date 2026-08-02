@@ -38,6 +38,10 @@ export function normalizeInfoCardGreetings(value) {
   return [trimmed]
 }
 
+export function shouldUseInfoCardBlurAvatar(isSlugPage, avatarBlurEnabled) {
+  return Boolean(isSlugPage && avatarBlurEnabled)
+}
+
 /**
  * 社交信息卡
  * @param {*} props
@@ -52,6 +56,17 @@ export function InfoCard(props) {
   const icon1 = siteConfig('HEO_INFO_CARD_ICON1', null, CONFIG)
   const url2 = siteConfig('HEO_INFO_CARD_URL2', null, CONFIG)
   const icon2 = siteConfig('HEO_INFO_CARD_ICON2', null, CONFIG)
+  const orcidUrl = siteConfig('CONTACT_ORCID')
+  const orcidIcon = siteConfig('HEO_INFO_CARD_ICON_ORCID', 'fab fa-orcid', CONFIG)
+  const avatarBlurEnabled = siteConfig(
+    'HEO_INFO_CARD_AVATAR_BLUR',
+    false,
+    CONFIG
+  )
+  const useBlurAvatar = shouldUseInfoCardBlurAvatar(
+    isSlugPage,
+    avatarBlurEnabled
+  )
   return (
     <Card className='wow fadeInUp bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] text-[var(--heo-color-primary-text)] flex flex-col w-72 overflow-hidden relative'>
       {/* 信息卡牌第一行 */}
@@ -60,12 +75,16 @@ export function InfoCard(props) {
         <GreetingsWords />
         {/* 头像 */}
         <div
-          className={`${isSlugPage ? 'absolute right-0 -mt-8 -mr-6 hover:opacity-0 hover:scale-150 blur' : 'cursor-pointer'} justify-center items-center flex dark:text-gray-100 transform transitaion-all duration-200`}>
+          className={`${
+            useBlurAvatar
+              ? 'absolute right-0 -mt-8 -mr-6 hover:opacity-0 hover:scale-150 blur'
+              : 'cursor-pointer'
+          } justify-center items-center flex dark:text-gray-100 transform transition-all duration-200`}>
           <LazyImage
             src={siteInfo?.icon}
             className='rounded-full'
-            width={isSlugPage ? 100 : 28}
-            height={isSlugPage ? 100 : 28}
+            width={useBlurAvatar ? 100 : 28}
+            height={useBlurAvatar ? 100 : 28}
             alt={siteConfig('AUTHOR')}
           />
         </div>
@@ -78,7 +97,7 @@ export function InfoCard(props) {
 
       <div className='flex justify-between'>
         <div className='flex space-x-3  hover:text-black dark:hover:text-white'>
-          {/* 两个社交按钮 */}
+          {/* 社交按钮 */}
           {url1 && (
             <div className='w-10 text-center bg-[var(--heo-color-primary-hover)] p-2 rounded-full  transition-colors duration-200 dark:bg-[var(--heo-color-accent)] dark:hover:bg-black hover:bg-white'>
               <SmartLink href={url1}>
@@ -90,6 +109,13 @@ export function InfoCard(props) {
             <div className='bg-[var(--heo-color-primary-hover)] p-2 rounded-full w-10 items-center flex justify-center transition-colors duration-200 dark:bg-[var(--heo-color-accent)] dark:hover:bg-black hover:bg-white'>
               <SmartLink href={url2}>
                 <i className={icon2} />
+              </SmartLink>
+            </div>
+          )}
+          {orcidUrl && (
+            <div className='bg-[var(--heo-color-primary-hover)] p-2 rounded-full w-10 items-center flex justify-center transition-colors duration-200 dark:bg-[var(--heo-color-accent)] dark:hover:bg-black hover:bg-white'>
+              <SmartLink href={orcidUrl} title='ORCID' aria-label='ORCID'>
+                <i className={orcidIcon} />
               </SmartLink>
             </div>
           )}

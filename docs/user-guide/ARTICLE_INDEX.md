@@ -21,6 +21,7 @@
 | 🚀 安装部署 | `vercel-deploy-notion-next-static` | [deploy/vercel-static.md](./deploy/vercel-static.md) |
 | 🚀 安装部署 | `vercel-redploy` | [deploy/vercel-redeploy.md](./deploy/vercel-redeploy.md) |
 | 🚀 安装部署 | `notion-next-cloud-flare` | [deploy/cloudflare-pages.md](./deploy/cloudflare-pages.md) |
+| 🚀 安装部署 | `notion-image-proxy` | [deploy/notion-image-proxy.md](./deploy/notion-image-proxy.md) |
 | 🚀 安装部署 | `deploy-notion-next-with-netlify` | [deploy/netlify.md](./deploy/netlify.md) |
 | 🚀 安装部署 | `deploy-notion-next-with-edge-one` | [deploy/edgeone-pages.md](./deploy/edgeone-pages.md) |
 | 🚀 安装部署 | `deploy-notion-next-on-vps` | [deploy/vps.md](./deploy/vps.md) |
@@ -53,6 +54,7 @@
 | 🛠 站点配置 | `notion-next-custom-properties` | [config/notion-next-custom-properties.md](./config/notion-next-custom-properties.md) |
 | 🛠 站点配置 | `notion-next-copy-permission` | [config/copy-permission.md](./config/copy-permission.md) |
 | 🛠 站点配置 | `notion-next-article-copyright` | [config/article-copyright.md](./config/article-copyright.md) |
+| 🛠 站点配置 | `notion-next-originality-proof` | [config/originality-proof.md](./config/originality-proof.md) |
 | 🛠 站点配置 | `notion-next-mulity-languages` | [config/notion-next-mulity-languages.md](./config/notion-next-mulity-languages.md) |
 | 🛠 站点配置 | `notion-next-site-combine` | [config/notion-next-site-combine.md](./config/notion-next-site-combine.md) |
 | 🛠 站点配置 | `notion-next-api_base_url` | [config/notion-next-api_base_url.md](./config/notion-next-api_base_url.md) |
