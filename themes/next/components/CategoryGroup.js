@@ -7,7 +7,7 @@ const CategoryGroup = ({ currentCategory, categories }) => {
   const categoryOptions = categories.slice(0, categoryCount)
   return (
     <>
-      <div id='category-list' className='dark:border-gray-600 flex flex-col'>
+      <div id='category-list' className='dark:border-gray-600 flex flex-wrap'>
         {categoryOptions.map(category => {
           const selected = currentCategory === category.name
           return (
@@ -15,26 +15,16 @@ const CategoryGroup = ({ currentCategory, categories }) => {
               key={category.name}
               href={`/category/${category.name}`}
               passHref
-              className={'my-1 flex font-light'}>
-              
-              <div
-                className={`
-                  w-full py-1.5 pl-6 pr-2 flex items-center rounded-lg cursor-pointer transition-colors duration-200
-                  /* ⭐️ 层级感优化：px-2 改为 pl-6 pr-2，向右缩进营造子菜单视觉 */
-                  ${selected
-                    ? 'bg-gray-200 dark:bg-gray-800 text-black dark:text-white font-medium'
-                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white'
-                  }
-                `}>
-                
-                {/* ⭐️ 图标回归：改回 fas 实心图标，找回稳重感 */}
-                <i className={`fas ${selected ? 'fa-folder-open' : 'fa-folder'} mr-2`} />
-                
-                <div className='line-clamp-2 text-sm'>
-                  {category.name}({category.count})
-                </div>
-                
-              </div>
+              className={
+                (selected
+                  ? 'hover:text-white dark:hover:text-white bg-gray-600 text-white '
+                  : 'dark:text-gray-400 text-gray-500 hover:text-white hover:bg-gray-500 dark:hover:text-white') +
+                '  text-sm w-full items-center duration-300 px-2  cursor-pointer py-1 font-light'
+              }>
+              <i
+                className={`${selected ? 'text-white fa-folder-open ' : 'text-gray-500 fa-folder '} mr-2 fas`}
+              />
+              {category.name}({category.count})
             </SmartLink>
           )
         })}

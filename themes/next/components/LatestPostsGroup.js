@@ -36,21 +36,15 @@ const LatestPostsGroup = ({ latestPosts }) => {
             href={post?.href}
             passHref
             className={'my-1 flex font-light'}>
-            
             <div
-              className={`
-                w-full py-1.5 pl-6 pr-2 flex items-center rounded-lg cursor-pointer transition-colors duration-200
-                /* ⭐️ 层级感优化：和分类组件保持一致，使用 pl-6 pr-2 营造缩进层级 */
-                ${selected
-                  ? 'bg-gray-200 dark:bg-gray-800 text-black dark:text-white font-medium' 
-                  : 'text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white' 
-                }
-              `}>
-              
-              <i className='fas fa-file-lines mr-2' />
-              
-              <div className='line-clamp-2 text-sm'>{post.title}</div>
-              
+              className={
+                (selected
+                  ? 'text-white  bg-gray-600 '
+                  : 'text-gray-500 dark:text-gray-400 ') +
+                ' text-xs py-1.5 flex hover:bg-gray-500 px-2 duration-200 w-full ' +
+                'hover:text-white dark:hover:text-white cursor-pointer'
+              }>
+              <li className='line-clamp-2'>{post.title}</li>
             </div>
           </SmartLink>
         )

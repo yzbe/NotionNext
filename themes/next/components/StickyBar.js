@@ -53,11 +53,7 @@ const StickyBar = ({ children }) => {
 
   return (
     <div id='sticky-bar' className='sticky flex-grow justify-center top-0 duration-500 z-10 pb-16'>
-      {/* ⭐️ 核心“病灶”修复：给这层坚硬的直角底板加上 12px 圆角、防溢出，并注入夜间悬浮白光特效 */}
-      <div 
-        style={{ borderRadius: '12px' }}
-        className='bg-white dark:bg-hexo-black-gray px-5 absolute w-full scroll-hidden overflow-hidden shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
-      >
+      <div className='bg-white dark:bg-hexo-black-gray px-5 absolute shadow-md w-full scroll-hidden'>
         <div id='tag-container' className="md:pl-3 overflow-x-auto">
           {children}
         </div>

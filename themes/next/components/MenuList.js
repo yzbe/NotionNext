@@ -23,7 +23,7 @@ export const MenuList = props => {
     },
     {
       id: 2,
-      icon: 'fas fa-list',
+      icon: 'fas fa-th',
       name: locale.COMMON.CATEGORY,
       href: '/category',
       show: siteConfig('NEXT_MENU_CATEGORY', null, CONFIG)
@@ -50,6 +50,7 @@ export const MenuList = props => {
     links = defaultLinks.concat(customNav)
   }
 
+  // 如果 开启自定义菜单，则覆盖Page生成的菜单
   if (siteConfig('CUSTOM_MENU')) {
     links = customMenu
   }
@@ -68,7 +69,7 @@ export const MenuList = props => {
         data-aos-delay='400'
         data-aos-once='true'
         data-aos-anchor-placement='top-bottom'
-        className='hidden md:block leading-8 text-gray-500 dark:text-gray-400 px-2 lg:mx-1'>
+        className='hidden md:block leading-8 text-gray-500 dark:text-gray-400 '>
         {links.map(
           (link, index) =>
             link && link.show && <MenuItemDrop key={index} link={link} />
@@ -78,7 +79,7 @@ export const MenuList = props => {
       {/* 移动端菜单 */}
       <menu
         id='nav-menu-mobile'
-        className='block md:hidden my-auto justify-start bg-white dark:bg-hexo-black-gray border-t border-gray-100 dark:border-gray-800 pt-2 pb-4 rounded-b-[12px]'>
+        className='block md:hidden my-auto justify-start bg-white'>
         {links?.map(
           (link, index) =>
             link &&

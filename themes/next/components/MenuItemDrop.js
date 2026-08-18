@@ -9,9 +9,7 @@ export const MenuItemDrop = ({ link }) => {
     <li
       onMouseOver={() => changeShow(true)}
       onMouseOut={() => changeShow(false)}
-      // ⭐️ 颜色加深：将 hover:bg-gray-100 改成了 hover:bg-gray-200，夜间模式对应调整为 600
-      className='relative py-1.5 px-3 mx-2 my-1 rounded-lg duration-300 text-base justify-between hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-black dark:hover:text-white cursor-pointer font-light flex flex-nowrap items-center '
-    >
+      className='relative py-1.5 px-5 duration-300 text-base justify-between hover:bg-gray-700 hover:text-white hover:shadow-lg cursor-pointer font-light flex flex-nowrap items-center '>
       {!hasSubMenu && (
         <SmartLink
           href={link?.href}
@@ -44,16 +42,14 @@ export const MenuItemDrop = ({ link }) => {
       {/* 子菜单 */}
       {hasSubMenu && (
         <ul
-          className={`${show ? 'visible opacity-100 left-56' : 'invisible opacity-0 left-40'} ml-3 whitespace-nowrap absolute right-0 top-0 w-full rounded-xl border border-gray-100 bg-white dark:bg-[#1e1e1e] dark:border-gray-800 transition-all duration-300 drop-shadow-xl z-20 `}
-        >
+          className={`${show ? 'visible opacity-100 left-56' : 'invisible opacity-0 left-40'} ml-3 whitespace-nowrap absolute right-0 top-0 w-full border-gray-100  bg-white  dark:bg-black dark:border-gray-800 transition-all duration-300 drop-shadow-lg `}>
           {link?.subMenus?.map(sLink => {
             return (
               <li key={sLink.id}>
                 <SmartLink
                   href={sLink.href}
                   target={link?.target}
-                  // ⭐️ 颜色加深：子菜单也同步加深到 hover:bg-gray-200
-                  className='my-1 mx-2 h-9 pl-3 items-center justify-start flex rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-black dark:hover:text-white tracking-widest transition-all duration-200 '>
+                  className='my-auto h-9 pl-4 items-center justify-start flex not:last-child:border-b-0 border-b text-gray-700 dark:text-gray-200  hover:bg-gray-50 dark:hover:bg-gray-900 tracking-widest transition-all duration-200  dark:border-gray-800 '>
                   {sLink.icon && (
                     <i className={`${sLink.icon} w-4 mr-2 text-center`} />
                   )}

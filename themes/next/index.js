@@ -53,44 +53,53 @@ const LayoutBase = props => {
   const { children, headerSlot, rightAreaSlot, post } = props
   const targetRef = useRef(null)
   const floatButtonGroup = useRef(null)
-  const router = useRouter()
-  
-  const [showRightFloat, switchShow] = useState(true) 
-  const [percent, changePercent] = useState(0) 
-  
-  const scrollListener = () => {
-    const targetRef = document.getElementById('wrapper')
-    const clientHeight = targetRef?.clientHeight
-    const scrollY = window.pageYOffset
-    const fullHeight = clientHeight - window.outerHeight
-    let per = parseFloat(((scrollY / fullHeight) * 100).toFixed(0))
-    if (per > 100) per = 100
-    changePercent(per)
-  }
+  const [showRightFloat, switchShow] = useState(false)
+  const [percent, changePercent] = useState(0) // 页面阅读百分比
+  const showRightFloatRef = useRef(showRightFloat)
+  const percentRef = useRef(percent)
+  const rafRef = useRef(null)
 
   useEffect(() => {
-    let timeoutId;
-    const handleUserAction = () => {
-      switchShow(true); 
-      if (timeoutId) clearTimeout(timeoutId);
-      
-      timeoutId = setTimeout(() => {
-        switchShow(false);
-      }, 5000);
-    };
-
-    const events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
-    events.forEach(e => window.addEventListener(e, handleUserAction, { passive: true }));
-    
-    handleUserAction(); 
-
-    return () => {
-      events.forEach(e => window.removeEventListener(e, handleUserAction));
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, []);
+    showRightFloatRef.current = showRightFloat
+  }, [showRightFloat])
 
   useEffect(() => {
+    percentRef.current = percent
+  }, [percent])
+
+  const scrollListener = useCallback(() => {
+    if (rafRef.current) {
+      return
+    }
+
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      const targetWrapper = document.getElementById('wrapper')
+      const clientHeight = targetWrapper?.clientHeight
+      const fullHeight = clientHeight - window.innerHeight
+      if (!targetWrapper || !fullHeight || fullHeight <= 0) {
+        return
+      }
+
+      const scrollY = window.pageYOffset
+      let per = parseFloat(((scrollY / fullHeight) * 100).toFixed(0))
+      if (per > 100) per = 100
+      if (per < 0) per = 0
+      const shouldShow = scrollY > 100 && per > 0
+
+      if (shouldShow !== showRightFloatRef.current) {
+        showRightFloatRef.current = shouldShow
+        switchShow(shouldShow)
+      }
+      if (per !== percentRef.current) {
+        percentRef.current = per
+        changePercent(per)
+      }
+    })
+  }, [changePercent, switchShow])
+
+  useEffect(() => {
+    // facebook messenger 插件需要调整右下角悬浮按钮的高度
     const fb = document.getElementsByClassName('fb-customerchat')
     if (fb.length === 0) {
       floatButtonGroup?.current?.classList.replace('bottom-24', 'bottom-12')
@@ -98,27 +107,17 @@ const LayoutBase = props => {
       floatButtonGroup?.current?.classList.replace('bottom-12', 'bottom-24')
     }
 
-    document.addEventListener('scroll', scrollListener)
-    return () => document.removeEventListener('scroll', scrollListener)
-  }, [])
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      setTimeout(() => {
-        if (typeof window !== 'undefined' && window.AOS) {
-          window.AOS.refresh()
-        }
-      }, 300) 
-    }
-
-    router.events.on('routeChangeComplete', handleRouteChange)
-    handleRouteChange() 
-
+    document.addEventListener('scroll', scrollListener, { passive: true })
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
+      document.removeEventListener('scroll', scrollListener)
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = null
+      }
     }
-  }, [router.events])
+  }, [scrollListener])
 
+  // 悬浮抽屉
   const drawerRight = useRef(null)
   const floatSlot = (
     <div className='block lg:hidden'>
@@ -138,24 +137,31 @@ const LayoutBase = props => {
     <ThemeGlobalNext.Provider value={{ searchModal }}>
       <div
         id='theme-next'
-        className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth pb-1`}>
+        className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth`}>
         <Style />
 
+        {/* 移动端顶部导航栏 */}
         <TopNav {...props} />
 
         <AlgoliaSearchModal cRef={searchModal} {...props} />
 
         <>{headerSlot}</>
 
+        {/* 顶部黑线装饰 */}
+        <div className='h-0.5 w-full bg-gray-700 dark:bg-gray-600 hidden lg:block' />
+
+        {/* 主区 */}
         <main
           id='wrapper'
           className={
             (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
               ? 'flex-row-reverse'
-              : '') + ' next relative flex justify-center flex-1 pb-12 lg:mt-1 lg:mb-1' 
+              : '') + ' next relative flex justify-center flex-1 pb-12'
           }>
+          {/* 左侧栏样式 */}
           <SideAreaLeft targetRef={targetRef} {...props} />
 
+          {/* 中央内容 */}
           <section
             id='container-inner'
             className={`${siteConfig('NEXT_NAV_TYPE', null, CONFIG) !== 'normal' ? 'mt-24' : ''} lg:max-w-3xl xl:max-w-4xl flex-grow md:mt-0 min-h-screen w-full relative z-10`}
@@ -163,6 +169,7 @@ const LayoutBase = props => {
             {children}
           </section>
 
+          {/* 右侧栏样式 */}
           {siteConfig('NEXT_RIGHT_BAR', null, CONFIG) && (
             <SideAreaRight
               targetRef={targetRef}
@@ -172,12 +179,14 @@ const LayoutBase = props => {
           )}
         </main>
 
+        {/* 悬浮目录按钮 */}
         {post && (
           <div className='block lg:hidden'>
             <TocDrawer post={post} cRef={drawerRight} targetRef={tocRef} />
           </div>
         )}
 
+        {/* 右下角悬浮 */}
         <div
           ref={floatButtonGroup}
           className='right-8 bottom-12 lg:right-2 fixed justify-end z-20 '>
@@ -193,6 +202,7 @@ const LayoutBase = props => {
           </div>
         </div>
 
+        {/* 页脚 */}
         <Footer title={siteConfig('TITLE')} />
       </div>
     </ThemeGlobalNext.Provider>
@@ -201,11 +211,15 @@ const LayoutBase = props => {
 
 /**
  * 首页
+ * 首页就是一个博客列表
+ * @param {*} props
+ * @returns
  */
 const LayoutIndex = props => {
   const { notice } = props
   return (
     <>
+      {/* 首页移动端顶部显示公告 */}
       <Card className='my-2 lg:hidden'>
         <Announcement post={notice} />
       </Card>
@@ -223,10 +237,12 @@ const LayoutIndex = props => {
 
 /**
  * 博客列表
+ * @param {*} props
+ * @returns
  */
 const LayoutPostList = props => {
   return (
-    <div className='mt-2 md:mt-0'>
+    <>
       <BlogListBar {...props} />
 
       {siteConfig('POST_LIST_STYLE') !== 'page' ? (
@@ -234,12 +250,14 @@ const LayoutPostList = props => {
       ) : (
         <BlogPostListPage {...props} />
       )}
-    </div>
+    </>
   )
 }
 
 /**
  * 搜索
+ * @param {*} props
+ * @returns
  */
 const LayoutSearch = props => {
   const { locale } = useGlobal()
@@ -261,13 +279,12 @@ const LayoutSearch = props => {
   return (
     <>
       <StickyBar>
-        {/* ⭐️ 已恢复：去除冗余的特效包，只保留最基础的内容展示，把样式交给 StickyBar 统管 */}
         <div className='p-4 dark:text-gray-200'>
           <i className='mr-1 fas fa-search' /> {posts?.length}{' '}
           {locale.COMMON.RESULT_OF_SEARCH}
         </div>
       </StickyBar>
-      <div className='mt-2 md:mt-5'>
+      <div className='md:mt-5'>
         {siteConfig('POST_LIST_STYLE') !== 'page' ? (
           <BlogPostListScroll {...props} showSummary={true} />
         ) : (
@@ -280,14 +297,19 @@ const LayoutSearch = props => {
 
 /**
  * 404
+ * @param {*} props
+ * @returns
  */
 const Layout404 = props => {
   const router = useRouter()
   useEffect(() => {
+    // 延时3秒如果加载失败就返回首页
     setTimeout(() => {
       const article = isBrowser && document.getElementById('article-wrapper')
       if (!article) {
-        router.push('/').then(() => {})
+        router.push('/').then(() => {
+          // console.log('找不到页面', router.asPath)
+        })
       }
     }, 3000)
   }, [])
@@ -311,16 +333,15 @@ const Layout404 = props => {
 
 /**
  * 归档
+ * @param {*} props
+ * @returns
  */
 const LayoutArchive = props => {
   const { archivePosts } = props
 
   return (
-    <div className='mt-2 md:mt-0'>
-      <div 
-        style={{ borderRadius: '12px' }}
-        className='mb-10 pb-20 bg-white md:p-12 p-3 dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] min-h-full'
-      >
+    <>
+      <div className='mb-10 pb-20 bg-white md:p-12 p-3 dark:bg-hexo-black-gray shadow-md min-h-full'>
         {Object.keys(archivePosts).map(archiveTitle => (
           <BlogPostArchive
             key={archiveTitle}
@@ -329,12 +350,14 @@ const LayoutArchive = props => {
           />
         ))}
       </div>
-    </div>
+    </>
   )
 }
 
 /**
  * 文章详情
+ * @param {*} props
+ * @returns
  */
 const LayoutSlug = props => {
   const { post, lock, validPassword } = props
@@ -342,6 +365,7 @@ const LayoutSlug = props => {
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
   useEffect(() => {
+    // 404
     if (!post) {
       setTimeout(
         () => {
@@ -361,6 +385,7 @@ const LayoutSlug = props => {
   return (
     <>
       {post && !lock && <ArticleDetail {...props} />}
+
       {post && lock && <ArticleLock validPassword={validPassword} />}
     </>
   )
@@ -368,16 +393,15 @@ const LayoutSlug = props => {
 
 /**
  * 分类列表
+ * @param {*} props
+ * @returns
  */
 const LayoutCategoryIndex = props => {
   const { allPosts, categoryOptions } = props
   const { locale } = useGlobal()
   return (
-    <div totalPosts={allPosts} {...props} className='mt-2 md:mt-0'>
-      <div 
-        style={{ borderRadius: '12px' }}
-        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
-      >
+    <div totalPosts={allPosts} {...props}>
+      <div className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow h-full'>
         <div className='dark:text-gray-200 mb-5'>
           <i className='mr-4 fas faTh' />
           {locale.COMMON.CATEGORY}:
@@ -408,16 +432,15 @@ const LayoutCategoryIndex = props => {
 
 /**
  * 标签列表
+ * @param {*} props
+ * @returns
  */
 const LayoutTagIndex = props => {
   const { tagOptions } = props
   const { locale } = useGlobal()
   return (
-    <div className='mt-2 md:mt-0'>
-      <div 
-        style={{ borderRadius: '12px' }}
-        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
-      >
+    <>
+      <div className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow h-full'>
         <div className='dark:text-gray-200 mb-5'>
           <i className='fas fa-tags mr-4' />
           {locale.COMMON.TAGS}:
@@ -432,7 +455,7 @@ const LayoutTagIndex = props => {
           })}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

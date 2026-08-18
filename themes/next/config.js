@@ -1,5 +1,5 @@
 const CONFIG = {
-  NEXT_HOME_BANNER: false, // 首页是否显示大图及标语 [true,false]
+  NEXT_HOME_BANNER: true, // 首页是否显示大图及标语 [true,false]
   NEXT_HOME_BANNER_STRINGS: [
     'Hi，我是一个程序员',
     'Hi，我是一个打工人',
@@ -14,7 +14,7 @@ const CONFIG = {
   NEXT_POST_LIST_SUMMARY: false, // 显示用户自定义摘要，有预览时优先只展示预览
 
   NEXT_PREVIEW_TAG_COUNT: 16, // 首页最多展示的标签数量，0为不限制
-  NEXT_PREVIEW_CATEGORY_COUNT: 4, // 首页最多展示的分类数量，0为不限制
+  NEXT_PREVIEW_CATEGORY_COUNT: 16, // 首页最多展示的分类数量，0为不限制
   NEXT_POST_HEADER_IMAGE_VISIBLE: false, // 文章详情页是否显示封面图
 
   // 右侧组件
@@ -32,18 +32,15 @@ const CONFIG = {
   NEXT_MENU_SEARCH: true, // 显示搜索
 
   NEXT_WIDGET_TO_TOP: true, // 是否显示回顶
-  NEXT_WIDGET_TO_BOTTOM: true, // 显示回底
-  NEXT_WIDGET_DARK_MODE: true, // 显示日间/夜间模式切换
+  NEXT_WIDGET_TO_BOTTOM: false, // 显示回底
+  NEXT_WIDGET_DARK_MODE: false, // 显示日间/夜间模式切换
   NEXT_WIDGET_TOC: true, // 移动端显示悬浮目录
 
   NEXT_COLOR_PRIMARY: '#4e80ee',
   NEXT_COLOR_BG: '#eeedee',
 
-  NEXT_COLOR_PRIMARY: '#4e80ee',
-  NEXT_COLOR_BG: '#eeedee',
-
-  NEXT_ARTICLE_RELATE_POSTS: false, // 相关文章推荐
-  NEXT_ARTICLE_COPYRIGHT: false, // 文章版权声明
+  NEXT_ARTICLE_RELATE_POSTS: true, // 相关文章推荐
+  NEXT_ARTICLE_COPYRIGHT: true, // 文章版权声明：true 全部显示；false 全部关闭；custom 仅填写 copyright 时显示
   NEXT_ARTICLE_NOT_BY_AI: false, // 显示非AI写作
   NEXT_ARTICLE_INFO: true // 显示文章信息
 }

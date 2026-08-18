@@ -18,16 +18,11 @@ import SmartLink from '@/components/SmartLink'
 const SideBar = (props) => {
   const { tags, currentTag, post, slot, categories, currentCategory } = props
   const { locale } = useGlobal()
-  
   return (
-    <aside 
-      id='sidebar' 
-      style={{ borderRadius: '16px' }}
-      className='lg:my-4 lg:ml-4 overflow-hidden bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-[calc(100vh-2rem)]'
-    >
+    <aside id='sidebar' className='bg-white dark:bg-gray-900 w-80 z-10 dark:border-gray-500 border-gray-200 scroll-hidden h-full'>
+
       <div className={(!post ? 'sticky top-0' : '') + ' bg-white dark:bg-gray-900 pb-4'}>
 
-        {/* 头像信息卡片 */}
         <section className='py-5'>
           <InfoCard {...props} />
         </section>
@@ -36,7 +31,7 @@ const SideBar = (props) => {
         {categories && (
           <section className='mt-8'>
             <div className='text-sm px-5 flex flex-nowrap justify-between font-light'>
-              <div className='text-gray-600 dark:text-gray-200'><i className='mr-2 fas fa-list' />{locale.COMMON.CATEGORY}</div>
+              <div className='text-gray-600 dark:text-gray-200'><i className='mr-2 fas fa-th-list' />{locale.COMMON.CATEGORY}</div>
               <SmartLink
                 href={'/category'}
                 passHref
@@ -73,6 +68,7 @@ const SideBar = (props) => {
         {slot}
 
       </div>
+
     </aside>
   )
 }

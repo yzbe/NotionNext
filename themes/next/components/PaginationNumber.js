@@ -26,10 +26,7 @@ const PaginationNumber = ({ page, totalPage }) => {
       data-aos-duration='300'
       data-aos-once='false'
       data-aos-anchor-placement='top-bottom'
-      style={{ borderRadius: '12px' }}
-      // ⭐️ 核心注入：加入了夜间模式专属悬浮白光特效 dark:md:hover:shadow-[...]
-      className='overflow-hidden mt-5 py-3 flex justify-center items-center font-medium text-black transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] bg-white dark:bg-hexo-black-gray dark:text-gray-300 shadow space-x-2'
-    >
+      className='mt-5 py-3 flex justify-center items-end font-medium text-black hover:shadow-xl duration-200 transition-all bg-white dark:bg-hexo-black-gray dark:text-gray-300 shadow space-x-2'>
       {/* 上一页 */}
       <SmartLink
         href={{
@@ -45,7 +42,7 @@ const PaginationNumber = ({ page, totalPage }) => {
           rel='prev'
           className={`${
             currentPage === 1 ? 'invisible' : 'block'
-          } hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
+          } hover:border-t-2 border-white  hover:border-gray-400 dark:hover:border-gray-400 w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
           <i className='fas fa-angle-left' />
         </div>
       </SmartLink>
@@ -64,7 +61,7 @@ const PaginationNumber = ({ page, totalPage }) => {
           rel='next'
           className={`${
             +showNext ? 'block' : 'invisible'
-          } hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
+          } hover:border-t-2 border-white  hover:border-gray-400 dark:hover:border-gray-400 w-8 h-8 justify-center flex items-center cursor-pointer duration-200 transition-all hover:font-bold`}>
           <i className='fas fa-angle-right' />
         </div>
       </SmartLink>
@@ -99,7 +96,7 @@ function generatePages(pagePrefix, page, currentPage, totalPage) {
     }
     if (startPage > 2) {
       pages.push(
-        <div key={-1} className='select-none flex items-center justify-center w-8 h-8'>
+        <div key={-1} className='select-none'>
           ...{' '}
         </div>
       )
@@ -113,7 +110,7 @@ function generatePages(pagePrefix, page, currentPage, totalPage) {
 
     if (startPage + dynamicGroupCount < totalPage) {
       pages.push(
-        <div key={-2} className='select-none flex items-center justify-center w-8 h-8'>
+        <div key={-2} className='select-none'>
           ...{' '}
         </div>
       )
@@ -123,7 +120,6 @@ function generatePages(pagePrefix, page, currentPage, totalPage) {
   }
   return pages
 }
-
 /**
  * 生成分页按钮对象
  * @param {*} pagePrefix
@@ -140,8 +136,8 @@ function getPageElement(pagePrefix, page, currentPage) {
       className={
         (page + '' === currentPage + ''
           ? 'font-bold bg-gray-500 dark:bg-gray-400 text-white '
-          : 'hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 ') +
-        ' rounded-full cursor-pointer w-8 h-8 justify-center flex items-center font-light duration-200 transition-all hover:font-bold'
+          : 'hover:border-t-2 duration-200 transition-all border-white hover:border-gray-400 ') +
+        ' border-white  dark:hover:border-gray-400 cursor-pointer w-8 h-8 justify-center flex items-center font-light hover:font-bold'
       }>
       {page}
     </SmartLink>
