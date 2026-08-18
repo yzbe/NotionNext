@@ -78,7 +78,8 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
   return (
     <div 
       style={{ borderRadius: '9999px' }}
-      className='flex w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden'
+      /* ⭐️ 核心修正：将 dark:bg-gray-800 改为 dark:bg-[#2c2c2c]，让搜索框浮现出来 */
+      className='flex w-full bg-gray-100 dark:bg-[#464646] rounded-full overflow-hidden'
       data-aos="fade-down"
       data-aos-duration="500"
       data-aos-delay="200"
@@ -90,11 +91,7 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
             type='text'
             style={{ borderRadius: '9999px' }}
             placeholder={currentTag ? `${locale.SEARCH.TAGS} #${currentTag}` : `${locale.SEARCH.ARTICLES}`}
-            /* ⭐️ 核心修正：
-               1. text-base (16px) -> 强制移动端不缩放
-               2. md:text-sm -> 电脑端自动回归小字号
-               3. appearance-none -> 去除系统默认样式
-            */
+            /* （保留了你之前修复手机端放大的完美配置） */
             className={'rounded-full outline-none w-full text-base md:text-sm pl-4 transition focus:shadow-lg font-light leading-10 text-black bg-transparent dark:text-white appearance-none'}
             onKeyUp={handleKeyUp}
             onFocus={handleFocus}
@@ -107,7 +104,8 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
 
         <div className='-ml-8 cursor-pointer float-right items-center justify-center py-2 pr-3'
             onClick={handleSearch}>
-            <i className={`hover:text-black transform duration-200  text-gray-500 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'}`} />
+            {/* ⭐️ 顺手优化：给搜索放大镜加上了 dark:hover:text-white，鼠标放上去会有交互变白的效果 */}
+            <i className={`hover:text-black dark:hover:text-white transform duration-200  text-gray-500 cursor-pointer fas ${onLoading ? 'fa-spinner animate-spin' : 'fa-search'}`} />
         </div>
 
         {(showClean &&
