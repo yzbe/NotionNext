@@ -78,8 +78,8 @@ const SearchInput = ({ currentTag, keyword, cRef }) => {
   return (
     <div 
       style={{ borderRadius: '9999px' }}
-      /* ⭐️ 核心修正：将 dark:bg-gray-800 改为 dark:bg-[#2c2c2c]，让搜索框浮现出来 */
-      className='flex w-full bg-gray-100 dark:bg-[#464646] rounded-full overflow-hidden'
+      /* ⭐️ 核心修正：将 w-full 改为了 w-[90%] mx-auto，缩短 10% 宽度并强制水平居中 */
+      className='flex w-[90%] mx-auto bg-gray-100 dark:bg-[#464646] rounded-full overflow-hidden'
       data-aos="fade-down"
       data-aos-duration="500"
       data-aos-delay="200"

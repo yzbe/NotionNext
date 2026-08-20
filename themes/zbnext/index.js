@@ -378,11 +378,13 @@ const LayoutCategoryIndex = props => {
         style={{ borderRadius: '12px' }}
         className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
       >
-        <div className='dark:text-gray-200 mb-5'>
-          <i className='mr-4 fas faTh' />
+        <div className='dark:text-gray-200 mb-5 font-bold'>
+          <i className='mr-4 fas fa-list' />
           {locale.COMMON.CATEGORY}:
         </div>
-        <div id='category-list' className='duration-200 flex flex-wrap'>
+        
+        {/* ⭐️ 核心修正：给外层 flex 加上一点间距 (gap-3) 让排列更舒服 */}
+        <div id='category-list' className='duration-200 flex flex-wrap gap-3'>
           {categoryOptions?.map(category => {
             return (
               <SmartLink
@@ -391,11 +393,14 @@ const LayoutCategoryIndex = props => {
                 passHref
                 legacyBehavior>
                 <div
-                  className={
-                    'hover:text-black dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600 px-5 cursor-pointer py-2 hover:bg-gray-100'
-                  }>
-                  <i className='mr-4 fas fa-folder' />
-                  {category.name}({category.count})
+                  className={`
+                    cursor-pointer rounded-lg px-5 py-2 flex items-center transition-colors duration-200
+                    /* ⭐️ 同步主菜单的悬停配色，去除生硬直角 */
+                    bg-gray-100 dark:bg-[#2c2c2c] text-gray-700 dark:text-gray-300 
+                    hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-black dark:hover:text-white
+                  `}>
+                  <i className='mr-2 fas fa-folder' />
+                  {category.name} ({category.count})
                 </div>
               </SmartLink>
             )

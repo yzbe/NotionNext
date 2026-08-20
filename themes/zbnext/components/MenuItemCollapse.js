@@ -1,4 +1,4 @@
-import Collapse from '@/components/Collapse'
+import Collapse from './Collapse'
 import SmartLink from '@/components/SmartLink'
 import { useState } from 'react'
 

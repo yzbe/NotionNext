@@ -43,18 +43,16 @@ const SideAreaLeft = props => {
       id='left'
       className={
         (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE')) ? 'ml-4' : 'mr-4') +
-        ' hidden lg:block flex-col w-60 relative z-30'
+        /* ⭐️ 核心修正 1：加入了 space-y-4，让左侧栏的卡片间距被强制统一为 16px，与右侧完全看齐！ */
+        ' hidden lg:block flex-col w-60 relative z-30 space-y-4'
       }>
+      
       <section className='w-60'>
         {/* 顶部菜单区块 */}
-        {/* ⭐️ 核心魔法注入：这就是包裹 Logo 和菜单的“大外框”！
-            在这里加入了你心心念念的夜间双倍宽白光特效：
-            dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] 
-            以及更平滑的 transition-shadow duration-300
-        */}
         <section 
           style={{ borderRadius: '12px' }}
-          className='rounded-xl overflow-hidden shadow hidden lg:block mb-5 pb-4 bg-white dark:bg-hexo-black-gray transition-shadow duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
+          /* ⭐️ 核心修正 2：删除了导致大峡谷的 mb-5 pb-4，改为 pb-2 让内部留白更自然 */
+          className='rounded-xl overflow-hidden shadow hidden lg:block pb-2 bg-white dark:bg-hexo-black-gray transition-shadow duration-300 hover:shadow-xl dark:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a]'
         >
           <Logo className='min-h-32 ' {...props} />
           <div className='pt-2 px-2 '>
@@ -68,14 +66,9 @@ const SideAreaLeft = props => {
         </section>
       </section>
 
-      {/* 侧边跟随区块 */}
-      {/* top-*，滑动悬浮时的顶部留白 */}
-      <div className='sticky top-1 hidden lg:block'>
+     {/* 侧边跟随区块 */}
+     <div className='sticky top-1 hidden lg:block'>
         <Card>
-          {/* 【关键修改逻辑】
-              如果有目录：使用 Tabs 组件切换显示目录和个人信息
-              如果没有目录（如主页）：直接显示个人信息，不使用 Tabs 包装，防止折叠
-          */}
           {showToc ? (
             <Tabs>
               <div
@@ -88,9 +81,8 @@ const SideAreaLeft = props => {
               </div>
             </Tabs>
           ) : (
-            /* 主页或无目录页面直接显示，确保 100% 展开 */
             <div className='p-2'>
-                {InfoCardGroup}
+              {InfoCardGroup}
             </div>
           )}
         </Card>

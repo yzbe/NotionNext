@@ -26,9 +26,8 @@ const PaginationNumber = ({ page, totalPage }) => {
       data-aos-duration='300'
       data-aos-once='false'
       data-aos-anchor-placement='top-bottom'
-      style={{ borderRadius: '12px' }}
-      // ⭐️ 核心注入：加入了夜间模式专属悬浮白光特效 dark:md:hover:shadow-[...]
-      className='overflow-hidden mt-5 py-3 flex justify-center items-center font-medium text-black transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] bg-white dark:bg-hexo-black-gray dark:text-gray-300 shadow space-x-2'
+      /* ⭐️ 核心修正：彻底去除了包裹的白底、阴影、圆角，加入了基础的文字颜色适配 */
+      className='mt-5 py-3 flex justify-center items-center font-medium text-gray-700 dark:text-gray-300 transition-all duration-300 space-x-2'
     >
       {/* 上一页 */}
       <SmartLink
