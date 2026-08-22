@@ -98,7 +98,7 @@ const SocialButton = () => {
             onClick={() => setShowWeChat(true)}
             title='WeChat'
             className='cursor-pointer'>
-            <i className='fab fa-weixin transform hover:scale-125 duration-150 hover:text-green-500' />
+            <i className='fab fa-weixin transform hover:scale-125 duration-150' />
           </a>
 
           {JSON.parse(siteConfig('ENABLE_RSS')) && (
@@ -152,13 +152,13 @@ const SocialButton = () => {
             </button>
             
             <h3 className='text-center text-lg font-medium text-gray-700 dark:text-gray-200 mb-4'>
-              扫一扫添加微信
+              微信
             </h3>
             
             <div className='w-64 h-64 md:w-72 md:h-72 flex items-center justify-center bg-gray-50 dark:bg-black rounded-lg overflow-hidden'>
               <img 
                 // ⭐️ 直接把这里的 src 替换成你的网络链接即可
-                src='https://file.notion.com/f/f/f1a40f15-36f1-491c-b67e-382dba67ca66/ce37472f-5a59-4be2-add7-6f2c41a24653/Wechat.png?table=block&id=363e0a62-024e-804b-a6bb-e4bf9ae85a91&spaceId=f1a40f15-36f1-491c-b67e-382dba67ca66&expirationTimestamp=1787270400000&signature=5aBMX69m8vhMFtzJbTQiHQPJ8zLueWsDQflpJNJdcPg&t=363e0a62-024e-804b-a6bb-e4bf9ae85a91' 
+                src='https://img.yuanzibin.com/image/Wechat.png' 
                 alt='WeChat QR Code' 
                 className='w-full h-full object-contain'
               />
