@@ -8,10 +8,10 @@ module.exports = {
   // 不蒜子 / 兼容实现的脚本地址，官方 busuanzi.ibruce.info 自 2024 年起
   // 频繁 502/不可达，默认走社区维护的 Vercount（兼容 busuanzi_value_* span）。
   // 可在 .env 中设置 NEXT_PUBLIC_BUSUANZI_SCRIPT_URL 覆盖：
-  //   * 自包含脚本：https://vercount.one/js 或自托管 vercount 路径
+  //   * 自包含脚本：https://events.vercount.one/js 或自托管 vercount 路径
   //   * JSONP 端点（仍想用原不蒜子）：//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback
   ANALYTICS_BUSUANZI_SCRIPT_URL:
-    process.env.NEXT_PUBLIC_BUSUANZI_SCRIPT_URL || 'https://vercount.one/js',
+    process.env.NEXT_PUBLIC_BUSUANZI_SCRIPT_URL || 'https://events.vercount.one/js',
   ANALYTICS_BAIDU_ID: process.env.NEXT_PUBLIC_ANALYTICS_BAIDU_ID || '', // e.g 只需要填写百度统计的id，[baidu_id] -> https://hm.baidu.com/hm.js?[baidu_id]
   ANALYTICS_CNZZ_ID: process.env.NEXT_PUBLIC_ANALYTICS_CNZZ_ID || '', // 只需要填写站长统计的id, [cnzz_id] -> https://s9.cnzz.com/z_stat.php?id=[cnzz_id]&web_id=[cnzz_id]
   ANALYTICS_GOOGLE_ID: process.env.NEXT_PUBLIC_ANALYTICS_GOOGLE_ID || '', // 谷歌Analytics的id e.g: G-XXXXXXXXXX
