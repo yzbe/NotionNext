@@ -77,10 +77,33 @@ NEXT_PUBLIC_BUSUANZI_SCRIPT_URL=//busuanzi.ibruce.info/busuanzi?jsonpCallback=Bu
 | 现象 | 可能原因 | 处理方法 |
 | --- | --- | --- |
 | 部署后 PV/UV 一直是空的 | 浏览器拦截了第三方脚本 / 广告拦截器把 `events.vercount.one` 屏蔽了 | 关掉广告插件再访问一次；若仍未恢复，自托管 Vercount |
-| 数字明显比旧站少 | 升级后第一次访问，Vercount 还在从 `busuanzi.ibruce.info` 同步历史 | 等几小时再观察；可在浏览器开发者工具 Network 里看 `events.vercount.one/api/v2/log` 请求返回 |
+| 数字明显比旧站少 / 从 0 开始 | `busuanzi.ibruce.info` 已下线（自 2024 年起频繁 502/超时），Vercount 首次拉取失败后只能从 0 开始数 | **历史数据已无法从源端恢复**——参考下方「手动找回旧 PV/UV」一节到 vercount.one 后台自助补数 |
 | 国内访问脚本极慢 / 加载不出来 | Vercount 官方域名在国内临时劣化（少见） | 切到自托管 Vercount，或改用 Clarity / 51la 等国内有 ICP 的统计方案 |
 | 容器始终是 `hidden` | `ANALYTICS_BUSUANZI_ENABLE` 被关闭 | 把 `NEXT_PUBLIC_ANALYTICS_BUSUANZI_ENABLE` 设为 `true`（默认） |
 | 自己改了模板，不显示数字 | 自定义了 `Footer`，漏掉 `busuanzi_value_*` span | 参考 `themes/simple/components/Footer.js` 把 span 加回来 |
+
+## 手动找回旧 PV/UV（busuanzi 数据迁移失败后）
+
+Vercount 后端会在每个 host 首次读 site_pv / site_uv 时，去 busuanzi.ibruce.info 拉一次旧值缓存 90 天。但 **busuanzi.ibruce.info 自 2024 年起频繁 502 / 直接超时**——这条同步路径已经走不通了，站点第一次刷新时 Vercount 拿到的是 `0`（或超时无响应），从这一刻起站点就**从 0 开始重新计数**，旧 PV/UV **无法靠程序自动找回**。
+
+如果你还记得或者从其它渠道（GA / Clarity / 51la 等）能拿到旧的访问量数字，可以在 [vercount.one](https://vercount.one) 后台手动补回去：
+
+### 步骤
+
+1. 打开 [vercount.one](https://vercount.one)，点击右上角 **Sign in**（[直接登录链接](https://vercount.one/auth/signin)）。账号走 **GitHub OAuth**，首次登录会要求授权 vercount 应用。
+2. 登录后跳转到 [Dashboard](https://vercount.one/dashboard)，左侧菜单找到 **Domains** / **域名管理**，点击 **Add domain**。
+3. 输入你的站点主域名（不带 `https://`，例如 `math1234567.com` 或 `preview.tangly1024.com`），提交后会拿到一条 **DNS 验证记录**（通常是 `vercount-verify=<一串 token>` 的 TXT 记录或 CNAME）。
+4. 到你的域名解析服务商（Cloudflare / 阿里云 / DNSPod 等）添加该 TXT 记录。DNS 生效通常 5–30 分钟。
+5. 回到 vercount.one 后台点 **Verify** 按钮，通过后这个域名就归你所有了。
+6. 进入 **Sites** / **网站** 列表，找到对应域名，点击进入详情页。
+7. 在详情页里通常会有 **Edit counters** / **手动设置 PV UV** 之类的按钮，把你记得的旧 PV / UV 数字填进去。后端会立刻把它写进 Redis 缓存（覆盖原值）。
+8. 回到你的 NotionNext 站点刷新一次页面，应该就能看到补回去的数字。
+
+### 注意事项
+
+- 手动修改只影响 **站点级** 的 site_pv / site_uv；**page_pv（单篇文章阅读量）** 在 Vercount 后台目前没有看到批量编辑入口，只能从今天起按文章重新累积。
+- 如果你完全不知道旧的 PV/UV 数字（比如从来没装过其它分析工具），那就只能从 0 开始。
+- 如果你**还想要长期稳定**而不是 90 天后再被 busuanzi 牵连，建议**自托管 Vercount**（见上一节），数据完全在你掌控之内。
 
 ## 与其他统计方案的关系
 
