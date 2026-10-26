@@ -8,59 +8,81 @@ const Footer = ({ title }) => {
   const copyrightDate =
     parseInt(since) < currentYear ? since + '-' + currentYear : currentYear
 
+  // 判断是否存在任何备案信息
+  const beiAn = siteConfig('BEI_AN')
+  const beiAnGongAn = siteConfig('BEI_AN_GONG_AN')
+  const hasBeiAn = Boolean(beiAn || beiAnGongAn)
+
+  // ⭐️ 提取统一的分隔符样式，强制字号、字体、颜色绝对一致，不受父级影响
+  const divider = (
+    <span className='text-gray-600 dark:text-gray-500 text-sm font-sans font-normal select-none mr-4'>
+      |
+    </span>
+  )
+
   return (
-    // ⭐️ 核心修改点：将 dark:bg-gray-800 替换为了 dark:bg-hexo-black-gray
-    // 这样在夜间模式下，底栏就能和上面的正文卡片、侧边栏保持 100% 相同的高级纯粹深色了！
-    <footer 
-      style={{ borderRadius: '12px' }}
-      className='mb-0 overflow-hidden relative z-10 dark:bg-hexo-black-gray flex-shrink-0 justify-center text-center m-auto w-full leading-6 text-sm py-2 bg-white dark:text-gray-400'
-    >
-      {/* 使用 flex 布局让所有元素在一行水平居中，gap-x-4 控制元素间的间距 */}
-      <div className='flex flex-wrap justify-center items-center gap-x-6'>
-    
-        {/* 1. 版权图标与年份 */}
-        <span>
-          <i className='fas fa-copyright' /> {`${copyrightDate}`}
+    <footer className='relative z-10 dark:bg-hexo-black-gray flex-shrink-0 w-full text-sm py-2.5 px-4 bg-white dark:text-gray-400 rounded-xl flex flex-col justify-center items-center gap-y-1.5'>
+      
+      {/* 第一排：年份 | 博客标题 | 访客统计(PV UV) | Powered by */}
+      <div className='flex flex-wrap justify-center items-center gap-x-4 leading-none'>
+        
+        {/* 1. 年份 */}
+        <span className='inline-flex items-center'>
+          <i className='fas fa-copyright mr-1' />
+          <span>{`${copyrightDate}`}</span>
         </span>
 
         {/* 2. 博客标题 */}
-        <span className='font-medium'>
-          {title}
-        </span>
-
-        {/* 3. Powered by 信息 */}
-        <span className='text-xs font-serif text-gray-500 dark:text-gray-300'>
-          Powered by{' '}
-          <a
-            href='https://github.com/tangly1024/NotionNext'
-            className='underline hover:text-blue-500 transition-colors'>
-            NotionNext {siteConfig('VERSION')}
-          </a>
-        </span>
-      </div>
-
-      {/* 下面是备案信息，如果你的 Notion 里没填 BEI_AN，这部分会自动隐藏 */}
-      <div className='mt-1 text-xs'>
-        {siteConfig('BEI_AN') && (
-          <>
-            <i className='fas fa-shield-alt' />{' '}
-            <a href={siteConfig('BEI_AN_LINK')} className='mr-2'>
-              {siteConfig('BEI_AN')}
-            </a>
-          </>
+        {title && (
+          <span className='font-medium inline-flex items-center'>
+            {divider}
+            <span>{title}</span>
+          </span>
         )}
-        <BeiAnGongAn />
+
+        {/* 3. 访客统计 PV */}
+        <span className='hidden busuanzi_container_site_pv items-center'>
+          {divider}
+          <i className='fas fa-eye mr-1' />
+          <span className='busuanzi_value_site_pv' />
+        </span>
+
+        {/* 访客统计 UV（不需要分隔符） */}
+        <span className='hidden busuanzi_container_site_uv items-center'>
+          <i className='fas fa-users mr-1' />
+          <span className='busuanzi_value_site_uv' />
+        </span>
+
+        {/* 4. Powered by */}
+        <span className='text-xs font-serif text-gray-500 dark:text-gray-300 inline-flex items-center'>
+          {/* 这里直接调用统一的 divider，它的样式会覆盖外层的 serif 字体 */}
+          {divider}
+          <span>
+            Powered by&nbsp;
+            <a
+              href='https://github.com/tangly1024/NotionNext'
+              className='underline hover:text-blue-500 transition-colors'>
+              NotionNext {siteConfig('VERSION')}
+            </a>
+          </span>
+        </span>
       </div>
 
-      {/* 隐藏的统计组件保持不动 */}
-      <span className='hidden busuanzi_container_site_pv'>
-        <i className='fas fa-eye' />
-        <span className='px-1 busuanzi_value_site_pv'> </span>
-      </span>
-      <span className='pl-2 hidden busuanzi_container_site_uv'>
-        <i className='fas fa-users' />
-        <span className='px-1 busuanzi_value_site_uv'> </span>
-      </span>
+      {/* 第二排：备案信息 */}
+      {hasBeiAn && (
+        <div className='flex flex-wrap justify-center items-center gap-x-4 text-xs leading-none'>
+          {beiAn && (
+            <span className='inline-flex items-center'>
+              <i className='fas fa-shield-alt mr-1' />
+              <a href={siteConfig('BEI_AN_LINK')} className='hover:underline'>
+                {beiAn}
+              </a>
+            </span>
+          )}
+          <BeiAnGongAn />
+        </div>
+      )}
+
     </footer>
   )
 }
