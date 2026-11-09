@@ -93,9 +93,9 @@ const LayoutBase = props => {
   useEffect(() => {
     const fb = document.getElementsByClassName('fb-customerchat')
     if (fb.length === 0) {
-      floatButtonGroup?.current?.classList.replace('bottom-24', 'bottom-12')
+      floatButtonGroup?.current?.classList.replace('bottom-32', 'bottom-12')
     } else {
-      floatButtonGroup?.current?.classList.replace('bottom-12', 'bottom-24')
+      floatButtonGroup?.current?.classList.replace('bottom-12', 'bottom-32')
     }
 
     document.addEventListener('scroll', scrollListener)
@@ -147,6 +147,7 @@ const LayoutBase = props => {
 
         <>{headerSlot}</>
 
+        {/* ⭐️ 主体容器 main：因为下面天然紧贴着 Footer，所以它的边界就是最完美的天然防碰撞墙 */}
         <main
           id='wrapper'
           className={
@@ -170,6 +171,30 @@ const LayoutBase = props => {
               {...props}
             />
           )}
+
+          {/* ⭐️ 核心黑科技：直接在 main 内部右侧铺设一条透明轨道 */}
+          <div className='absolute right-8 lg:right-2 top-0 bottom-4 pointer-events-none z-20 flex flex-col'>
+            
+            {/* 神级“弹簧”占位符：利用 flex-1 把下方的悬浮按钮死死压到 main 容器的最底部 */}
+            <div className='flex-1 w-full'></div>
+            
+            {/* sticky 定位：平时处于视口 bottom-12 处舒适悬浮。一旦触底，由于自然位置受限，自动停靠在底栏上方！ */}
+            <div
+              ref={floatButtonGroup}
+              className='sticky bottom-12 pointer-events-auto'
+            >
+              <div
+                className={
+                  (showRightFloat ? 'animate__animated ' : 'hidden') +
+                  ' animate__fadeInUp rounded-md glassmorphism justify-center duration-500 animate__faster flex space-x-2 items-center cursor-pointer '
+                }>
+                <JumpToTopButton percent={percent} />
+                <JumpToBottomButton />
+                <FloatDarkModeButton />
+                {floatSlot}
+              </div>
+            </div>
+          </div>
         </main>
 
         {post && (
@@ -177,21 +202,6 @@ const LayoutBase = props => {
             <TocDrawer post={post} cRef={drawerRight} targetRef={tocRef} />
           </div>
         )}
-
-        <div
-          ref={floatButtonGroup}
-          className='right-8 bottom-12 lg:right-2 fixed justify-end z-20 '>
-          <div
-            className={
-              (showRightFloat ? 'animate__animated ' : 'hidden') +
-              ' animate__fadeInUp rounded-md glassmorphism justify-center duration-500  animate__faster flex space-x-2 items-center cursor-pointer '
-            }>
-            <JumpToTopButton percent={percent} />
-            <JumpToBottomButton />
-            <FloatDarkModeButton />
-            {floatSlot}
-          </div>
-        </div>
 
         <Footer title={siteConfig('TITLE')} />
       </div>
@@ -261,7 +271,6 @@ const LayoutSearch = props => {
   return (
     <>
       <StickyBar>
-        {/* ⭐️ 已恢复：去除冗余的特效包，只保留最基础的内容展示，把样式交给 StickyBar 统管 */}
         <div className='p-4 dark:text-gray-200'>
           <i className='mr-1 fas fa-search' /> {posts?.length}{' '}
           {locale.COMMON.RESULT_OF_SEARCH}
@@ -383,7 +392,6 @@ const LayoutCategoryIndex = props => {
           {locale.COMMON.CATEGORY}:
         </div>
         
-        {/* ⭐️ 核心修正：给外层 flex 加上一点间距 (gap-3) 让排列更舒服 */}
         <div id='category-list' className='duration-200 flex flex-wrap gap-3'>
           {categoryOptions?.map(category => {
             return (
@@ -395,7 +403,6 @@ const LayoutCategoryIndex = props => {
                 <div
                   className={`
                     cursor-pointer rounded-lg px-5 py-2 flex items-center transition-colors duration-200
-                    /* ⭐️ 同步主菜单的悬停配色，去除生硬直角 */
                     bg-gray-100 dark:bg-[#2c2c2c] text-gray-700 dark:text-gray-300 
                     hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-black dark:hover:text-white
                   `}>
