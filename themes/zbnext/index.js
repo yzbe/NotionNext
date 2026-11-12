@@ -27,7 +27,6 @@ import JumpToBottomButton from './components/JumpToBottomButton'
 import JumpToTopButton from './components/JumpToTopButton'
 import SideAreaLeft from './components/SideAreaLeft'
 import SideAreaRight from './components/SideAreaRight'
-import StickyBar from './components/StickyBar'
 import TagItem from './components/TagItem'
 import TocDrawer from './components/TocDrawer'
 import TocDrawerButton from './components/TocDrawerButton'
@@ -54,41 +53,59 @@ const LayoutBase = props => {
   const targetRef = useRef(null)
   const floatButtonGroup = useRef(null)
   const router = useRouter()
-  
-  const [showRightFloat, switchShow] = useState(true) 
-  const [percent, changePercent] = useState(0) 
-  
-  const scrollListener = () => {
-    const targetRef = document.getElementById('wrapper')
-    const clientHeight = targetRef?.clientHeight
-    const scrollY = window.pageYOffset
-    const fullHeight = clientHeight - window.outerHeight
-    let per = parseFloat(((scrollY / fullHeight) * 100).toFixed(0))
-    if (per > 100) per = 100
-    changePercent(per)
-  }
+
+  const [showRightFloat, switchShow] = useState(true)
+  const [percent, changePercent] = useState(0)
+
+  // 使用 requestAnimationFrame 锁进行硬件级节流，并增加除零与越界防御
+  const tickingRef = useRef(false)
+  const scrollListener = useCallback(() => {
+    if (tickingRef.current) return
+    tickingRef.current = true
+
+    window.requestAnimationFrame(() => {
+      const wrapper = document.getElementById('wrapper')
+      if (wrapper) {
+        const clientHeight = wrapper.clientHeight
+        const scrollY = window.pageYOffset
+        const fullHeight = clientHeight - window.outerHeight
+
+        if (fullHeight > 0) {
+          let per = parseFloat(((scrollY / fullHeight) * 100).toFixed(0))
+          if (per > 100) per = 100
+          if (per < 0) per = 0
+          changePercent(per)
+        } else {
+          changePercent(0)
+        }
+      }
+      tickingRef.current = false
+    })
+  }, [])
 
   useEffect(() => {
-    let timeoutId;
+    let timeoutId
     const handleUserAction = () => {
-      switchShow(true); 
-      if (timeoutId) clearTimeout(timeoutId);
-      
-      timeoutId = setTimeout(() => {
-        switchShow(false);
-      }, 5000);
-    };
+      switchShow(true)
+      if (timeoutId) clearTimeout(timeoutId)
 
-    const events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown'];
-    events.forEach(e => window.addEventListener(e, handleUserAction, { passive: true }));
-    
-    handleUserAction(); 
+      timeoutId = setTimeout(() => {
+        switchShow(false)
+      }, 5000)
+    }
+
+    const events = ['scroll', 'mousemove', 'mousedown', 'touchstart', 'keydown']
+    events.forEach(e =>
+      window.addEventListener(e, handleUserAction, { passive: true })
+    )
+
+    handleUserAction()
 
     return () => {
-      events.forEach(e => window.removeEventListener(e, handleUserAction));
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, []);
+      events.forEach(e => window.removeEventListener(e, handleUserAction))
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [])
 
   useEffect(() => {
     const fb = document.getElementsByClassName('fb-customerchat')
@@ -98,24 +115,27 @@ const LayoutBase = props => {
       floatButtonGroup?.current?.classList.replace('bottom-12', 'bottom-32')
     }
 
-    document.addEventListener('scroll', scrollListener)
+    document.addEventListener('scroll', scrollListener, { passive: true })
     return () => document.removeEventListener('scroll', scrollListener)
-  }, [])
+  }, [scrollListener])
 
   useEffect(() => {
+    let aosTimer
     const handleRouteChange = () => {
-      setTimeout(() => {
+      if (aosTimer) clearTimeout(aosTimer)
+      aosTimer = setTimeout(() => {
         if (typeof window !== 'undefined' && window.AOS) {
           window.AOS.refresh()
         }
-      }, 300) 
+      }, 300)
     }
 
     router.events.on('routeChangeComplete', handleRouteChange)
-    handleRouteChange() 
+    handleRouteChange()
 
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
+      if (aosTimer) clearTimeout(aosTimer)
     }
   }, [router.events])
 
@@ -147,13 +167,13 @@ const LayoutBase = props => {
 
         <>{headerSlot}</>
 
-        {/* ⭐️ 主体容器 main：因为下面天然紧贴着 Footer，所以它的边界就是最完美的天然防碰撞墙 */}
         <main
           id='wrapper'
           className={
             (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
               ? 'flex-row-reverse'
-              : '') + ' next relative flex justify-center flex-1 pb-12 lg:mt-1 lg:mb-1' 
+              : '') +
+            ' next relative flex justify-center flex-1 pb-12 lg:mt-1 lg:mb-1'
           }>
           <SideAreaLeft targetRef={targetRef} {...props} />
 
@@ -172,17 +192,13 @@ const LayoutBase = props => {
             />
           )}
 
-          {/* ⭐️ 核心黑科技：直接在 main 内部右侧铺设一条透明轨道 */}
-          <div className='absolute right-8 lg:right-2 top-0 bottom-4 pointer-events-none z-20 flex flex-col'>
-            
-            {/* 神级“弹簧”占位符：利用 flex-1 把下方的悬浮按钮死死压到 main 容器的最底部 */}
+          {/* 右侧悬浮按钮透明轨道 bottom-0控制悬浮按钮底部间隙 right-8：控制移动端（默认情况）距离右侧的边距（8 代表 2rem，约 32px）lg:right-2：控制电脑端（大屏幕）距离右侧的边距（2 代表 0.5rem，约 8px）。 */}
+          <div className='absolute right-2 lg:right-16 top-0 bottom-1 pointer-events-none z-20 flex flex-col'>
             <div className='flex-1 w-full'></div>
-            
-            {/* sticky 定位：平时处于视口 bottom-12 处舒适悬浮。一旦触底，由于自然位置受限，自动停靠在底栏上方！ */}
+
             <div
               ref={floatButtonGroup}
-              className='sticky bottom-12 pointer-events-auto'
-            >
+              className='sticky bottom-12 pointer-events-auto'>
               <div
                 className={
                   (showRightFloat ? 'animate__animated ' : 'hidden') +
@@ -256,7 +272,7 @@ const LayoutSearch = props => {
   const { posts, keyword } = props
 
   useEffect(() => {
-    if (isBrowser) {
+    if (isBrowser && keyword) {
       replaceSearchResult({
         doms: document.getElementById('posts-wrapper'),
         search: keyword,
@@ -266,16 +282,20 @@ const LayoutSearch = props => {
         }
       })
     }
-  }, [])
+  }, [keyword])
 
   return (
-    <>
-      <StickyBar>
-        <div className='p-4 dark:text-gray-200'>
-          <i className='mr-1 fas fa-search' /> {posts?.length}{' '}
-          {locale.COMMON.RESULT_OF_SEARCH}
-        </div>
-      </StickyBar>
+    <div className='mt-2 md:mt-0 w-full'>
+      {/* 静态圆角卡片，随页面自然滚动 */}
+      <div
+        style={{ borderRadius: '12px' }}
+        className='mb-2 md:mb-4 bg-white dark:bg-hexo-black-gray px-6 py-3.5 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] text-gray-600 dark:text-gray-300 flex items-center'>
+        <i className='mr-3 fas fa-search text-gray-400' />
+        <span className='font-medium'>
+          {posts?.length} {locale.COMMON.RESULT_OF_SEARCH}
+        </span>
+      </div>
+
       <div className='mt-2 md:mt-5'>
         {siteConfig('POST_LIST_STYLE') !== 'page' ? (
           <BlogPostListScroll {...props} showSummary={true} />
@@ -283,7 +303,7 @@ const LayoutSearch = props => {
           <BlogPostListPage {...props} />
         )}
       </div>
-    </>
+    </div>
   )
 }
 
@@ -293,13 +313,15 @@ const LayoutSearch = props => {
 const Layout404 = props => {
   const router = useRouter()
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       const article = isBrowser && document.getElementById('article-wrapper')
       if (!article) {
         router.push('/').then(() => {})
       }
     }, 3000)
-  }, [])
+
+    return () => clearTimeout(timer)
+  }, [router])
 
   return (
     <>
@@ -326,10 +348,9 @@ const LayoutArchive = props => {
 
   return (
     <div className='mt-2 md:mt-0'>
-      <div 
+      <div
         style={{ borderRadius: '12px' }}
-        className='mb-10 pb-20 bg-white md:p-12 p-3 dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] min-h-full'
-      >
+        className='mb-10 pb-20 bg-white md:p-12 p-3 dark:bg-hexo-black-gray shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] min-h-full'>
         {Object.keys(archivePosts).map(archiveTitle => (
           <BlogPostArchive
             key={archiveTitle}
@@ -351,22 +372,26 @@ const LayoutSlug = props => {
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
   useEffect(() => {
+    let timer
     if (!post) {
-      setTimeout(
-        () => {
-          if (isBrowser) {
-            const article = document.querySelector('#article-wrapper #notion-article')
-            if (!article) {
-              router.push('/404').then(() => {
-                console.warn('找不到页面', router.asPath)
-              })
-            }
+      timer = setTimeout(() => {
+        if (isBrowser) {
+          const article = document.querySelector(
+            '#article-wrapper #notion-article'
+          )
+          if (!article) {
+            router.push('/404').then(() => {
+              console.warn('找不到页面', router.asPath)
+            })
           }
-        },
-        waiting404
-      )
+        }
+      }, waiting404)
     }
-  }, [post])
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [post, router, waiting404])
+
   return (
     <>
       {post && !lock && <ArticleDetail {...props} />}
@@ -383,15 +408,14 @@ const LayoutCategoryIndex = props => {
   const { locale } = useGlobal()
   return (
     <div totalPosts={allPosts} {...props} className='mt-2 md:mt-0'>
-      <div 
+      <div
         style={{ borderRadius: '12px' }}
-        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
-      >
+        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'>
         <div className='dark:text-gray-200 mb-5 font-bold'>
           <i className='mr-4 fas fa-list' />
           {locale.COMMON.CATEGORY}:
         </div>
-        
+
         <div id='category-list' className='duration-200 flex flex-wrap gap-3'>
           {categoryOptions?.map(category => {
             return (
@@ -426,10 +450,9 @@ const LayoutTagIndex = props => {
   const { locale } = useGlobal()
   return (
     <div className='mt-2 md:mt-0'>
-      <div 
+      <div
         style={{ borderRadius: '12px' }}
-        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'
-      >
+        className='bg-white dark:bg-hexo-black-gray px-10 py-10 shadow transition-shadow duration-300 md:hover:shadow-2xl dark:md:hover:shadow-[0_20px_50px_-5px_#ffffff26,0_8px_20px_-6px_#ffffff1a] h-full'>
         <div className='dark:text-gray-200 mb-5'>
           <i className='fas fa-tags mr-4' />
           {locale.COMMON.TAGS}:
